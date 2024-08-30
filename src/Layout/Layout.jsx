@@ -41,21 +41,21 @@ import logo from "../assets/images/logo.png";
 import { LogoutOutlined, PaymentOutlined } from "@mui/icons-material";
 const drawerWidth = 250;
 const subNavigation = [
-  { name: "Dashboard", to: "/dashboard", icon: <GridViewIcon /> },
+  { name: "Dashboard", to: "/", icon: <GridViewIcon /> },
   { name: "Members", to: "/members", icon: <PeopleAltOutlinedIcon /> },
   { name: "Colleges", to: "/colleges", icon: <SchoolOutlinedIcon /> },
-  { name: "Groups", to: "/group", icon: <GroupsOutlinedIcon /> },
+  { name: "Groups", to: "/groups", icon: <GroupsOutlinedIcon /> },
   {
     name: "Events",
     icon: <EventNoteOutlinedIcon />,
     subItems: [
       {
         name: "Event list",
-        to: "/event/list",
+        to: "/events/list",
       },
       {
         name: "Event history",
-        to: "/event/history",
+        to: "/events/history",
       },
     ],
   },
@@ -67,18 +67,18 @@ const subNavigation = [
   { name: "Approvals", to: "/approvals", icon: <ApprovalOutlinedIcon /> },
   {
     name: "Promotions",
-    to: "/promotion",
+    to: "/promotions",
     icon: <CalendarMonthIcon />,
   },
   {
     name: "Notifications",
-    to: "/notification",
+    to: "/notifications",
     icon: <NotificationsNoneOutlinedIcon />,
   },
   { name: "News and Updates", to: "/news", icon: <NewspaperOutlinedIcon /> },
   {
     name: "Settings",
-    to: "/setting",
+    to: "/settings",
     icon: <SettingsOutlinedIcon />,
   },
   { name: "Logout", to: "/logout", icon: <LogoutOutlined /> },
@@ -180,7 +180,9 @@ const Layout = (props) => {
       >
         <Stack justifyContent={"flex-start"} spacing={2}>
           <img src={logo} alt="Logo" width={"140px"} height="36px" />
-          <Typography variant="h8" color="#686465">Version 1.0</Typography>
+          <Typography variant="h8" color="#686465">
+            Version 1.0
+          </Typography>
         </Stack>
       </Toolbar>
       <List
@@ -192,7 +194,7 @@ const Layout = (props) => {
           gap: "5px",
           padding: 0,
           "&::-webkit-scrollbar": {
-            width: "6px",
+            width: "0px",
           },
           "&::-webkit-scrollbar-track": {
             backgroundColor: "#f1f1f1",
@@ -253,7 +255,7 @@ const Layout = (props) => {
                           marginRight: "40px",
                           color:
                             location.pathname === subItem.to
-                              ? "#0072BC"
+                              ? "#E30613"
                               : "#5F6368",
                           backgroundColor:
                             location.pathname === subItem.to
@@ -290,7 +292,7 @@ const Layout = (props) => {
                 sx={{
                   marginLeft: "20px",
                   marginRight: "10px",
-                  color: location.pathname === item.to ? "#0072BC" : "#5F6368",
+                  color: location.pathname === item.to ? "#2C2829" : "#5F6368",
                   backgroundColor:
                     location.pathname === item.to ? "#F7F7F7" : "transparent",
                   "&:hover": { color: "#2C2829", backgroundColor: "#F7F7F7" },
@@ -302,7 +304,7 @@ const Layout = (props) => {
                     minWidth: 24,
                     marginRight: 1,
                     color:
-                      location.pathname === item.to ? "#0072BC" : "#686465",
+                      location.pathname === item.to ? "#2C2829" : "#686465",
                   }}
                 >
                   {item.icon}
