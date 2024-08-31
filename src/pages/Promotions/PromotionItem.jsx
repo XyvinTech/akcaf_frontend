@@ -1,9 +1,19 @@
-import { Box, Grid, Stack, Tab, Tabs, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Grid,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
-import NewsDisplay from "./NewsDisplay";
-import AddNews from "../../components/News/AddNews";
+import StyledPosterTable from "../../components/Promotion/StyledPosterTable";
+import StyledBannerTable from "../../components/Promotion/StyledBannerTable";
+import StyledVideoTable from "../../components/Promotion/StyledVideoTable";
+import StyledNoticeTable from "../../components/Promotion/StyledNoticeTable";
 
-const Newspage = () => {
+const PromotionItem = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -12,6 +22,9 @@ const Newspage = () => {
     console.log("Selected items:", newSelectedIds);
   };
 
+  const handleView = (id) => {
+    console.log("View item:", id);
+  };
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
@@ -30,7 +43,6 @@ const Newspage = () => {
           },
         }}
         sx={{
-          bgcolor: "white",
           paddingTop: "24px",
           "& .MuiTabs-indicator": {
             backgroundColor: "#E30613",
@@ -46,22 +58,31 @@ const Newspage = () => {
           },
         }}
       >
-        <Tab label="All" />
-        <Tab label="Add new" />
+        <Tab label="Banner" />
+        <Tab label="Video" />
+        <Tab label="Poster" />
+        <Tab label="Notice" />
       </Tabs>
+      <Divider />
       <Box padding="15px" marginBottom={4}>
         {selectedTab === 0 && (
-          <Grid container>
-            <Grid item md={12}>
-              <NewsDisplay />
-            </Grid>
+          <Grid>
+            <StyledBannerTable />
           </Grid>
         )}
         {selectedTab === 1 && (
-          <Grid container>
-            <Grid item md={7}>
-              <AddNews setSelectedTab={setSelectedTab} />
-            </Grid>
+          <Grid>
+            <StyledVideoTable />
+          </Grid>
+        )}
+        {selectedTab === 2 && (
+          <Grid>
+            <StyledPosterTable />
+          </Grid>
+        )}
+        {selectedTab === 3 && (
+          <Grid>
+            <StyledNoticeTable />
           </Grid>
         )}
       </Box>
@@ -69,4 +90,4 @@ const Newspage = () => {
   );
 };
 
-export default Newspage;
+export default PromotionItem;

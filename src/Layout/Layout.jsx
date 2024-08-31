@@ -107,7 +107,7 @@ const SimpleDialog = ({ open, onClose }) => {
     >
       <Stack spacing={2} borderRadius={3} padding="10px" paddingTop={"20px"}>
         <Stack alignItems="center">
-          <Typography variant="h6" color="#292D32" paddingBottom={1}>
+          <Typography variant="h7" color="#292D32" paddingBottom={1}>
             Admin
           </Typography>
           <Typography variant="h7" color="rgba(41, 45, 50, 0.44)">
@@ -233,7 +233,7 @@ const Layout = (props) => {
                   <ListItemText
                     primary={item.name}
                     primaryTypographyProps={{
-                      variant: "h6",
+                      variant: "h7",
                     }}
                   />
                   {open ? <ExpandLess /> : <ExpandMore />}
@@ -271,7 +271,7 @@ const Layout = (props) => {
                         <ListItemText
                           primary={subItem.name}
                           primaryTypographyProps={{
-                            variant: "h6",
+                            variant: "h7",
                           }}
                         />
                       </ListItemButton>
@@ -311,7 +311,7 @@ const Layout = (props) => {
                 </ListItemIcon>
                 <ListItemText
                   primary={item.name}
-                  primaryTypographyProps={{ variant: "h6" }}
+                  primaryTypographyProps={{ variant: "h7" }}
                 />
               </ListItemButton>
             </ListItem>
@@ -388,7 +388,7 @@ const Layout = (props) => {
             >
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ marginLeft: "10px" }}>
-                  <Typography variant="h6" color={"#292D32"} display="block">
+                  <Typography variant="h7" color={"#292D32"} display="block">
                     Admin
                   </Typography>
                   <Typography

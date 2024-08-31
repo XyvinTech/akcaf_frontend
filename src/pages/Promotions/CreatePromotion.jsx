@@ -1,13 +1,11 @@
 import { Box, Grid, Stack, Tab, Tabs, Typography } from "@mui/material";
 import React, { useState } from "react";
-import EmailNotification from "../../components/Notification/EmailNotification";
-import InAppNotification from "../../components/Notification/InAppNotification";
+import Promotionform from "../../components/Promotion/PromotionForm.jsx";
 
 
 
 
-
-const Notificationpage = () => {
+const Createpromotion = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -23,7 +21,8 @@ const Notificationpage = () => {
   
   return (
     <>
-       <Tabs
+      
+      <Tabs
           value={selectedTab}
           onChange={handleChange}
           aria-label="tabs"
@@ -51,28 +50,24 @@ const Notificationpage = () => {
             },
           }}
         >
-        <Tab label="E-mail Notifcations" />
-        <Tab label="In-app Notifications" />
+        <Tab label="Promotion list" />
+        <Tab label="Create a promotion" />
       </Tabs>
-      <Box padding="15px" marginBottom={4}>
+      <Box padding="30px" marginBottom={4}>
         {selectedTab === 0 && (
-            <Grid container>
-            <Grid item md={7}>
-            <EmailNotification/>
-            </Grid>
-          </Grid>
+             <Grid spacing={2}>
+           </Grid>
         )}
         {selectedTab === 1 && (
           <Grid container>
-            <Grid item md={7}>
-            <InAppNotification/>
+            <Grid item md={8}>
+            <Promotionform/>
             </Grid>
           </Grid>
         )}
-       
       </Box>
     </>
   );
 };
 
-export default Notificationpage;
+export default Createpromotion;

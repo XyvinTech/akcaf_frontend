@@ -2,11 +2,10 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
-    primary: {
-      main: "#0070f3",
-    },
-    secondary: {
-      main: "#1db954",
+    text: {
+      primary: "#333333",
+      secondary: "#4A4647",
+      tertiary: "#2C2829",
     },
   },
   typography: {
@@ -25,7 +24,7 @@ const theme = createTheme({
       fontWeight: 600,
     },
     h4: {
-      fontSize: "18px",
+      fontSize: "18px",// fixed
       fontWeight: 600,
     },
     h5: {
@@ -34,13 +33,17 @@ const theme = createTheme({
     },
     h6: {
       fontSize: "14px",
-      fontWeight: 400,
+      fontWeight: 500,//FIXED
     },
     h7: {
+      fontSize: "14px",
+      fontWeight: 400,//FIXED
+    },
+    h8: {
       fontSize: "12px",
       fontWeight: 400,
     },
-    h8: {
+    h9: {
       fontSize: "10px",
       fontWeight: 600,
     },
