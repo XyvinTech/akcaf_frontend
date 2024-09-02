@@ -7,8 +7,9 @@ import { StyledEventUpload } from "../../ui/StyledEventUpload.jsx";
 import StyledInput from "../../ui/StyledInput.jsx";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField.jsx";
+import { StyledCalender } from "../../ui/StyledCalender.jsx";
 
-export default function Promotionform({ isUpdate }) {
+export default function Promotionform() {
   const {
     control,
     handleSubmit,
@@ -19,7 +20,7 @@ export default function Promotionform({ isUpdate }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
-  const { value } = location.state || {};
+  const { promotionId, isUpdate } = location.state || {};
 
   const [type, setType] = useState();
   const [submitting, setSubmitting] = useState(false);
@@ -41,10 +42,35 @@ export default function Promotionform({ isUpdate }) {
 
   const onSubmit = async (data) => {
     setSubmitting(true);
+    const formData = {
+      startDate: data?.startDate,
+      endDate: data?.endDate,
+    };
+    if (type === "banner") {
+      formData.type = "banner";
+    } else if (type === "video") {
+      formData.type = "video";
+    } else if (type === "notice") {
+      formData.type = "notice";
+    } else if (type === "poster") {
+      formData.type = "poster";
+    }
+    if (isUpdate && id) {
+      await updatePromotion(formData, id);
+    } else {
+      await addPromotion(formData);
+    }
+    setSubmitting(false);
+    navigate("/promotions");
   };
 
   return (
-    <Box sx={{ padding: 3 }} bgcolor={"white"} borderRadius={"12px"}>
+    <Box
+      sx={{ padding: 3 }}
+      bgcolor={"white"}
+      borderRadius={"12px"}
+      border={"1px solid rgba(0, 0, 0, 0.12)"}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={4}>
           <Grid item xs={12}>
@@ -111,7 +137,7 @@ export default function Promotionform({ isUpdate }) {
                 <Typography
                   sx={{ marginBottom: 1 }}
                   variant="h6"
-                 color="textSecondary"
+                  color="textSecondary"
                 >
                   Add Youtube link
                 </Typography>
@@ -177,7 +203,7 @@ export default function Promotionform({ isUpdate }) {
                 <Typography
                   sx={{ marginBottom: 1 }}
                   variant="h6"
-                 color="textSecondary"
+                  color="textSecondary"
                 >
                   Link
                 </Typography>
@@ -198,11 +224,11 @@ export default function Promotionform({ isUpdate }) {
             <Typography
               sx={{ marginBottom: 1 }}
               variant="h6"
-             color="textSecondary"
+              color="textSecondary"
             >
               Start Date
             </Typography>
-            {/* <Controller
+            <Controller
               name="startDate"
               control={control}
               defaultValue=""
@@ -220,17 +246,17 @@ export default function Promotionform({ isUpdate }) {
                   )}
                 </>
               )}
-            /> */}
+            />
           </Grid>
           <Grid item xs={6}>
             <Typography
               sx={{ marginBottom: 1 }}
               variant="h6"
-            color="textSecondary"
+              color="textSecondary"
             >
               End Date
             </Typography>
-            {/* <Controller
+            <Controller
               name="endDate"
               control={control}
               defaultValue=""
@@ -248,7 +274,7 @@ export default function Promotionform({ isUpdate }) {
                   )}
                 </>
               )}
-            /> */}
+            />
           </Grid>
           <Grid item xs={6}></Grid>
           <Grid item xs={6} display={"flex"} justifyContent={"end"}>

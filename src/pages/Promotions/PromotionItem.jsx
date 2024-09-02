@@ -15,16 +15,8 @@ import StyledNoticeTable from "../../components/Promotion/StyledNoticeTable";
 
 const PromotionItem = () => {
   const [selectedTab, setSelectedTab] = useState(0);
-  const [selectedRows, setSelectedRows] = useState([]);
+  
 
-  const handleSelectionChange = (newSelectedIds) => {
-    setSelectedRows(newSelectedIds);
-    console.log("Selected items:", newSelectedIds);
-  };
-
-  const handleView = (id) => {
-    console.log("View item:", id);
-  };
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
@@ -43,7 +35,7 @@ const PromotionItem = () => {
           },
         }}
         sx={{
-          paddingTop: "24px",
+          paddingTop: "0px",
           "& .MuiTabs-indicator": {
             backgroundColor: "#E30613",
           },

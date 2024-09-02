@@ -6,14 +6,22 @@ import StyledSearchbar from "../../ui/StyledSearchbar";
 import { memberColumns, userData } from "../../assets/json/TableData";
 import { useNavigate } from "react-router-dom";
 import RejectEntry from "../../components/Approve/RejectEntry";
+import ApproveApproval from "../../components/Approve/ApproveApproval";
 
 const ApprovalPage = () => {
   const [rejectOpen,setRejectOpen] = useState(false);
+  const [approveOpen,setApproveOpen] = useState(false);
   const handleReject = (id) => {
     setRejectOpen(true);
   };
 const handleCloseReject = () => {
   setRejectOpen(false);
+};
+const handleApprove = (id) => {
+  setApproveOpen(true);
+};
+const handleCloseApprove = () => {
+  setApproveOpen(false);
 };
 
   return (
@@ -53,9 +61,11 @@ const handleCloseReject = () => {
             data={userData}
             payment
             columns={memberColumns}
+            onModify={handleApprove}
             onAction={handleReject}
           />
           <RejectEntry open={rejectOpen} onClose={handleCloseReject} />
+          <ApproveApproval open={approveOpen} onClose={handleCloseApprove} />
         </Box>
       </Box>
     </>

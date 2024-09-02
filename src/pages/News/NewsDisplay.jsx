@@ -5,6 +5,9 @@ import StyledTable from "../../ui/StyledTable";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import { StyledButton } from "../../ui/StyledButton";
 import NewsPreview from "../../components/News/NewsPreview";
+import { newsColumns } from "../../assets/json/TableData";
+import { useNewsStore } from "../../store/newsStore";
+import { toast } from "react-toastify";
 
 export default function NewsDisplay() {
   const navigate = useNavigate();
@@ -12,7 +15,8 @@ export default function NewsDisplay() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
-
+  const { fetchNews, news, deleteNews, fetchNewsById, singleNews } =
+    useNewsStore();
   const [previewOpen, setPreviewOpen] = useState(false);
   const handleOpenFilter = () => {
     setFilterOpen(true);
@@ -31,18 +35,25 @@ export default function NewsDisplay() {
   };
   const handleDelete = async () => {
     if (selectedRows.length > 0) {
+      await Promise.all(selectedRows?.map((id) => deleteNews(id)));
+      toast.success("Deleted successfully");
       setIsChange(!isChange);
       setSelectedRows([]);
     }
   };
   const handleRowDelete = async (id) => {
+    await deleteNews(id);
+    toast.success("Deleted successfully");
     setIsChange(!isChange);
   };
-
+  useEffect(() => {
+    fetchNews();
+  }, [isChange]);
   const handleEdit = (id) => {
-    // navigate(`/news/edit/${id}`);
+    navigate(`/news/edit/${id}`);
   };
   const handlePreview = async (id) => {
+    await fetchNewsById(id);
     setPreviewOpen(true);
   };
   const handleClosePreview = () => {
@@ -52,13 +63,7 @@ export default function NewsDisplay() {
   const handleChange = () => {
     setIsChange(!isChange);
   };
-  const userColumns = [
-    { title: "Category", field: "category", padding: "none" },
 
-    { title: "Title", field: "title" },
-    { title: "Content", field: "content" },
-    { title: "Image", field: "image" },
-  ];
   return (
     <>
       <Stack
@@ -114,8 +119,8 @@ export default function NewsDisplay() {
         border={"1px solid rgba(0, 0, 0, 0.12)"}
       >
         <StyledTable
-          columns={userColumns}
-          data={[]}
+          columns={newsColumns}
+          data={news}
           news
           onSelectionChange={handleSelectionChange}
           onModify={handleEdit}
@@ -127,7 +132,8 @@ export default function NewsDisplay() {
           open={previewOpen}
           onClose={handleClosePreview}
           onChange={handleChange}
-          
+          data={singleNews}
+          onEdit={() => handleEdit(singleNews._id)}
         />
       </Box>
     </>

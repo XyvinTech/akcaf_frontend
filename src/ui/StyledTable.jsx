@@ -69,6 +69,7 @@ const StyledTable = ({
   onDeleteRow,
   member,
   payment,
+  college,
 }) => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -138,7 +139,7 @@ const StyledTable = ({
 
   const getStatusVariant = (status) => {
     if (typeof status === "boolean") {
-      return status ? "green" : "rejected";
+      return status ? "green" : "red";
     }
     switch (status) {
       case "pending":
@@ -344,7 +345,6 @@ const StyledTable = ({
                               View Details
                             </MenuItem>
                             <MenuItem onClick={handleModify}>Edit</MenuItem>
-                            <MenuItem onClick={handleAction}>Suspend</MenuItem>
                             <MenuItem
                               onClick={() => handleRowDelete(row._id)}
                               style={{ color: "red" }}
@@ -352,14 +352,25 @@ const StyledTable = ({
                               Delete
                             </MenuItem>
                           </>
-                        ) : payment ?  (
-                            <>
-                              <MenuItem onClick={handleModify}>
-                                Approve
-                              </MenuItem>
-                              <MenuItem onClick={handleAction}>Reject</MenuItem>
-                            </>
-                         
+                        ) : payment ? (
+                          <>
+                            <MenuItem onClick={handleModify}>Approve</MenuItem>
+                            <MenuItem onClick={handleAction}>Reject</MenuItem>
+                          </>
+                        ) : college ? (
+                          <>
+                            <MenuItem onClick={handleView}>
+                              View Details
+                            </MenuItem>
+                            <MenuItem onClick={handleAction}>Add Member</MenuItem>
+                            <MenuItem onClick={handleModify}>Edit</MenuItem>
+                            <MenuItem
+                              onClick={() => handleRowDelete(row._id)}
+                              style={{ color: "red" }}
+                            >
+                              Delete
+                            </MenuItem>
+                          </>
                         ) : (
                           <>
                             {" "}

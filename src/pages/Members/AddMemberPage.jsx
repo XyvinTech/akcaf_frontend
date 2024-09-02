@@ -1,6 +1,6 @@
 import React from "react";
 import StyledTable from "../../ui/StyledTable";
-import { Box, Grid2, Stack, Typography } from "@mui/material";
+import { Box, Grid, Grid2, Stack, Typography } from "@mui/material";
 import AddMember from "../../components/Member/AddMember";
 
 const AddMemberPage = () => {
@@ -16,14 +16,15 @@ const AddMemberPage = () => {
       >
         <Stack>
           <Typography variant="h4" color="textSecondary">
-            Members List / Add Member
+            Add Member
           </Typography>
         </Stack>
-       
       </Stack>
-      <Box padding={"15px"}>
-        <AddMember/>
-      </Box>
+      <Grid container padding={"15px"}>
+        <Grid item xs={12} md={8}>
+          <AddMember />
+        </Grid>
+      </Grid>
     </>
   );
 };

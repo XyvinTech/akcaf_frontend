@@ -6,7 +6,6 @@ import CollegePage from "../pages/Colleges/CollegePage";
 import GroupPage from "../pages/Groups/GroupPage";
 import EventsListPage from "../pages/Events/EventsListPage";
 import EventHistoryPage from "../pages/Events/EventHistoryPage";
-import PaymentPage from "../pages/Payments/PaymentPage";
 import ApprovalPage from "../pages/Approvals/ApprovalPage";
 import PromotionPage from "../pages/Promotions/PromotionPage";
 import NotificationPage from "../pages/Notifications/NotificationPage";
@@ -19,9 +18,19 @@ import EditEvent from "../pages/Events/EditEvent";
 import AddGroupPage from "../pages/Groups/AddGroupPage";
 import Createpromotion from "../pages/Promotions/CreatePromotion";
 import MemberView from "../pages/Members/MemberView";
+import Batchpage from "../pages/Colleges/BatchPage";
+import AddCollegePage from "../pages/Colleges/AddCollegePage";
+import AddAdminPage from "../pages/Settings/AddAdminPage";
+import AddRolePage from "../pages/Settings/AddRolePage";
+import LoginPage from "../pages/LoginPage";
+import EditNews from "../pages/News/EditNews";
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <LoginPage />,
+  },
+  {
+    path: "/dashboard",
     element: (
       <Layout>
         <DashboardPage />
@@ -57,6 +66,22 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <CollegePage />
+      </Layout>
+    ),
+  },
+  {
+    path: "/college/add",
+    element: (
+      <Layout>
+        <AddCollegePage />
+      </Layout>
+    ),
+  },
+  {
+    path: "/college/:id",
+    element: (
+      <Layout>
+        <Batchpage />
       </Layout>
     ),
   },
@@ -108,14 +133,7 @@ const router = createBrowserRouter([
       </Layout>
     ),
   },
-  {
-    path: "/payments",
-    element: (
-      <Layout>
-        <PaymentPage />
-      </Layout>
-    ),
-  },
+
   {
     path: "/approvals",
     element: (
@@ -157,10 +175,34 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/news/edit/:id",
+    element: (
+      <Layout>
+        <EditNews />
+      </Layout>
+    ),
+  },
+  {
     path: "/settings",
     element: (
       <Layout>
         <SettingPage />
+      </Layout>
+    ),
+  },
+  {
+    path: "/settings/add-admin",
+    element: (
+      <Layout>
+        <AddAdminPage />
+      </Layout>
+    ),
+  },
+  {
+    path: "/settings/add-role",
+    element: (
+      <Layout>
+        <AddRolePage />
       </Layout>
     ),
   },

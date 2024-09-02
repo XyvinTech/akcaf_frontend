@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid2, Stack, Typography } from "@mui/material";
+import { Box, Grid, Grid2, Stack, Typography } from "@mui/material";
 import AddGroup from "../../components/Group/AddGroup";
 
 const AddGroupPage = () => {
@@ -19,9 +19,11 @@ const AddGroupPage = () => {
           </Typography>
         </Stack>
       </Stack>
-      <Box padding={"15px"}>
-        <AddGroup />
-      </Box>
+      <Grid container padding={"15px"}>
+        <Grid item xs={12} md={8}>
+          <AddGroup />
+        </Grid>
+      </Grid>
     </>
   );
 };

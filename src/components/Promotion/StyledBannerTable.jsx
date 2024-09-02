@@ -26,7 +26,9 @@ const StyledBannerTable = () => {
     }
   };
   const handleEdit = (id) => {
-    // navigate(`/promotion/edit/${id}`, { state: { value: "video" } });
+    navigate(`/promotions/promotion`, {
+      state: { promotionId: id, isUpdate: true },
+    });
   };
   const handleRowDelete = async (id) => {
     setIsChange(!isChange);

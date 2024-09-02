@@ -1,12 +1,36 @@
 import { Box, Stack } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import StyledTable from "../../ui/StyledTable";
 import { eventList, userData } from "../../assets/json/TableData";
 import { useNavigate } from "react-router-dom";
+import { useEventStore } from "../../store/eventStore";
+import { toast } from "react-toastify";
 
 const EventList = () => {
   const navigate = useNavigate();
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [isChange, setIsChange] = useState(false);
+  const { fetchEvent, events,deleteEvent } = useEventStore();
+  useEffect(() => {
+    fetchEvent();
+  }, [isChange]);
+  const handleSelectionChange = (newSelectedIds) => {
+    setSelectedRows(newSelectedIds);
+  };
+const handleDelete = async () => {
+  if (selectedRows.length > 0) {
+    await Promise.all(selectedRows?.map((id) => deleteEvent(id)));
+    toast.success("Deleted successfully");
+    setIsChange(!isChange);
+    setSelectedRows([]);
+  }
+};
+const handleRowDelete = async (id) => {
+  await deleteEvent(id);
+  toast.success("Deleted successfully");
+  setIsChange(!isChange);
+};
   return (
     <Box>
       <Stack
@@ -26,11 +50,14 @@ const EventList = () => {
         border={"1px solid rgba(0, 0, 0, 0.12)"}
       >
         <StyledTable
-          data={userData}
+          data={events}
           columns={eventList}
+          onSelectionChange={handleSelectionChange}
           onView={(id) => {
             navigate(`/events/${id}`);
           }}
+          onDelete={handleDelete}
+          onDeleteRow={handleRowDelete}
           onModify={(id) => {
             navigate(`/events/edit/${id}`);
           }}

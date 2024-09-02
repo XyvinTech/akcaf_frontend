@@ -21,7 +21,7 @@ export default function EmailNotification({}) {
   };
 
   return (
-    <Box sx={{ padding: 3 }} bgcolor={"white"} borderRadius={"12px"}>
+    <Box sx={{ padding: 3 }} bgcolor={"white"} borderRadius={"12px"}border={'1px solid rgba(0, 0, 0, 0.12)'}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={4}>
           <Grid item xs={12}>

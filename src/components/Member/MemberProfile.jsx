@@ -2,6 +2,8 @@ import { Box, Grid, Typography } from "@mui/material";
 import React, { useState } from "react";
 import UserCard from "../../ui/UserCard";
 import CompanyCard from "../../ui/CompanyCard";
+import CertificateCard from "../../ui/CertificateCard";
+import AwardCard from "../../ui/AwardCard";
 
 const MemberProfile = ({ data }) => {
 //   const renderSocialIcon = (platform) => {
@@ -135,7 +137,7 @@ const MemberProfile = ({ data }) => {
             </Grid>
             {data?.certificates?.map((certificate, index) => (
               <Grid item md={6} xs={12} key={index}>
-                {/* <CertificateCard certificate={certificate} /> */}
+                <CertificateCard certificate={certificate} />
               </Grid>
             ))}
           </>
@@ -149,7 +151,7 @@ const MemberProfile = ({ data }) => {
             </Grid>
             {data?.awards?.map((award, index) => (
               <Grid item md={6} xs={12} key={index}>
-                {/* <AwardCard award={award} /> */}
+                <AwardCard award={award} />
               </Grid>
             ))}
           </>

@@ -33,7 +33,7 @@ export default function EditEvent() {
       </Box>
       <Grid container item xs={12}>
         <Grid item xs={10} padding={2}>
-          <AddEvent eventId={id} />
+          <AddEvent eventId={id} isUpdate={true} />
         </Grid>
       </Grid>
     </>

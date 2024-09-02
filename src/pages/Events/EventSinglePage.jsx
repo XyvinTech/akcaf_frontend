@@ -110,7 +110,7 @@ const EventSinglePage = () => {
           <Tab label="RSVP list" />
         </Tabs>
       </Box>{" "}
-      <Box padding="30px" paddingTop={0} marginBottom={4}>
+      <Box padding="15px" paddingTop={0} marginBottom={4}>
         {selectedTab === 0 && (
           <Grid>
             <SpeakerTable data={[]} />

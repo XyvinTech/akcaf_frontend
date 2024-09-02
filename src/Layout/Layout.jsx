@@ -59,11 +59,7 @@ const subNavigation = [
       },
     ],
   },
-  {
-    name: "Payments",
-    to: "/payments",
-    icon: <PaymentOutlined />,
-  },
+
   { name: "Approvals", to: "/approvals", icon: <ApprovalOutlinedIcon /> },
   {
     name: "Promotions",

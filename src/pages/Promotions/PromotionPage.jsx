@@ -6,8 +6,6 @@ import PromotionItem from "./PromotionItem";
 export default function Promotionpage() {
   const navigate = useNavigate();
 
- 
-
   return (
     <>
       {" "}
@@ -28,7 +26,8 @@ export default function Promotionpage() {
             <Grid item>
               <StyledButton
                 name="Create promotion"
-                variant="primary"onClick={() => navigate("/promotions/promotion")}
+                variant="primary"
+                onClick={() => navigate("/promotions/promotion")}
               >
                 Create promotion
               </StyledButton>
