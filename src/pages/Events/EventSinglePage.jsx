@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import PostponeEvent from "../../components/Event/PostponeEvent";
 import { StyledButton } from "../../ui/StyledButton";
 import EventCard from "../../ui/EventCard";
+import { useEventStore } from "../../store/eventStore";
 const EventSinglePage = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [postponeOpen, setPostponeOpen] = useState(false);
@@ -14,6 +15,7 @@ const EventSinglePage = () => {
   const [isChange, setIsChange] = useState(false);
   const { id } = useParams();
 
+  const { fetchEventById, event } = useEventStore();
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
@@ -33,7 +35,9 @@ const EventSinglePage = () => {
   const handleIsChange = () => {
     setIsChange(!isChange);
   };
-
+  useEffect(() => {
+    fetchEventById(id);
+  }, [id]);
   return (
     <>
       {" "}

@@ -1,18 +1,19 @@
 import { create } from "zustand";
+
 import {
+  getPromotion,
   addPromotion,
   deletePromotion,
   editPromotion,
-  getPromotion,
   getPromotionById,
-} from "../api/promotion-api";
+} from "../api/promotionapi";
 
 const usePromotionStore = create((set) => ({
   promotions: [],
   promotion: [],
 
-  fetchPromotion: async (type) => {
-    const allData = await getPromotion(type);
+  fetchPromotion: async (filter) => {
+    const allData = await getPromotion(filter);
     set({ promotions: allData?.data || [] });
   },
   addPromotions: async (data) => {
@@ -21,8 +22,8 @@ const usePromotionStore = create((set) => ({
   deletePromotions: async (id) => {
     await deletePromotion(id);
   },
-  fetchPromotionById: async (type, id) => {
-    const allData = await getPromotionById(type, id);
+  fetchPromotionById: async (id) => {
+    const allData = await getPromotionById(id);
     set({ promotion: allData?.data || [] });
   },
   updatePromotion: async (id, data) => {

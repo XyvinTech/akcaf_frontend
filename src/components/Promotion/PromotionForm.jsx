@@ -8,8 +8,10 @@ import StyledInput from "../../ui/StyledInput.jsx";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField.jsx";
 import { StyledCalender } from "../../ui/StyledCalender.jsx";
+import uploadFileToS3 from "../../utils/s3Upload.js";
+import { usePromotionStore } from "../../store/promotionstore.js";
 
-export default function Promotionform() {
+export default function Promotionform({ isUpdate }) {
   const {
     control,
     handleSubmit,
@@ -20,10 +22,12 @@ export default function Promotionform() {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
-  const { promotionId, isUpdate } = location.state || {};
-
+  const { value } = location.state || {};
+  const [imageFile, setImageFile] = useState(null);
   const [type, setType] = useState();
   const [submitting, setSubmitting] = useState(false);
+  const { addPromotions, fetchPromotionById, updatePromotion, promotion } =
+    usePromotionStore();
 
   const handleTypeChange = (selectedOption) => {
     setType(selectedOption.value);
@@ -39,8 +43,49 @@ export default function Promotionform() {
     event.preventDefault();
     navigate("/promotions");
   };
+  useEffect(() => {
+    if (isUpdate && id) {
+      fetchPromotionById(id);
+    }
+  }, [id, isUpdate, fetchPromotionById]);
+  useEffect(() => {
+    if (isUpdate && promotion) {
+      const selectedType = option.find((item) => item.value === promotion.type);
+      setValue("type", selectedType || "");
+      setValue("startDate", promotion.startDate);
+      setValue("endDate", promotion.endDate);
 
+      if (promotion.type === "notice") {
+        setValue("title", promotion.title || "");
+        setValue("description", promotion.description || "");
+        setValue("link", promotion.link || "");
+      } else if (promotion.type === "video") {
+        setValue("title", promotion.video_title || "");
+        setValue("yt_link", promotion.yt_link || "");
+      } else if (promotion.type === "banner" || promotion.type === "poster") {
+        setValue("media", promotion.media || "");
+      }
+
+      setType(promotion.type);
+    }
+  }, [isUpdate, promotion, setValue]);
   const onSubmit = async (data) => {
+    let imageUrl = data?.media || "";
+
+    if (imageFile) {
+      try {
+        imageUrl = await new Promise((resolve, reject) => {
+          uploadFileToS3(
+            imageFile,
+            (location) => resolve(location),
+            (error) => reject(error)
+          );
+        });
+      } catch (error) {
+        console.error("Failed to upload image:", error);
+        return;
+      }
+    }
     setSubmitting(true);
     const formData = {
       startDate: data?.startDate,
@@ -48,17 +93,24 @@ export default function Promotionform() {
     };
     if (type === "banner") {
       formData.type = "banner";
+      formData.media = imageUrl;
     } else if (type === "video") {
       formData.type = "video";
+      formData.link = data?.link;
+      formData.title = data?.title;
     } else if (type === "notice") {
       formData.type = "notice";
+      formData.title = data?.title;
+      formData.description = data?.description;
+      formData.link = data?.link;
     } else if (type === "poster") {
       formData.type = "poster";
+      formData.media = imageUrl;
     }
     if (isUpdate && id) {
-      await updatePromotion(formData, id);
+      await updatePromotion(id, formData);
     } else {
-      await addPromotion(formData);
+      await addPromotions(formData);
     }
     setSubmitting(false);
     navigate("/promotions");
@@ -114,17 +166,18 @@ export default function Promotionform() {
                 Upload image
               </Typography>
               <Controller
-                name="file"
+                name="media"
                 control={control}
                 defaultValue=""
-                render={({ field }) => (
+                render={({ field: { onChange, value } }) => (
                   <>
                     <StyledEventUpload
                       label="Upload image here"
-                      {...field}
-                      onChange={(selectedFile) => {
-                        field.onChange(selectedFile);
+                      onChange={(file) => {
+                        setImageFile(file);
+                        onChange(file);
                       }}
+                      value={value}
                     />
                   </>
                 )}
@@ -142,7 +195,7 @@ export default function Promotionform() {
                   Add Youtube link
                 </Typography>
                 <Controller
-                  name="yt_link"
+                  name="link"
                   control={control}
                   defaultValue=""
                   render={({ field }) => (

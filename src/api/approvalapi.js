@@ -1,0 +1,19 @@
+import axiosInstance from "./axiosintercepter";
+
+export const getApproval = async () => {
+  try {
+    const response = await axiosInstance.get("/admin/approvals");
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};
+export const editApproval = async (id, data) => {
+  try {
+    const response = await axiosInstance.put(`/admin/approval/${id}`, data);
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
+};

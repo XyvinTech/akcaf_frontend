@@ -7,6 +7,14 @@ export const memberColumns = [
   { title: "Batch number", field: "experience" },
   { title: "Status", field: "status" },
 ];
+export const approvalColumns = [
+  { title: "Date", field: "createdAt", padding: "none" },
+  { title: "Name", field: "fullName" },
+  { title: "Phone Number", field: "phone" },
+  { title: "Email", field: "email" },
+  { title: "Course", field: "experience" },
+  { title: "Batch number", field: "batch" },
+];
 export const adminColumns = [
   { title: "Name", field: "name", padding: "none" },
 

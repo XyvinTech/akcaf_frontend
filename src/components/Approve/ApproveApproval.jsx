@@ -1,10 +1,16 @@
 import { Typography, Dialog, DialogContent, Stack } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { StyledButton } from "../../ui/StyledButton";
+import { useApprovalStore } from "../../store/approvalstore";
 
 const ApproveApproval = ({ open, onClose, onChange, id }) => {
   const { handleSubmit } = useForm();
+  const { updateApproval } = useApprovalStore();
   const onSubmit = async () => {
+    const formData = {
+      status: "active",
+    };
+    updateApproval(id, formData);
     onChange();
     onClose();
   };
@@ -37,8 +43,7 @@ const ApproveApproval = ({ open, onClose, onChange, id }) => {
               color={"textTertiary"}
               textAlign={"center"}
             >
-             Are you sure you want to 
-             approve?
+              Are you sure you want to approve?
             </Typography>
             <Typography
               variant="h7"

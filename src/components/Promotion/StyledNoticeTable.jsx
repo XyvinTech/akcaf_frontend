@@ -1,14 +1,22 @@
 import { Box, Stack } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import StyledTable from "../../ui/StyledTable";
 import { useNavigate } from "react-router-dom";
+import { usePromotionStore } from "../../store/promotionstore";
+import { toast } from "react-toastify";
 
 const StyledNoticeTable = () => {
   const navigate = useNavigate();
   const [filterOpen, setFilterOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
+  const { fetchPromotion, promotions, deletePromotions } = usePromotionStore();
+  useEffect(() => {
+    let filter = { type: "notice" };
+
+    fetchPromotion(filter);
+  }, [isChange]);
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -21,14 +29,18 @@ const StyledNoticeTable = () => {
   };
   const handleDelete = async () => {
     if (selectedRows.length > 0) {
+      await Promise.all(selectedRows?.map((id) => deletePromotions(id)));
+      toast.success("Deleted successfully");
       setIsChange(!isChange);
       setSelectedRows([]);
     }
   };
   const handleEdit = (id) => {
-    // navigate(`/promotion/edit/${id}`, { state: { value: "video" } });
+    navigate(`/promotions/edit/${id}`);
   };
   const handleRowDelete = async (id) => {
+    await deletePromotions(id);
+    toast.success("Deleted successfully");
     setIsChange(!isChange);
   };
 
@@ -57,7 +69,7 @@ const StyledNoticeTable = () => {
       >
         <StyledTable
           columns={userColumns}
-          data={[]}
+          data={promotions}
           onSelectionChange={handleSelectionChange}
           onDelete={handleDelete}
           onDeleteRow={handleRowDelete}

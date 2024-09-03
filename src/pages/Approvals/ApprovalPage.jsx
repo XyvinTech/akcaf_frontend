@@ -1,28 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StyledTable from "../../ui/StyledTable";
 import { Box, Grid2, Stack, Typography } from "@mui/material";
-import { StyledButton } from "../../ui/StyledButton";
+
 import StyledSearchbar from "../../ui/StyledSearchbar";
-import { memberColumns, userData } from "../../assets/json/TableData";
-import { useNavigate } from "react-router-dom";
+import { approvalColumns, userData } from "../../assets/json/TableData";
+
 import RejectEntry from "../../components/Approve/RejectEntry";
 import ApproveApproval from "../../components/Approve/ApproveApproval";
+import { useApprovalStore } from "../../store/approvalstore";
 
 const ApprovalPage = () => {
-  const [rejectOpen,setRejectOpen] = useState(false);
-  const [approveOpen,setApproveOpen] = useState(false);
+  const [rejectOpen, setRejectOpen] = useState(false);
+  const [approveOpen, setApproveOpen] = useState(false);
+  const [isChange, setIsChange] = useState(false);
+  const { fetchApproval, approvals } = useApprovalStore();
+  const [approvalId, setApprovalId] = useState(null);
+  useEffect(() => {
+    fetchApproval();
+  }, [isChange]);
+  const handleChange = () => {
+    setIsChange(!isChange);
+  };
   const handleReject = (id) => {
+    setApprovalId(id);
     setRejectOpen(true);
   };
-const handleCloseReject = () => {
-  setRejectOpen(false);
-};
-const handleApprove = (id) => {
-  setApproveOpen(true);
-};
-const handleCloseApprove = () => {
-  setApproveOpen(false);
-};
+  const handleCloseReject = () => {
+    setRejectOpen(false);
+  };
+  const handleApprove = (id) => {
+    setApprovalId(id);
+    setApproveOpen(true);
+  };
+  const handleCloseApprove = () => {
+    setApproveOpen(false);
+  };
 
   return (
     <>
@@ -58,14 +70,24 @@ const handleCloseApprove = () => {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <StyledTable
-            data={userData}
+            columns={approvalColumns}
+            data={approvals}
             payment
-            columns={memberColumns}
             onModify={handleApprove}
             onAction={handleReject}
           />
-          <RejectEntry open={rejectOpen} onClose={handleCloseReject} />
-          <ApproveApproval open={approveOpen} onClose={handleCloseApprove} />
+          <RejectEntry
+            open={rejectOpen}
+            onClose={handleCloseReject}
+            id={approvalId}
+            onChange={handleChange}
+          />
+          <ApproveApproval
+            open={approveOpen}
+            onClose={handleCloseApprove}
+            id={approvalId}
+            onChange={handleChange}
+          />
         </Box>
       </Box>
     </>

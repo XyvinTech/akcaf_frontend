@@ -1,9 +1,11 @@
 import { toast } from "react-toastify";
-import axiosInstance from "./axios-interceptor";
+import axiosInstance from "./axiosintercepter";
 
-export const getPromotion = async () => {
+export const getPromotion = async (filter) => {
   try {
-    const response = await axiosInstance.get(`/promotions/list`);
+    const response = await axiosInstance.get(`/promotion/list`, {
+      params: filter,
+    });
     return response.data;
   } catch (error) {
     return null;
