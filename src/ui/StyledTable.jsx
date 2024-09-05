@@ -143,17 +143,17 @@ const StyledTable = ({
     }
     switch (status) {
       case "pending":
-        return "#BFBABA";
+        return "#FF9F00";
       case "rejected":
-        return "#ff4d4f";
+        return "#C62828";
       case "active":
-        return "#52c41a";
+        return "#4CAF50";
       case "deleted":
-        return "#ff4d4f";
-        case "cancelled":
-          return "#BFBABA";
+        return "#9E9E9E";
+      case "cancelled":
+        return "#FF5722";
       default:
-        return "default";
+        return "#607D8B";
     }
   };
   const formatIndianDate = (date) => {
@@ -266,12 +266,15 @@ const StyledTable = ({
                           "image",
                           "event image",
                           "speaker_image",
+                          "media",
                         ].includes(column.field) ? (
-                        <img
-                          src={row[column.field]}
-                          alt={column.title}
-                          style={{ width: "50px", height: "50px" }}
-                        />
+                        <>
+                          <img
+                            src={row[column.field]}
+                            alt={column.title}
+                            style={{ width: "50px", height: "50px" }}
+                          />{" "}
+                        </>
                       ) : column.field === "status" ||
                         column.field === "activate" ? (
                         <Box

@@ -47,7 +47,7 @@ const StyledBannerTable = () => {
   const userColumns = [
     { title: "Date", field: "startDate", padding: "none" },
 
-    { title: "Media", field: "banner_image_url" },
+    { title: "Media", field: "media" },
   ];
   return (
     <>
