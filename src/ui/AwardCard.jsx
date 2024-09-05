@@ -11,7 +11,7 @@ const AwardCard = ({ award }) => {
     >
       <Box
         component="img"
-        src={award?.url}
+        src={award?.image}
         sx={{
           borderTopLeftRadius: "12px",
           borderTopRightRadius: "12px",
@@ -35,7 +35,7 @@ const AwardCard = ({ award }) => {
           textAlign={"start"}
           sx={{ marginBottom: "10px" }}
         >
-          {award?.authority_name}
+          {award?.authority}
         </Typography>
       </Box>
     </Box>

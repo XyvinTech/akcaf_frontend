@@ -1,11 +1,16 @@
 import { Box, Grid, Typography, Stack } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import StyledInput from "../../ui/StyledInput";
 import StyledSelectField from "../../ui/StyledSelectField";
 import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField";
 import { StyledButton } from "../../ui/StyledButton";
 import { StyledEventUpload } from "../../ui/StyledEventUpload";
+import { useDropDownStore } from "../../store/dropDownStore";
+import uploadFileToS3 from "../../utils/s3Upload";
+import { toast } from "react-toastify";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useMemberStore } from "../../store/Memberstore";
 
 const AddMember = () => {
   const {
@@ -15,8 +20,134 @@ const AddMember = () => {
     setValue,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { memberId, isUpdate } = location.state || {};
+  const { college, fetchListofCollege } = useDropDownStore();
+  const { addMembers, fetchMemberById, member, updateMember } =
+    useMemberStore();
+
+  const [courseOptions, setCourseOptions] = useState([]);
+  const [batchOptions, setBatchOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
+  useEffect(() => {
+    fetchListofCollege();
+  }, []);
+
+  console.log(imageFile);
+
+  const collegeList =
+    college && Array.isArray(college)
+      ? college?.map((item) => ({
+          value: item._id,
+          label: item.collegeName,
+        }))
+      : [];
+
+  const handleCollegeChange = (selectedCollegeId) => {
+    const selectedCollege = college?.find(
+      (item) => item?._id === selectedCollegeId.value
+    );
+    if (selectedCollege) {
+      const updatedCourses = selectedCollege?.course?.map((course) => ({
+        value: course?._id,
+        label: course?.courseName,
+      }));
+      setCourseOptions(updatedCourses);
+      const updatedBatches = selectedCollege?.batch?.map((batch) => ({
+        value: batch,
+        label: batch,
+      }));
+      setBatchOptions(updatedBatches);
+      setValue("course", "");
+      setValue("batch", "");
+    }
+  };
+  const roleOptions = [
+    { value: "president", label: "President" },
+    { value: "secretary", label: "Secretary" },
+    { value: "treasurer", label: "Treasurer" },
+    { value: "rep", label: "Rep" },
+    { value: "member", label: "Member" },
+  ];
+  const statusOptions = [
+    { value: "active", label: "Active" },
+    { value: "inactive", label: "Inactive" },
+  ];
+  const handleClear = (event) => {
+    event.preventDefault();
+    reset();
+    setImageFile(null);
+  };
+  useEffect(() => {
+    if (isUpdate && memberId) {
+      fetchMemberById(memberId);
+    }
+  }, [memberId, isUpdate, fetchMemberById]);
+  useEffect(() => {
+    if (isUpdate && member) {
+      const selectedCollege = collegeList?.find(
+        (item) => item.value === member?.college?._id
+      );
+      setValue("college", selectedCollege || "");
+      setValue("first", member?.name?.first || "");
+      setValue("middle", member?.name?.middle || "");
+      setValue("last", member?.name?.last || "");
+      setValue("email", member?.email || "");
+      setValue("phone", member?.phone || "");
+      setValue("bio", member?.bio || "");
+      setValue("image", member?.image || "");
+    }
+  }, [member, collegeList, setValue]);
+
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+      let imageUrl = data?.image || "";
+
+      if (imageFile) {
+        try {
+          imageUrl = await new Promise((resolve, reject) => {
+            uploadFileToS3(
+              imageFile,
+              (location) => resolve(location),
+              (error) => reject(error)
+            );
+          });
+        } catch (error) {
+          console.error("Failed to upload image:", error);
+          return;
+        }
+      }
+      const formData = {
+        name: {
+          first: data?.first,
+          middle: data?.middle,
+          last: data?.last,
+        },
+        email: data?.email,
+        phone: data?.phone,
+        college: data?.college.value,
+        course: data?.course.value,
+        batch: data?.batch.value,
+        role: data?.role.value,
+        status: data?.status.value,
+        bio: data?.bio,
+        image: imageUrl,
+      };
+      if (isUpdate) {
+        await updateMember(memberId, formData);
+      } else {
+        await addMembers(formData);
+      }
+      reset();
+      navigate("/members");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -37,17 +168,15 @@ const AddMember = () => {
               First Name
             </Typography>
             <Controller
-              name="first_name"
+              name="first"
               control={control}
               defaultValue=""
               rules={{ required: "First Name is required" }}
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Enter the First name" {...field} />
-                  {errors.first_name && (
-                    <span style={{ color: "red" }}>
-                      {errors.first_name.message}
-                    </span>
+                  {errors.first && (
+                    <span style={{ color: "red" }}>{errors.first.message}</span>
                   )}
                 </>
               )}
@@ -63,15 +192,15 @@ const AddMember = () => {
               Middle Name
             </Typography>
             <Controller
-              name="middle_name"
+              name="middle"
               control={control}
               defaultValue=""
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Enter the Middle Name" {...field} />
-                  {errors.middle_name && (
+                  {errors.middle && (
                     <span style={{ color: "red" }}>
-                      {errors.middle_name.message}
+                      {errors.middle.message}
                     </span>
                   )}
                 </>
@@ -88,17 +217,15 @@ const AddMember = () => {
               Last Name
             </Typography>
             <Controller
-              name="last_name"
+              name="last"
               control={control}
               defaultValue=""
               rules={{ required: "Last Name is required" }}
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Enter the Last Name" {...field} />
-                  {errors.last_name && (
-                    <span style={{ color: "red" }}>
-                      {errors.last_name.message}
-                    </span>
+                  {errors.last && (
+                    <span style={{ color: "red" }}>{errors.last.message}</span>
                   )}
                 </>
               )}
@@ -114,7 +241,7 @@ const AddMember = () => {
               College Name
             </Typography>
             <Controller
-              name="collegeName"
+              name="college"
               control={control}
               defaultValue=""
               rules={{ required: "College Name is required" }}
@@ -122,18 +249,51 @@ const AddMember = () => {
                 <>
                   <StyledSelectField
                     placeholder="Choose the college"
+                    options={collegeList}
                     {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      handleCollegeChange(e);
+                    }}
                   />
-                  {errors.collegeName && (
+                  {errors.college && (
                     <span style={{ color: "red" }}>
-                      {errors.collegeName.message}
+                      {errors.college.message}
                     </span>
                   )}
                 </>
               )}
             />
           </Grid>
-
+          <Grid item xs={12}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              color="textSecondary"
+            >
+              Course Name
+            </Typography>
+            <Controller
+              name="course"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Course Name is required" }}
+              render={({ field }) => (
+                <>
+                  <StyledSelectField
+                    placeholder="Choose the course"
+                    options={courseOptions}
+                    {...field}
+                  />
+                  {errors.course && (
+                    <span style={{ color: "red" }}>
+                      {errors.course.message}
+                    </span>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
           <Grid item xs={12}>
             <Typography
               sx={{ marginBottom: 1 }}
@@ -151,35 +311,11 @@ const AddMember = () => {
                 <>
                   <StyledSelectField
                     placeholder="Choose the batch"
+                    options={batchOptions}
                     {...field}
                   />
                   {errors.batch && (
                     <span style={{ color: "red" }}>{errors.batch.message}</span>
-                  )}
-                </>
-              )}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Typography
-              sx={{ marginBottom: 1 }}
-              variant="h6"
-              color="textSecondary"
-            >
-              Member Id
-            </Typography>
-            <Controller
-              name="memberId"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <>
-                  <StyledInput placeholder="Enter the member ID" {...field} />
-                  {errors.memberId && (
-                    <span style={{ color: "red" }}>
-                      {errors.memberId.message}
-                    </span>
                   )}
                 </>
               )}
@@ -192,23 +328,22 @@ const AddMember = () => {
               variant="h6"
               color="textSecondary"
             >
-              Designation
+              Role
             </Typography>
             <Controller
-              name="designation"
+              name="role"
               control={control}
               defaultValue=""
-              rules={{ required: "Designation is required" }}
+              rules={{ required: "Role is required" }}
               render={({ field }) => (
                 <>
                   <StyledSelectField
-                    placeholder="Choose the Designation"
+                    placeholder="Choose the Role"
+                    options={roleOptions}
                     {...field}
                   />
-                  {errors.designation && (
-                    <span style={{ color: "red" }}>
-                      {errors.designation.message}
-                    </span>
+                  {errors.role && (
+                    <span style={{ color: "red" }}>{errors.role.message}</span>
                   )}
                 </>
               )}
@@ -223,7 +358,7 @@ const AddMember = () => {
               Photo
             </Typography>
             <Controller
-              name="photo"
+              name="image"
               control={control}
               defaultValue=""
               rules={{ required: "Photo is required" }}
@@ -231,37 +366,14 @@ const AddMember = () => {
                 <>
                   <StyledEventUpload
                     label="Upload Photo here"
-                    onChange={onChange}
+                    onChange={(file) => {
+                      setImageFile(file);
+                      onChange(file);
+                    }}
                     value={value}
                   />
-                  {errors.photo && (
-                    <span style={{ color: "red" }}>{errors.photo.message}</span>
-                  )}
-                </>
-              )}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography
-              sx={{ marginBottom: 1 }}
-              variant="h6"
-              color="textSecondary"
-            >
-              Bio
-            </Typography>
-            <Controller
-              name="bio"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Bio is required" }}
-              render={({ field }) => (
-                <>
-                  <StyledMultilineTextField
-                    placeholder="Add Description "
-                    {...field}
-                  />
-                  {errors.bio && (
-                    <span style={{ color: "red" }}>{errors.bio.message}</span>
+                  {errors.image && (
+                    <span style={{ color: "red" }}>{errors.image.message}</span>
                   )}
                 </>
               )}
@@ -301,7 +413,7 @@ const AddMember = () => {
               Phone number
             </Typography>
             <Controller
-              name="phone_number"
+              name="phone"
               control={control}
               defaultValue=""
               rules={{ required: "Phone number is required" }}
@@ -311,16 +423,36 @@ const AddMember = () => {
                     placeholder="Enter the phone number"
                     {...field}
                   />
-                  {errors.phone_number && (
-                    <span style={{ color: "red" }}>
-                      {errors.phone_number.message}
-                    </span>
+                  {errors.phone && (
+                    <span style={{ color: "red" }}>{errors.phone.message}</span>
                   )}
                 </>
               )}
             />
           </Grid>
-
+          <Grid item xs={12}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              color="textSecondary"
+            >
+              Bio
+            </Typography>
+            <Controller
+              name="bio"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Bio is required" }}
+              render={({ field }) => (
+                <>
+                  <StyledMultilineTextField placeholder="Bio" {...field} />
+                  {errors.bio && (
+                    <span style={{ color: "red" }}>{errors.bio.message}</span>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
           <Grid item xs={12}>
             <Typography
               sx={{ marginBottom: 1 }}
@@ -338,6 +470,7 @@ const AddMember = () => {
                 <>
                   <StyledSelectField
                     placeholder="Choose the status"
+                    options={statusOptions}
                     {...field}
                   />
                   {errors.status && (
@@ -353,8 +486,16 @@ const AddMember = () => {
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
-              <StyledButton name="Cancel" variant="secondary" />
-              <StyledButton name="Save" variant="primary" type="submit" />
+              <StyledButton
+                name="Cancel"
+                variant="secondary"
+                onClick={(event) => handleClear(event)}
+              />
+              <StyledButton
+                name={loading ? "Saving..." : "Save"}
+                variant="primary"
+                type="submit"
+              />
             </Stack>
           </Grid>
         </Grid>

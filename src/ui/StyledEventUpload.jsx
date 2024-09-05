@@ -5,7 +5,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import BackupOutlinedIcon from "@mui/icons-material/BackupOutlined";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 
 const CustomTextField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
@@ -31,13 +30,11 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const ImagePreview = styled(Box)({
+const ImagePreview = styled("img")({
   width: "100px",
   height: "100px",
   marginTop: "10px",
-  backgroundSize: "contain",
-  backgroundPosition: "center",
-  backgroundRepeat: "no-repeat",
+  objectFit: "contain",
   border: "1px solid rgba(0, 0, 0, 0.2)",
   borderRadius: "4px",
 });
@@ -52,15 +49,16 @@ export const StyledEventUpload = ({ label, value, onChange }) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setSelectedImage(URL.createObjectURL(file));
+    if (file && file.type.startsWith("image/")) {  // Ensure the file is an image
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImage(imageUrl);
       onChange(file); // Update form value with the selected file
     }
   };
 
   useEffect(() => {
-    if (value && typeof value === 'string') {
-      setSelectedImage(value); // Update image preview if value changes (e.g., on form reset or edit)
+    if (value && typeof value === "string") {
+      setSelectedImage(value); // Update image preview if value changes
     }
   }, [value]);
 
@@ -87,10 +85,7 @@ export const StyledEventUpload = ({ label, value, onChange }) => {
         style={{ display: "none" }}
         accept="image/*"
       />
-      {selectedImage && (
-        <ImagePreview style={{ backgroundImage: `url(${selectedImage})` }} />
-      )}
+      {selectedImage && <ImagePreview src={selectedImage} alt="Preview" />}
     </>
   );
 };
-

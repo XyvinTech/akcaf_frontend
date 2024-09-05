@@ -2,6 +2,7 @@ import { Box, Grid, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StyledButton } from "../../ui/StyledButton";
+import BatchList from "./BatchList";
 export default function Batchpage() {
   const navigate = useNavigate();
 
@@ -23,10 +24,9 @@ export default function Batchpage() {
         </Stack>
         <Stack direction={"row"} spacing={2}>
           <StyledButton variant={"secondary"} name={"Download"} />
-          <StyledButton variant={"primary"} name={"Add batch"} />
         </Stack>
       </Stack>
-      <>{/* <PromotionItem /> */}</>
+      <BatchList />
     </>
   );
 }

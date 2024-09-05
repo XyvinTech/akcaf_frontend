@@ -17,7 +17,14 @@ const EventCard = ({ user }) => {
       minHeight={"220px"}
       position="relative"
     >
-      <Grid item md={4} xs={12} justifyContent={"center"} alignItems={"center"}>
+      <Grid
+        item
+        md={12}
+        xs={12}
+        lg={6}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
         <img
           src={user?.image}
           alt="img"
@@ -27,10 +34,17 @@ const EventCard = ({ user }) => {
         />
       </Grid>
 
-      <Grid item md={6} xs={12} justifyContent={"center"} alignItems={"center"}>
+      <Grid
+        item
+        md={12}
+        xs={12}
+        lg={6}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
         <Stack spacing={"10px"}>
           <Typography variant="h7" color={"#EB5860"}>
-          {user?.status} Event
+            {user?.eventName}
           </Typography>
 
           <Typography
@@ -49,15 +63,24 @@ const EventCard = ({ user }) => {
           <Stack direction="row" alignItems="center" spacing={1}>
             <EmailIcon />
             <Typography variant="h7" color={"textTertiary"}>
-            {formatDate(user?.startDate)}-{formatDate(user?.endDate)}
+              {formatDate(user?.startDate)}-{formatDate(user?.endDate)}
             </Typography>
           </Stack>
-          <Stack direction="row" alignItems="flex-start" spacing={1}>
-            <LocationIcon />
-            <Typography variant="h7" color={"textTertiary"}>
-              {user?.platform}
-            </Typography>
-          </Stack>
+          {user?.venue && (
+            <Stack direction="row" alignItems="flex-start" spacing={1}>
+              <LocationIcon />
+              <Typography variant="h7" color={"textTertiary"}>
+                {user?.venue}
+              </Typography>
+            </Stack>
+          )}
+          {user?.platform && (
+            <Stack direction="row" alignItems="flex-start" spacing={1}>
+              <Typography variant="h7" color={"textTertiary"}>
+                {user?.platform}
+              </Typography>
+            </Stack>
+          )}
         </Stack>
       </Grid>
     </Grid>

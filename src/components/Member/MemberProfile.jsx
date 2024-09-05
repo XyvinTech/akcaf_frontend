@@ -4,20 +4,25 @@ import UserCard from "../../ui/UserCard";
 import CompanyCard from "../../ui/CompanyCard";
 import CertificateCard from "../../ui/CertificateCard";
 import AwardCard from "../../ui/AwardCard";
+import { ReactComponent as WebsiteIcon } from "../../assets/icons/WebsiteIcon.svg";
+import { ReactComponent as InstagramIcon } from "../../assets/icons/InstagramIcon.svg";
+import { ReactComponent as TwitterIcon } from "../../assets/icons/TwitterIcon.svg";
+import { ReactComponent as LinkedInIcon } from "../../assets/icons/LinkedInIcon.svg";
+import Video from "./Video";
 
 const MemberProfile = ({ data }) => {
-//   const renderSocialIcon = (platform) => {
-//     switch (platform) {
-//       case "instagram":
-//         return <InstagramIcon />;
-//       case "twitter":
-//         return <TwitterIcon />;
-//       case "linkedin":
-//         return <LinkedInIcon />;
-//       default:
-//         return null;
-//     }
-//   };
+  const renderSocialIcon = (platform) => {
+    switch (platform) {
+      case "instagram":
+        return <InstagramIcon />;
+      case "twitter":
+        return <TwitterIcon />;
+      case "linkedin":
+        return <LinkedInIcon />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <>
@@ -25,10 +30,11 @@ const MemberProfile = ({ data }) => {
         <Grid item md={7}>
           <UserCard user={data} />
         </Grid>
+        { data?.company &&
         <Grid item md={5}>
           <CompanyCard company={data} />
-        </Grid>
-        {data?.social_media && data?.social_media?.length > 0 && (
+        </Grid> }
+        {data?.social && data?.social?.length > 0 && (
           <>
             <Grid item md={12}>
               <Typography variant="h5" color="textTertiary" mt={1}>
@@ -36,7 +42,7 @@ const MemberProfile = ({ data }) => {
               </Typography>
             </Grid>
 
-            {/* {data?.social_media?.map((media, index) => (
+            {data?.social?.map((media, index) => (
               <Grid item md={4} xs={12} key={index}>
                 <Box
                   display="flex"
@@ -46,7 +52,7 @@ const MemberProfile = ({ data }) => {
                   borderRadius={"12px"}
                   p={2}
                 >
-                  {renderSocialIcon(media?.platform)}
+                  {renderSocialIcon(media?.name)}
                   <Typography
                     variant="h5"
                     color="#6D6D6D"
@@ -58,13 +64,13 @@ const MemberProfile = ({ data }) => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {media?.platform?.charAt(0).toUpperCase() +
-                        media?.platform.slice(1)}
+                      {media?.name?.charAt(0).toUpperCase() +
+                        media?.name.slice(1)}
                     </a>
                   </Typography>
                 </Box>
               </Grid>
-            ))} */}
+            ))}
           </>
         )}{" "}
         {data?.websites && data?.websites?.length > 0 && (
@@ -74,7 +80,7 @@ const MemberProfile = ({ data }) => {
                 Websites & links
               </Typography>
             </Grid>
-            {/* {data?.websites?.map((website, index) => (
+            {data?.websites?.map((website, index) => (
               <Grid item md={4} xs={12} key={index}>
                 <Box
                   display="flex"
@@ -92,40 +98,28 @@ const MemberProfile = ({ data }) => {
                     ml={1}
                   >
                     <a
-                      href={website?.url}
+                      href={website?.link}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {website?.url}
+                      {website?.name}
                     </a>
                   </Typography>
                 </Box>
               </Grid>
-            ))} */}
+            ))}
           </>
         )}{" "}
-        {data?.products && data?.products?.length > 0 && (
-          <Grid item md={12}>
-            <Typography variant="h5" color="textTertiary" mt={1}>
-              Products
-            </Typography>
-          </Grid>
-        )}
-        {data?.products?.map((product) => (
-          <Grid item md={2} xs={12} key={product?._id}>
-            {/* <ProductCard product={product} /> */}
-          </Grid>
-        ))}
-        {data?.video && data?.video?.length > 0 && (
+        {data?.videos && data?.videos?.length > 0 && (
           <Grid item md={12}>
             <Typography variant="h5" color="textTertiary" mt={1}>
               video
             </Typography>
           </Grid>
         )}
-        {data?.video?.map((videoItem, index) => (
+        {data?.videos?.map((videoItem, index) => (
           <Grid item md={4} xs={12} key={index}>
-            {/* <Video url={videoItem.url} /> */}
+            <Video url={videoItem.link} />
           </Grid>
         ))}
         {data?.certificates && data?.certificates?.length > 0 && (

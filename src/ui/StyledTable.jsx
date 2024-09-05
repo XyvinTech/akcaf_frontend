@@ -146,6 +146,10 @@ const StyledTable = ({
         return "#BFBABA";
       case "rejected":
         return "#ff4d4f";
+      case "active":
+        return "#52c41a";
+      case "deleted":
+        return "#ff4d4f";
       default:
         return "default";
     }
@@ -251,7 +255,7 @@ const StyledTable = ({
                         "startDate",
                       ].includes(column.field) ? (
                         formatIndianDate(row[column.field])
-                      ) : ["starttime", "endtime", "time"].includes(
+                      ) : ["startTime", "endtime", "time"].includes(
                           column.field
                         ) ? (
                         formatTime(row[column.field])
@@ -362,7 +366,9 @@ const StyledTable = ({
                             <MenuItem onClick={handleView}>
                               View Details
                             </MenuItem>
-                            <MenuItem onClick={handleAction}>Add Member</MenuItem>
+                            <MenuItem onClick={handleAction}>
+                              Add Member
+                            </MenuItem>
                             <MenuItem onClick={handleModify}>Edit</MenuItem>
                             <MenuItem
                               onClick={() => handleRowDelete(row._id)}

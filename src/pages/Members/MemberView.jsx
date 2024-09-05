@@ -12,15 +12,20 @@ import { useParams } from "react-router-dom";
 import MemberProfile from "../../components/Member/MemberProfile";
 import MemberPosts from "../../components/Member/MemberPosts";
 import MemberAnalytics from "../../components/Member/MemberAnalytics";
+import { useMemberStore } from "../../store/Memberstore";
 
 const MemberView = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [isChange, setIsChange] = useState(false);
   const { id } = useParams();
-
+  const {  fetchMemberById,member } = useMemberStore();
   const handleIsChange = () => {
     setIsChange(!isChange);
   };
+
+  useEffect(() => {
+    fetchMemberById(id);
+  }, [isChange]);
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -75,7 +80,7 @@ const MemberView = () => {
       <Box padding="15px" marginBottom={4}>
         {selectedTab === 0 && (
           <Grid spacing={2}>
-            <MemberProfile data={[]} />
+            <MemberProfile data={member} />
           </Grid>
         )}
         {selectedTab === 1 && (

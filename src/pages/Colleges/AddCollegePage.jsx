@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { StyledButton } from "../../ui/StyledButton";
 import { Box, Divider, Grid, Tab, Tabs, Typography } from "@mui/material";
 import AddCollege from "../../components/College/AddCollege";
 import BulkAddForm from "../../components/College/BulkAddForm";
@@ -68,11 +67,16 @@ const AddCollegePage = () => {
               </Grid>
             </Grid>
           )}
-          {selectedTab === 1 && <Grid> <Grid container>
-              <Grid item md={7}>
-                <BulkAddForm />
+          {selectedTab === 1 && (
+            <Grid>
+              {" "}
+              <Grid container>
+                <Grid item md={7}>
+                  <BulkAddForm />
+                </Grid>
               </Grid>
-            </Grid></Grid>}
+            </Grid>
+          )}
         </Box>
       </>
     </>

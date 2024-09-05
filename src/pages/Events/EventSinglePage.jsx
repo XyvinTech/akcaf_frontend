@@ -77,7 +77,7 @@ const EventSinglePage = () => {
       <Box padding="30px" marginBottom={4}>
         <Grid container alignItems="center" spacing={4}>
           <Grid item md={6}>
-            <EventCard user={[]} />
+            <EventCard user={event} />
           </Grid>
         </Grid>
       </Box>
@@ -117,7 +117,7 @@ const EventSinglePage = () => {
       <Box padding="15px" paddingTop={0} marginBottom={4}>
         {selectedTab === 0 && (
           <Grid>
-            <SpeakerTable data={[]} />
+            <SpeakerTable data={event?.speakers } />
           </Grid>
         )}{" "}
         {selectedTab === 1 && (

@@ -9,6 +9,7 @@ import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField";
 import { StyledButton } from "../../ui/StyledButton";
 import { useNewsStore } from "../../store/newsStore";
 import uploadFileToS3 from "../../utils/s3Upload";
+import { toast } from "react-toastify";
 
 export default function AddNews({ isUpdate, setSelectedTab }) {
   const {
@@ -58,37 +59,43 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
   }, [singleNews, isUpdate, setValue]);
 
   const onSubmit = async (data) => {
-    setLoading(true);
-    let imageUrl = data?.image || "";
+    try {
+      setLoading(true);
+      let imageUrl = data?.image || "";
 
-    if (imageFile) {
-      try {
-        imageUrl = await new Promise((resolve, reject) => {
-          uploadFileToS3(
-            imageFile,
-            (location) => resolve(location),
-            (error) => reject(error)
-          );
-        });
-      } catch (error) {
-        console.error("Failed to upload image:", error);
-        return;
+      if (imageFile) {
+        try {
+          imageUrl = await new Promise((resolve, reject) => {
+            uploadFileToS3(
+              imageFile,
+              (location) => resolve(location),
+              (error) => reject(error)
+            );
+          });
+        } catch (error) {
+          console.error("Failed to upload image:", error);
+          return;
+        }
       }
-    }
-    const formData = {
-      category: data.category.value,
-      title: data.title,
-      media: imageUrl ? imageUrl : "",
-      content: data.content,
-    };
-    if (isUpdate && id) {
-      await updateNews(id, formData);
-    } else {
-      await addNewses(formData);
-    }
-    navigate(`/news`);
+      const formData = {
+        category: data.category.value,
+        title: data.title,
+        media: imageUrl ? imageUrl : "",
+        content: data.content,
+      };
+      if (isUpdate && id) {
+        await updateNews(id, formData);
+      } else {
+        await addNewses(formData);
+      }
+      navigate(`/news`);
 
-    setSelectedTab(0);
+      setSelectedTab(0);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -216,7 +223,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
                 onClick={(event) => handleClear(event)}
               />
               <StyledButton
-                name={isUpdate ? "Update" : "Publish"}
+                name={loading ? "Publishing" : "Publish"}
                 variant="primary"
                 type="submit"
               />

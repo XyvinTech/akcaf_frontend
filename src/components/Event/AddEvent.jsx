@@ -11,7 +11,7 @@ import { StyledCalender } from "../../ui/StyledCalender.jsx";
 import { StyledTime } from "../../ui/StyledTime.jsx";
 import uploadFileToS3 from "../../utils/s3Upload.js";
 import { useEventStore } from "../../store/eventStore.js";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function AddEvent({ setSelectedTab, isUpdate }) {
   const {
@@ -22,6 +22,12 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
     formState: { errors },
   } = useForm();
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [type, setType] = useState();
+  const navigate = useNavigate();
+  const handleTypeChange = (selectedOption) => {
+    setType(selectedOption.value);
+  };
   const [speakers, setSpeakers] = useState([
     {
       name: "",
@@ -55,26 +61,34 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       );
       setValue("platform", selectedplatform || "");
       setValue("link", event.link);
-      setValue(
-        "speakers",
-        Array.isArray(event.speakers) ? event.speakers : [event.speakers]
-      );
+      setValue("speakers", event.speakers || []);
+      setType(selectedType.value);
 
-      // Update the speakers state
-      setSpeakers(
-        Array.isArray(event.speakers) ? event.speakers : [event.speakers]
-      );
+      if (Array.isArray(event.speakers)) {
+        setSpeakers(event.speakers);
+        event.speakers.forEach((speaker, index) => {
+          setValue(`speakers[${index}].name`, speaker.name || "");
+          setValue(`speakers[${index}].designation`, speaker.designation || "");
+          setValue(`speakers[${index}].role`, speaker.role || "");
+          setValue(`speakers[${index}].image`, speaker.image || "");
+        });
+      }
     }
   }, [event, isUpdate, setValue]);
 
+  console.log(speakers);
   const [imageFile, setImageFile] = useState(null);
 
   const handleClear = (event) => {
     event.preventDefault();
+    if (isUpdate) {
+      navigate("/events/list");
+    }
     setSelectedTab(0);
+
     reset();
   };
-
+  console.log(setSelectedTab);
   const option = [{ value: "Zoom", label: "Zoom" }];
 
   const types = [
@@ -104,11 +118,11 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       data.speakers.map(async (speaker, index) => {
         let speakerImageUrl = speakers[index]?.image || "";
 
-        if (typeof speakers[index]?.image === "object") {
+        if (speaker?.image && typeof speaker.image === "object") {
           try {
             speakerImageUrl = await new Promise((resolve, reject) => {
               uploadFileToS3(
-                speakers[index].image,
+                speaker.image,
                 (location) => resolve(location),
                 (error) => reject(error)
               );
@@ -122,7 +136,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
           name: speaker?.name,
           designation: speaker?.designation,
           role: speaker?.role,
-          image: speakerImageUrl,
+          image: speakerImageUrl || "",
         };
       })
     );
@@ -135,13 +149,19 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       startTime: data?.startTime,
       endDate: data?.endDate,
       endTime: data?.endTime,
-      platform: data?.platform.value,
-      link: data?.link,
       speakers: speakersData,
     };
 
+    if (type === "Online") {
+      formData.platform = data?.platform.value;
+      formData.link = data?.link;
+    } else {
+      formData.venue = data?.venue;
+    }
+
     if (isUpdate && id) {
       await updateEvent(id, formData);
+      navigate("/events/list");
     } else {
       await addEvent(formData);
     }
@@ -195,6 +215,10 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                     placeholder="Enter Event Type"
                     options={types}
                     {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      handleTypeChange(e);
+                    }}
                   />
                   {errors.type && (
                     <span style={{ color: "red" }}>{errors.type.message}</span>
@@ -261,61 +285,88 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
               )}
             />
           </Grid>
-
-          <Grid item xs={6}>
-            <Typography
-              sx={{ marginBottom: 1 }}
-              variant="h6"
-              color="textSecondary"
-            >
-              Virtual platform
-            </Typography>
-            <Controller
-              name="platform"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Virtual platform is required" }}
-              render={({ field }) => (
-                <>
-                  <StyledSelectField
-                    placeholder="Select Virtual Platform"
-                    options={option}
-                    {...field}
-                  />
-                  {errors.platform && (
-                    <span style={{ color: "red" }}>
-                      {errors.platform.message}
-                    </span>
+          {type === "Online" && (
+            <>
+              <Grid item xs={6}>
+                <Typography
+                  sx={{ marginBottom: 1 }}
+                  variant="h6"
+                  color="textSecondary"
+                >
+                  Virtual platform
+                </Typography>
+                <Controller
+                  name="platform"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <>
+                      <StyledSelectField
+                        placeholder="Select  Platform"
+                        options={option}
+                        {...field}
+                      />
+                    </>
                   )}
-                </>
-              )}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Typography
-              sx={{ marginBottom: 1 }}
-              variant="h6"
-              color="textSecondary"
-            >
-              Add link
-            </Typography>
-            <Controller
-              name="link"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Link  is required" }}
-              render={({ field }) => (
-                <>
-                  <StyledInput placeholder="Enter Link" {...field} />
-                  {errors.link && (
-                    <span style={{ color: "red" }}>{errors.link.message}</span>
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Typography
+                  sx={{ marginBottom: 1 }}
+                  variant="h6"
+                  color="textSecondary"
+                >
+                  Link to the event
+                </Typography>
+                <Controller
+                  name="link"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    required: "Link to the event is required for online events",
+                  }}
+                  render={({ field }) => (
+                    <>
+                      <StyledInput placeholder="Enter link" {...field} />
+                      {errors.link && (
+                        <span style={{ color: "red" }}>
+                          {errors.link.message}
+                        </span>
+                      )}
+                    </>
                   )}
-                </>
-              )}
-            />
-          </Grid>
+                />
+              </Grid>
+            </>
+          )}
+          {type === "Offline" && (
+            <Grid item xs={12}>
+              <Typography
+                sx={{ marginBottom: 1 }}
+                variant="h6"
+                color="textSecondary"
+              >
+                Venue
+              </Typography>
+              <Controller
+                name="venue"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Venue is required for offline events" }}
+                render={({ field }) => (
+                  <>
+                    <StyledInput placeholder="Enter venue" {...field} />
+                    {errors.venue && (
+                      <span style={{ color: "red" }}>
+                        {errors.venue.message}
+                      </span>
+                    )}
+                  </>
+                )}
+              />
+            </Grid>
+          )}
 
-          {/* Date and Time Fields */}
           <Grid item xs={6}>
             <Typography
               sx={{ marginBottom: 1 }}
@@ -331,7 +382,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
               rules={{ required: "Start Date is required" }}
               render={({ field }) => (
                 <>
-                  <StyledCalender placeholder="Enter Start Date" {...field} />
+                  <StyledCalender {...field} />
                   {errors.startDate && (
                     <span style={{ color: "red" }}>
                       {errors.startDate.message}
@@ -356,7 +407,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
               rules={{ required: "End Date is required" }}
               render={({ field }) => (
                 <>
-                  <StyledCalender placeholder="Enter End Date" {...field} />
+                  <StyledCalender {...field} />
                   {errors.endDate && (
                     <span style={{ color: "red" }}>
                       {errors.endDate.message}
@@ -381,7 +432,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
               rules={{ required: "Start Time is required" }}
               render={({ field }) => (
                 <>
-                  <StyledTime placeholder="Enter Start Time" {...field} />
+                  <StyledTime {...field} />
                   {errors.startTime && (
                     <span style={{ color: "red" }}>
                       {errors.startTime.message}
@@ -406,7 +457,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
               rules={{ required: "End Time is required" }}
               render={({ field }) => (
                 <>
-                  <StyledTime placeholder="Enter End Time" {...field} />
+                  <StyledTime {...field} />
                   {errors.endTime && (
                     <span style={{ color: "red" }}>
                       {errors.endTime.message}
@@ -417,71 +468,15 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
             />
           </Grid>
 
-          {/* Speakers Section */}
           <Grid item xs={12}>
-            <Typography variant="h6" color="textSecondary" mb={2}>
-              Speakers
-            </Typography>
-
-            {speakers.map((speaker, index) => (
-              <Grid container spacing={2} key={index}>
-                <Grid item xs={6}>
-                  <Controller
-                    name={`speakers[${index}].name`}
-                    control={control}
-                    defaultValue={speaker?.name}
-                    render={({ field }) => (
-                      <StyledInput placeholder="Speaker Name" {...field} />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Controller
-                    name={`speakers[${index}].designation`}
-                    control={control}
-                    defaultValue={speaker?.designation}
-                    render={({ field }) => (
-                      <StyledInput
-                        placeholder="Speaker Designation"
-                        {...field}
-                      />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Controller
-                    name={`speakers[${index}].role`}
-                    control={control}
-                    defaultValue={speaker?.role}
-                    render={({ field }) => (
-                      <StyledInput placeholder="Speaker Role" {...field} />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Controller
-                    name={`speakers[${index}].image`}
-                    control={control}
-                    defaultValue={speaker?.image}
-                    render={({ field: { onChange, value } }) => (
-                      <StyledEventUpload
-                        label="Upload Speaker Image"
-                        onChange={(file) => {
-                          setImageFile(file);
-                          onChange(file);
-                        }}
-                        value={value}
-                      />
-                    )}
-                  />
-                </Grid>{" "}
-                <Grid item xs={6}></Grid>
-                <Grid item xs={6} display={"flex"} justifyContent={"end"}>
-                  <Delete onClick={() => removeSpeaker(index)} />
-                </Grid>
-              </Grid>
-            ))}
-            <Grid item xs={12}>
+            <Stack direction="row" justifyContent="space-between">
+              <Typography
+                sx={{ marginBottom: 1 }}
+                variant="h6"
+                color="textSecondary"
+              >
+                Add Speakers
+              </Typography>
               <Typography
                 sx={{ marginBottom: 1 }}
                 variant="h6"
@@ -491,31 +486,122 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
               >
                 + Add more
               </Typography>
-            </Grid>
+            </Stack>
+            {speakers.map((speaker, index) => (
+              <Grid container spacing={4} key={index}>
+                <Grid item xs={6}>
+                  <Controller
+                    name={`speakers[${index}].name`}
+                    control={control}
+                    defaultValue={speaker?.name || ""}
+                    rules={{ required: "Name is required" }}
+                    render={({ field }) => (
+                      <>
+                        <StyledInput
+                          placeholder="Enter speaker name"
+                          {...field}
+                        />
+                        {errors?.speakers?.[index]?.name && (
+                          <span style={{ color: "red" }}>
+                            {errors?.speakers?.[index]?.name?.message}
+                          </span>
+                        )}
+                      </>
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Controller
+                    name={`speakers[${index}].designation`}
+                    control={control}
+                    defaultValue={speaker?.designation || ""}
+                    rules={{ required: "Designation is required" }}
+                    render={({ field }) => (
+                      <>
+                        <StyledInput
+                          placeholder="Enter speaker designation"
+                          {...field}
+                        />
+                        {errors?.speakers?.[index]?.designation && (
+                          <span style={{ color: "red" }}>
+                            {errors?.speakers?.[index]?.designation?.message}
+                          </span>
+                        )}
+                      </>
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Controller
+                    name={`speakers[${index}].role`}
+                    control={control}
+                    defaultValue={speaker?.role || ""}
+                    rules={{ required: "Role is required" }}
+                    render={({ field }) => (
+                      <>
+                        <StyledInput
+                          placeholder="Enter speaker role"
+                          {...field}
+                        />
+                        {errors?.speakers?.[index]?.role && (
+                          <span style={{ color: "red" }}>
+                            {errors?.speakers?.[index]?.role?.message}
+                          </span>
+                        )}
+                      </>
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Controller
+                    name={`speakers[${index}].image`}
+                    control={control}
+                    defaultValue={speaker?.image || ""}
+                    render={({ field }) => (
+                      <>
+                        <StyledEventUpload
+                          label="Upload speaker image"
+                          onChange={(file) => {
+                            const updatedSpeakers = [...speakers];
+                            updatedSpeakers[index].image = file;
+                            setSpeakers(updatedSpeakers);
+                            field.onChange(file);
+                          }}
+                          value={field.value}
+                        />
+                        {errors?.speakers?.[index]?.image && (
+                          <span style={{ color: "red" }}>
+                            {errors?.speakers?.[index]?.image?.message}
+                          </span>
+                        )}
+                      </>
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12} display={"flex"} justifyContent={"flex-end"}>
+                  <Delete onClick={() => removeSpeaker(index)} />
+                </Grid>
+              </Grid>
+            ))}
           </Grid>
-        </Grid>
-        <Grid item xs={6}>
-          {" "}
-        </Grid>
-        <Grid item xs={6} display={"flex"} justifyContent={"flex-end"}>
-          {" "}
-          <Stack
-            direction={"row"}
-            spacing={2}
-            display={"flex"}
-            justifyContent={"flex-end"}
-          >
-            <StyledButton
-              name="Cancel"
-              variant="secondary"
-              onClick={(event) => handleClear(event)}
-            >
-              Cancel
-            </StyledButton>
-            <StyledButton name="Save" variant="primary" type="submit">
-              Save
-            </StyledButton>
-          </Stack>
+
+          <Grid item xs={12} display={"flex"} justifyContent={"flex-end"}>
+            <Stack direction="row" spacing={2}>
+              <StyledButton
+                type="button"
+                onClick={handleClear}
+                variant={"secondary"}
+                name={"Clear"}
+              />
+
+              <StyledButton
+                name={isUpdate ? "Update Event" : "Add Event"}
+                type="submit"
+                loading={loading}
+                variant={"primary"}
+              />
+            </Stack>
+          </Grid>
         </Grid>
       </form>
     </Box>

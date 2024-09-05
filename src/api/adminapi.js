@@ -19,23 +19,22 @@ export const addAdmin = async (data) => {
     toast.success(response.data.message);
     return response.data;
   } catch (error) {
-    toast.error(error.response.data.message);
+    throw error.response.data;
   }
 };
 export const getAdmin = async () => {
   try {
     const response = await axiosInstance.get(`/admin/list`);
-
     return response.data;
   } catch (error) {
     console.error(error.response.data.message);
   }
 };
 export const fetchListofAdminById = async (id) => {
-    try {
-      const response = await axiosInstance.get(`/admin/single/${id}`);
-      return response.data;
-    } catch (error) {
-      console.error(error.response.data.message);
-    }
-  };
+  try {
+    const response = await axiosInstance.get(`/admin/single/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error.response.data.message);
+  }
+};

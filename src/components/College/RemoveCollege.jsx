@@ -1,11 +1,21 @@
 import { Typography, Dialog, DialogContent, Stack } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { StyledButton } from "../../ui/StyledButton";
+import { useCollgeStore } from "../../store/collegestore";
+import { toast } from "react-toastify";
 
 const RemoveCollege = ({ open, onClose, onChange, id }) => {
   const { handleSubmit } = useForm();
+  const { deleteColleges } = useCollgeStore();
   const onSubmit = async () => {
-    onChange();
+    try {
+      await deleteColleges(id);
+      toast.success("College deleted successfully");
+      onChange();
+    } catch (error) {
+      toast.error(error.message);
+    }
+
     onClose();
   };
 
@@ -37,8 +47,7 @@ const RemoveCollege = ({ open, onClose, onChange, id }) => {
               color={"textTertiary"}
               textAlign={"center"}
             >
-           Are you sure you want to 
-           remove the selected college ?
+              Are you sure you want to remove the selected college ?
             </Typography>
             <Typography
               variant="h7"

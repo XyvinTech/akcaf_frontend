@@ -16,8 +16,7 @@ export const createEvent = async (eventData) => {
     toast.success(response.data.message);
     return response.data;
   } catch (error) {
-    toast.error(error.response.data.message);
-    console.error("Error caught:", error);
+    throw error.response.data;
   }
 };
 

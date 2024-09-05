@@ -1,14 +1,13 @@
 import { Box, Grid, Typography, Stack } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import StyledInput from "../../ui/StyledInput";
 import StyledSelectField from "../../ui/StyledSelectField";
-import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField";
 import { StyledButton } from "../../ui/StyledButton";
-import { StyledEventUpload } from "../../ui/StyledEventUpload";
 import { useDropDownStore } from "../../store/dropDownStore";
 import { useAdminStore } from "../../store/adminStore";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddAdmin = () => {
   const {
@@ -18,22 +17,31 @@ const AddAdmin = () => {
     setValue,
     formState: { errors },
   } = useForm();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const { college, fetchListofCollege, fetchListofRole, role } =
     useDropDownStore();
+  const [loading, setLoading] = useState(false);
   const { addAdmins } = useAdminStore();
+
   const onSubmit = async (data) => {
-    const formData = {
-      name: data?.name,
-      email: data?.email,
-      college: data?.college.value,
-      role: data?.role.value,
-      phone: data?.phone,
-      password: "password123",
-    };
-    await addAdmins(formData);
-    reset();
-    navigate("/settings");
+    try {
+      setLoading(true);
+      const formData = {
+        name: data?.name,
+        email: data?.email,
+        college: data?.college.value,
+        role: data?.role.value,
+        phone: data?.phone,
+        password: "password123",
+      };
+      await addAdmins(formData);
+      reset();
+      navigate("/settings");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
   useEffect(() => {
     fetchListofCollege();
@@ -199,7 +207,11 @@ const AddAdmin = () => {
                 variant="secondary"
                 onClick={(e) => handleClear(e)}
               />
-              <StyledButton name="Save" variant="primary" type="submit" />
+              <StyledButton
+                name={loading ? "Saving..." : "Save"}
+                variant="primary"
+                type="submit"
+              />
             </Stack>
           </Grid>
         </Grid>

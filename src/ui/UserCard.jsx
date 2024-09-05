@@ -18,14 +18,21 @@ const UserCard = ({ user }) => {
     >
       <Grid item md={6} xs={12} lg={6}>
         <img
-          src={user?.profile_picture}
+          src={user?.image}
           alt="img"
           width={"216px"}
           height={"216px"}
           style={{ borderRadius: "12px" }}
         />
       </Grid>
-      <Grid item md={6} xs={12} lg={6} justifyContent={"center"} alignItems={"center"}>
+      <Grid
+        item
+        md={6}
+        xs={12}
+        lg={6}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
         <Stack spacing={"10px"}>
           <Typography
             variant="h7"
@@ -34,40 +41,40 @@ const UserCard = ({ user }) => {
             sx={{
               backgroundColor: "orange",
               padding: "0px 6px",
-              borderRadius: "12px",width: 'fit-content'
+              borderRadius: "12px",
+              width: "fit-content",
             }}
           >
-            Premium
+            {user?.role}
           </Typography>
 
           <Typography variant="h5" color={"textPrimary"}>
-            John flitzgerald
+            {user?.name?.first} {user?.name?.middle} {user?.name?.last}
           </Typography>
           <Typography variant="h7" color={"textPrimary"}>
-            MES College of Engineering
-          </Typography>
-          <Typography variant="h7" color={"textPrimary"}>
-            Member ID:
+          {user?.college?.collegeName} 
           </Typography>
 
           <Stack direction="row" alignItems="center" spacing={1}>
             <PhoneIcon />
-            <Typography variant="h7"color={"textPrimary"}>
-              +91 9458652637
+            <Typography variant="h7" color={"textPrimary"}>
+              {user?.phone}
             </Typography>
           </Stack>
           <Stack direction="row" alignItems="center" spacing={1}>
             <EmailIcon />
             <Typography variant="h7" color={"textPrimary"}>
-              Prabfitz@gmail.com
+              {user?.email}
             </Typography>
           </Stack>
-          <Stack direction="row" alignItems="flex-start" spacing={1}>
-            <LocationIcon />
-            <Typography variant="h7" color={"textPrimary"}>
-              123,cross ,Lorel ipsum
-            </Typography>
-          </Stack>
+          {user?.address && (
+            <Stack direction="row" alignItems="flex-start" spacing={1}>
+              <LocationIcon />
+              <Typography variant="h7" color={"textPrimary"}>
+                {user?.address}
+              </Typography>
+            </Stack>
+          )}
         </Stack>
       </Grid>
 
@@ -79,12 +86,16 @@ const UserCard = ({ user }) => {
         alignItems={"flex-start"}
         flexDirection={"column"}
       >
-        <Typography variant="h7" color={"textPrimary"} fontWeight={700}>
-          Bio
-        </Typography>
-        <Typography variant="h7" color={"textPrimary"}>
-          {user?.bio}
-        </Typography>
+        {user?.bio && (
+          <>
+            <Typography variant="h7" color={"textPrimary"} fontWeight={700}>
+              Bio
+            </Typography>
+            <Typography variant="h7" color={"textPrimary"}>
+              {user?.bio}
+            </Typography>
+          </>
+        )}
       </Grid>
     </Grid>
   );

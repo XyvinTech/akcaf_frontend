@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StyledTable from "../../ui/StyledTable";
 import { Box, Grid2, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
@@ -6,12 +6,20 @@ import StyledSearchbar from "../../ui/StyledSearchbar";
 import { memberColumns, userData } from "../../assets/json/TableData";
 import { useNavigate } from "react-router-dom";
 import DeleteProfile from "../../components/Member/DeleteProfile";
+import { useMemberStore } from "../../store/Memberstore";
 
 const MemberPage = () => {
   const navigate = useNavigate();
-  const [deleteOpen, setDeleteOpen] = useState(false);
+  const { fetchMember, members } = useMemberStore();
   const [isChange, setIschange] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [memberId, setMemberId] = useState(null);
+  useEffect(() => {
+    fetchMember();
+  }, [isChange]);
+
   const handleRowDelete = (id) => {
+    setMemberId(id);
     setDeleteOpen(true);
   };
   const handleCloseDelete = () => {
@@ -64,21 +72,24 @@ const MemberPage = () => {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <StyledTable
-            data={userData}
+            data={members}
             columns={memberColumns}
             member
             onDeleteRow={handleRowDelete}
             onView={(id) => {
               navigate(`/members/${id}`);
             }}
-            onModify={() => {
-              navigate("/members/member");
+            onModify={(id) => {
+              navigate(`/members/member`, {
+                state: { memberId: id, isUpdate: true },
+              });
             }}
           />
           <DeleteProfile
             open={deleteOpen}
             onClose={handleCloseDelete}
             onChange={handleChange}
+            id={memberId}
           />
         </Box>
       </Box>

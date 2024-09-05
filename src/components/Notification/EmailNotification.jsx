@@ -9,6 +9,7 @@ import { StyledEventUpload } from "../../ui/StyledEventUpload";
 import { useDropDownStore } from "../../store/dropDownStore";
 import { useNotificationStore } from "../../store/notificationStore";
 import uploadFileToS3 from "../../utils/s3Upload";
+import { toast } from "react-toastify";
 
 export default function EmailNotification({}) {
   const {
@@ -20,6 +21,7 @@ export default function EmailNotification({}) {
   const { user, fetchListofUser } = useDropDownStore();
   const { addNotifications } = useNotificationStore();
   const [imageFile, setImageFile] = useState(null);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetchListofUser();
   }, []);
@@ -31,36 +33,40 @@ export default function EmailNotification({}) {
         }))
       : [];
   const onSubmit = async (data) => {
-    let imageUrl = data?.media || "";
+    try {
+      let imageUrl = data?.media || "";
 
-    if (imageFile) {
-      try {
-        imageUrl = await new Promise((resolve, reject) => {
-          uploadFileToS3(
-            imageFile,
-            (location) => resolve(location),
-            (error) => reject(error)
-          );
-        });
-      } catch (error) {
-        console.error("Failed to upload image:", error);
-        return;
+      if (imageFile) {
+        try {
+          imageUrl = await new Promise((resolve, reject) => {
+            uploadFileToS3(
+              imageFile,
+              (location) => resolve(location),
+              (error) => reject(error)
+            );
+          });
+        } catch (error) {
+          console.error("Failed to upload image:", error);
+          return;
+        }
       }
+      const users = data?.to?.map((user) => ({
+        user: user.value,
+      }));
+      const formData = {
+        content: data?.content,
+        subject: data?.subject,
+        users: users,
+        media: imageUrl,
+      };
+      formData.type = "email";
+       await addNotifications(formData);
+      reset();
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
-    const users = data?.to?.map((user) => ({
-      user: user.value,
-    }));
-    const formData = {
-      link: data?.link,
-      content: data?.content,
-      subject: data?.subject,
-      users: users,
-      media: imageUrl,
-    };
-    formData.type = "email";
-    addNotifications(formData);
-    console.log(formData);
-    reset();
   };
 
   return (
@@ -184,36 +190,16 @@ export default function EmailNotification({}) {
             />
           </Grid>
 
-          <Grid item xs={12}>
-            <Typography
-              sx={{ marginBottom: 1 }}
-              variant="h6"
-              color="textSecondary"
-            >
-              Add Link
-            </Typography>
-            <Controller
-              name="link"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Link is required" }}
-              render={({ field }) => (
-                <>
-                  <StyledInput placeholder="Paste link here" {...field} />
-                  {errors.link && (
-                    <span style={{ color: "red" }}>{errors.link.message}</span>
-                  )}
-                </>
-              )}
-            />
-          </Grid>
-
           <Grid item xs={6}></Grid>
           <Grid item xs={6} display={"flex"} justifyContent={"end"}>
             {" "}
             <Stack direction={"row"} spacing={2}>
               <StyledButton name="Cancel" variant="secondary" />
-              <StyledButton name="Save" variant="primary" type="submit" />
+              <StyledButton
+                name={loading ? "Saving..." : "Save"}
+                variant="primary"
+                type="submit"
+              />
             </Stack>
           </Grid>
         </Grid>

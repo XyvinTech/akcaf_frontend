@@ -10,6 +10,7 @@ import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField.jsx"
 import { StyledCalender } from "../../ui/StyledCalender.jsx";
 import uploadFileToS3 from "../../utils/s3Upload.js";
 import { usePromotionStore } from "../../store/promotionstore.js";
+import { toast } from "react-toastify";
 
 export default function Promotionform({ isUpdate }) {
   const {
@@ -70,50 +71,55 @@ export default function Promotionform({ isUpdate }) {
     }
   }, [isUpdate, promotion, setValue]);
   const onSubmit = async (data) => {
-    let imageUrl = data?.media || "";
+    try {
+      setSubmitting(true);
+      let imageUrl = data?.media || "";
 
-    if (imageFile) {
-      try {
-        imageUrl = await new Promise((resolve, reject) => {
-          uploadFileToS3(
-            imageFile,
-            (location) => resolve(location),
-            (error) => reject(error)
-          );
-        });
-      } catch (error) {
-        console.error("Failed to upload image:", error);
-        return;
+      if (imageFile) {
+        try {
+          imageUrl = await new Promise((resolve, reject) => {
+            uploadFileToS3(
+              imageFile,
+              (location) => resolve(location),
+              (error) => reject(error)
+            );
+          });
+        } catch (error) {
+          console.error("Failed to upload image:", error);
+          return;
+        }
       }
+      const formData = {
+        startDate: data?.startDate,
+        endDate: data?.endDate,
+      };
+      if (type === "banner") {
+        formData.type = "banner";
+        formData.media = imageUrl;
+      } else if (type === "video") {
+        formData.type = "video";
+        formData.link = data?.link;
+        formData.title = data?.title;
+      } else if (type === "notice") {
+        formData.type = "notice";
+        formData.title = data?.title;
+        formData.description = data?.description;
+        formData.link = data?.link;
+      } else if (type === "poster") {
+        formData.type = "poster";
+        formData.media = imageUrl;
+      }
+      if (isUpdate && id) {
+        await updatePromotion(id, formData);
+      } else {
+        await addPromotions(formData);
+      }
+      navigate("/promotions");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setSubmitting(false);
     }
-    setSubmitting(true);
-    const formData = {
-      startDate: data?.startDate,
-      endDate: data?.endDate,
-    };
-    if (type === "banner") {
-      formData.type = "banner";
-      formData.media = imageUrl;
-    } else if (type === "video") {
-      formData.type = "video";
-      formData.link = data?.link;
-      formData.title = data?.title;
-    } else if (type === "notice") {
-      formData.type = "notice";
-      formData.title = data?.title;
-      formData.description = data?.description;
-      formData.link = data?.link;
-    } else if (type === "poster") {
-      formData.type = "poster";
-      formData.media = imageUrl;
-    }
-    if (isUpdate && id) {
-      await updatePromotion(id, formData);
-    } else {
-      await addPromotions(formData);
-    }
-    setSubmitting(false);
-    navigate("/promotions");
   };
 
   return (
@@ -342,10 +348,9 @@ export default function Promotionform({ isUpdate }) {
                 Preview
               </StyledButton>
               <StyledButton
-                name="Publish"
+                name={submitting ? "Publishing" : "Publish"}
                 variant="primary"
                 type="submit"
-                disabled={submitting}
               >
                 Publish
               </StyledButton>

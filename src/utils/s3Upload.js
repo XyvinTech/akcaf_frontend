@@ -1,10 +1,10 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 const uploadFileToS3 = async (file, onSuccess, onError) => {
-  const S3_BUCKET = "akcaf";
-  const REGION = "ap-south-1";
-  const ACCESS_KEY_ID = "AKIAVXIA6N6DRFKTG25M";
-  const SECRET_ACCESS_KEY = "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";
+  const S3_BUCKET = import.meta.env.VITE_APP_AWS_S3_BUCKET;
+  const REGION = import.meta.env.VITE_APP_AWS_REGION;
+  const ACCESS_KEY_ID = import.meta.env.VITE_APP_AWS_ACCESS_KEY_ID;
+  const SECRET_ACCESS_KEY = import.meta.env.VITE_APP_AWS_SECRET_ACCESS_KEY;
 
   const s3Client = new S3Client({
     region: REGION,

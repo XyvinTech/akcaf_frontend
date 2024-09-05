@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StyledTable from "../../ui/StyledTable";
 import { Box, Grid2, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar";
-import { memberColumns, userData } from "../../assets/json/TableData";
+import { collegeColumns } from "../../assets/json/TableData";
 import { useNavigate } from "react-router-dom";
 import RemoveCollege from "../../components/College/RemoveCollege";
+import { useCollgeStore } from "../../store/collegestore";
+import { toast } from "react-toastify";
 
 const CollegePage = () => {
   const navigate = useNavigate();
   const [removeOpen, setRemoveOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [collegeId, setCollegeId] = useState(null);
+  const { colleges, fetchCollege, deleteColleges } = useCollgeStore();
+  const handleSelectionChange = (newSelectedIds) => {
+    setSelectedRows(newSelectedIds);
+  };
+  useEffect(() => {
+    fetchCollege();
+  }, [isChange]);
   const handleRemove = (id) => {
+    setCollegeId(id);
     setRemoveOpen(true);
   };
   const handleCloseRemove = () => {
@@ -19,11 +31,18 @@ const CollegePage = () => {
   };
   const handleMember = (id) => {
     navigate("/members/member");
-  }
+  };
   const handleChange = () => {
     setIsChange(!isChange);
   };
- 
+  const handleDelete = async () => {
+    if (selectedRows.length > 0) {
+      await Promise.all(selectedRows?.map((id) => deleteColleges(id)));
+      toast.success("Deleted successfully");
+      setIsChange(!isChange);
+      setSelectedRows([]);
+    }
+  };
   return (
     <>
       <Stack
@@ -68,10 +87,17 @@ const CollegePage = () => {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <StyledTable
-            data={userData}
-            columns={memberColumns}
+            data={colleges}
+            columns={collegeColumns}
+            onSelectionChange={handleSelectionChange}
             onDeleteRow={handleRemove}
             college
+            onModify={(id) => {
+              navigate("/college/add", {
+                state: { collegeId: id, isUpdate: true },
+              });
+            }}
+            onDelete={handleDelete}
             onAction={handleMember}
             onView={(id) => {
               navigate(`/college/${id}`);
@@ -81,6 +107,7 @@ const CollegePage = () => {
             open={removeOpen}
             onClose={handleCloseRemove}
             onChange={handleChange}
+            id={collegeId}
           />
         </Box>
       </Box>

@@ -4,10 +4,10 @@ import StyledSearchbar from "../../ui/StyledSearchbar";
 import StyledTable from "../../ui/StyledTable";
 const SpeakerTable = ({ data }) => {
   const userColumns = [
-    { title: "name", field: "speaker_name", padding: "none" },
-    { title: "designation", field: "speaker_designation" },
-    { title: "image", field: "speaker_image" },
-    { title: "role", field: "speaker_role" },
+    { title: "name", field: "name", padding: "none" },
+    { title: "designation", field: "designation" },
+    { title: "image", field: "image" },
+    { title: "role", field: "role" },
   ];
   return (
     <>

@@ -15,7 +15,7 @@ const CompanyCard = ({ company }) => {
     >
       <Grid item xs={12} display="flex" alignItems="center">
         <img
-          src={company?.company_logo}
+          src={company?.company?.logo}
           alt="img"
           width={"50px"}
           height={"50px"}
@@ -23,10 +23,10 @@ const CompanyCard = ({ company }) => {
         />
         <Box>
           <Typography variant="h4" color="#000000" mt={1}>
-           jhhj
+          {company?.company?.name}
           </Typography>
           <Typography variant="h7" color="#000000" mt={1}>
-          kk
+          {company?.company?.designation}
           </Typography>
         </Box>
       </Grid>
@@ -36,19 +36,14 @@ const CompanyCard = ({ company }) => {
             <Stack direction="row" alignItems="center" spacing={1}>
               <PhoneIcon />
               <Typography variant="h7" color={"textTertiary"}>
-              +91 9458652637
+              {company?.company?.phone}
               </Typography>
             </Stack>
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <EmailIcon />
-            <Typography variant="h7" color={"textTertiary"}>
-            johndoe@gmail.com
-            </Typography>
-          </Stack>
+         
           <Stack direction="row" alignItems="flex-start" spacing={1}>
             <LocationIcon />
             <Typography variant="h7" color={"textTertiary"}>
-            Lorem ipsum dolor sit amet consectetur. Viverra sed posuere placerat est donec. 
+            {company?.company?.address}
             </Typography>
           </Stack>{" "}
         </Stack>

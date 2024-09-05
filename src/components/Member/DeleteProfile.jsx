@@ -1,12 +1,21 @@
 import { Typography, Dialog, DialogContent, Stack } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { StyledButton } from "../../ui/StyledButton";
+import { useMemberStore } from "../../store/Memberstore";
+import { toast } from "react-toastify";
 
-const DeleteProfile = ({ open, onClose, onChange }) => {
+const DeleteProfile = ({ open, onClose, onChange, id }) => {
   const { handleSubmit } = useForm();
-
+  const { deleteMembers } = useMemberStore();
   const onSubmit = async () => {
-    onChange();
+    try {
+      await deleteMembers(id);
+      toast.success("Profile deleted successfully");
+      onChange();
+    } catch (error) {
+      toast.error(error.message);
+    }
+
     onClose();
   };
 

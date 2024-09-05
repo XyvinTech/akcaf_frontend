@@ -6,8 +6,8 @@ import { StyledButton } from "../../ui/StyledButton";
 import styled from "styled-components";
 import { useRoleStore } from "../../store/roleStore";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-// CircleButton component
 const CircleButton = styled.span`
   display: inline-block;
   width: 20px;
@@ -56,26 +56,32 @@ const AddRole = () => {
   } = useForm();
   const navigate = useNavigate();
   const [permissions, setPermissions] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { addRole, getRoleById, singleRole, updateRole } = useRoleStore();
   const location = useLocation();
   const { roleId, isUpdate } = location.state || {};
   const onSubmit = async (data) => {
-    const roleData = {
-      ...data,
-      permissions,
-    };
-    if (isUpdate) {
-      await updateRole(roleId, roleData);
+    try {
+      setLoading(true);
+      const roleData = {
+        ...data,
+        permissions,
+      };
+      if (isUpdate) {
+        await updateRole(roleId, roleData);
+      } else {
+        await addRole(roleData);
+      }
       reset();
       setPermissions([]);
       navigate("/settings");
-    } else {
-      await addRole(roleData);
-      reset();
-      setPermissions([]);
-      navigate("/settings");
+    } catch (error) {
+      toast.error(`Error: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
+
   useEffect(() => {
     if (isUpdate && roleId) {
       getRoleById(roleId);
@@ -240,7 +246,7 @@ const AddRole = () => {
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
               <StyledButton name="Cancel" variant="secondary" />
-              <StyledButton name="Save" variant="primary" type="submit" />
+              <StyledButton  name={loading ? "Saving..." : "Save"} variant="primary" type="submit" />
             </Stack>
           </Grid>
         </Grid>
