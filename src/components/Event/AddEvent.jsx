@@ -56,6 +56,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       setValue("endDate", event.endDate);
       setValue("startTime", event.startTime);
       setValue("endTime", event.endTime);
+      setValue("organiserName", event.organiserName);
       const selectedplatform = option.find(
         (item) => item.value === event.platform
       );
@@ -150,6 +151,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       endDate: data?.endDate,
       endTime: data?.endTime,
       speakers: speakersData,
+      organiserName: data?.organiserName,
     };
 
     if (type === "Online") {
@@ -467,7 +469,34 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
               )}
             />
           </Grid>
-
+          <Grid item xs={12}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              color="textSecondary"
+            >
+            Organiser Name
+            </Typography>
+            <Controller
+              name="organiserName"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Organiser Name is required" }}
+              render={({ field }) => (
+                <>
+                  <StyledInput
+                    placeholder="Enter organiser Name"
+                    {...field}
+                  />
+                  {errors.organiserName && (
+                    <span style={{ color: "red" }}>
+                      {errors.organiserName.message}
+                    </span>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
           <Grid item xs={12}>
             <Stack direction="row" justifyContent="space-between">
               <Typography

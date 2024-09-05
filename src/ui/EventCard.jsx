@@ -63,7 +63,7 @@ const EventCard = ({ user }) => {
           <Stack direction="row" alignItems="center" spacing={1}>
             <EmailIcon />
             <Typography variant="h7" color={"textTertiary"}>
-              {formatDate(user?.startDate)}-{formatDate(user?.endDate)}
+              {formatDate(user?.startDate)} - {formatDate(user?.endDate)}
             </Typography>
           </Stack>
           {user?.venue && (

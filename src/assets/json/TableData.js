@@ -48,7 +48,7 @@ export const eventList = [
   { title: "Date", field: "startDate" },
   { title: "Time", field: "startTime" },
   { title: "Duration", field: "designation" },
-  { title: "Organiser name", field: "experience" },
+  { title: "Organiser name", field: "organiserName" },
   { title: "Status", field: "status" },
   { title: "Type", field: "type" },
   { title: "Mode", field: "mode" },

@@ -150,6 +150,8 @@ const StyledTable = ({
         return "#52c41a";
       case "deleted":
         return "#ff4d4f";
+        case "cancelled":
+          return "#BFBABA";
       default:
         return "default";
     }

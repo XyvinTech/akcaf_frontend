@@ -11,7 +11,8 @@ import { StyledButton } from "../../ui/StyledButton";
 import { ReactComponent as CloseIcon } from "../../assets/icons/CloseIcon.svg";
 import { StyledCalender } from "../../ui/StyledCalender";
 import { StyledTime } from "../../ui/StyledTime";
-
+import { useEffect } from "react";
+import { useEventStore } from "../../store/eventStore";
 
 const PostponeEvent = ({ open, onClose, onChange, data }) => {
   const {
@@ -20,8 +21,21 @@ const PostponeEvent = ({ open, onClose, onChange, data }) => {
     formState: { errors },
     setValue,
   } = useForm();
-
+  const { updateEvent } = useEventStore();
+  useEffect(() => {
+    if (data) {
+      setValue("startDate", data.startDate);
+      setValue("startTime", data.startTime);
+      setValue("endDate", data.endDate);
+      setValue("endTime", data.endTime);
+    }
+  }, [data, setValue]);
   const onSubmit = async (updateData) => {
+    const formData = {
+      ...updateData,
+    };
+
+    await updateEvent(data?._id, formData);
     onChange();
     onClose();
   };

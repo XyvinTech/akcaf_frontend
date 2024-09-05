@@ -37,7 +37,7 @@ const EventSinglePage = () => {
   };
   useEffect(() => {
     fetchEventById(id);
-  }, [id]);
+  }, [id, isChange]);
   return (
     <>
       {" "}
@@ -117,7 +117,7 @@ const EventSinglePage = () => {
       <Box padding="15px" paddingTop={0} marginBottom={4}>
         {selectedTab === 0 && (
           <Grid>
-            <SpeakerTable data={event?.speakers } />
+            <SpeakerTable data={event?.speakers} />
           </Grid>
         )}{" "}
         {selectedTab === 1 && (
@@ -130,11 +130,13 @@ const EventSinglePage = () => {
         open={postponeOpen}
         onClose={handleClosePostpone}
         onChange={handleIsChange}
+        data={event}
       />
       <CancelEvent
         open={cancelOpen}
         onClose={handleCloseCancel}
         onChange={handleIsChange}
+        data={event}
       />
     </>
   );

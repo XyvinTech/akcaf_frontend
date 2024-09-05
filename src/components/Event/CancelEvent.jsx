@@ -1,11 +1,13 @@
 import { Typography, Dialog, DialogContent, Stack } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { StyledButton } from "../../ui/StyledButton";
+import { useEventStore } from "../../store/eventStore";
 
-const CancelEvent = ({ open, onClose, onChange ,id}) => {
+const CancelEvent = ({ open, onClose, onChange, data }) => {
   const { handleSubmit } = useForm();
+  const { updateEvent } = useEventStore();
   const onSubmit = async () => {
- 
+    await updateEvent(data?._id, { status: "cancelled" });
     onChange();
     onClose();
   };
@@ -33,10 +35,18 @@ const CancelEvent = ({ open, onClose, onChange ,id}) => {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            <Typography variant="h3" color={"textTertiary"} textAlign={"center"}>
+            <Typography
+              variant="h3"
+              color={"textTertiary"}
+              textAlign={"center"}
+            >
               Are you sure you want to cancel the event ?
             </Typography>
-            <Typography variant="h7" color={"textSecondary"} textAlign={"center"}>
+            <Typography
+              variant="h7"
+              color={"textSecondary"}
+              textAlign={"center"}
+            >
               Lorem ipsum dolor sit amet consectetur. Eget in ac urna
               suspendisse.{" "}
             </Typography>
