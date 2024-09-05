@@ -61,8 +61,8 @@ export default function Promotionform({ isUpdate }) {
         setValue("description", promotion.description || "");
         setValue("link", promotion.link || "");
       } else if (promotion.type === "video") {
-        setValue("title", promotion.video_title || "");
-        setValue("yt_link", promotion.yt_link || "");
+        setValue("title", promotion.title || "");
+        setValue("link", promotion.link || "");
       } else if (promotion.type === "banner" || "") {
         setValue("media", promotion.media || "");
       } else if (promotion.type === "poster" || "") {
