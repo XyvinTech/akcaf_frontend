@@ -69,7 +69,7 @@ export const newsColumns = [
 
   { title: "Title", field: "title" },
   { title: "Content", field: "content" },
-  { title: "Image", field: "image" },
+  { title: "Image", field: "media" },
 ];
 export const userData = [
   {
