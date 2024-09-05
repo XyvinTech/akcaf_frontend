@@ -27,16 +27,21 @@ const AddMember = () => {
   const { addMembers, fetchMemberById, member, updateMember } =
     useMemberStore();
 
+  const [selectedCollege, setSelectedCollege] = useState(null); // initially selected college
   const [courseOptions, setCourseOptions] = useState([]);
   const [batchOptions, setBatchOptions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
+
   useEffect(() => {
     fetchListofCollege();
   }, []);
 
-  console.log(imageFile);
-
+  useEffect(() => {
+    if (isUpdate && memberId) {
+      fetchMemberById(memberId);
+    }
+  }, [memberId, isUpdate]);
   const collegeList =
     college && Array.isArray(college)
       ? college?.map((item) => ({
@@ -44,6 +49,43 @@ const AddMember = () => {
           label: item.collegeName,
         }))
       : [];
+  useEffect(() => {
+    if (isUpdate && member) {
+      const selectedCollege = collegeList?.find(
+        (item) => item.value === member?.college?._id
+      );
+      setSelectedCollege(selectedCollege);
+      setValue("college", selectedCollege || "");
+      setValue("first", member?.name?.first || "");
+      setValue("middle", member?.name?.middle || "");
+      setValue("last", member?.name?.last || "");
+      setValue("email", member?.email || "");
+      setValue("phone", member?.phone || "");
+      setValue("bio", member?.bio || "");
+      setValue("image", member?.image || "");
+      if (selectedCollege) {
+        handleCollegeChange(selectedCollege);
+        setValue(
+          "course",
+          member?.course
+            ? { value: member?.course?._id, label: member?.course?.courseName }
+            : ""
+        );
+        setValue(
+          "batch",
+          member?.batch ? { value: member?.batch, label: member?.batch } : ""
+        );
+      }
+      const selectedRole = roleOptions?.find(
+        (item) => item.value === member?.role
+      );
+      setValue("role", selectedRole || "");
+      const selectedStatus = statusOptions?.find(
+        (item) => item.value === member?.status
+      );
+      setValue("status", selectedStatus || "");
+    }
+  }, [member,isUpdate, setValue]);
 
   const handleCollegeChange = (selectedCollegeId) => {
     const selectedCollege = college?.find(
@@ -64,6 +106,7 @@ const AddMember = () => {
       setValue("batch", "");
     }
   };
+
   const roleOptions = [
     { value: "president", label: "President" },
     { value: "secretary", label: "Secretary" },
@@ -71,35 +114,18 @@ const AddMember = () => {
     { value: "rep", label: "Rep" },
     { value: "member", label: "Member" },
   ];
+
   const statusOptions = [
     { value: "active", label: "Active" },
     { value: "inactive", label: "Inactive" },
   ];
+
   const handleClear = (event) => {
     event.preventDefault();
     reset();
     setImageFile(null);
+    setSelectedCollege(null); // clear selected college
   };
-  useEffect(() => {
-    if (isUpdate && memberId) {
-      fetchMemberById(memberId);
-    }
-  }, [memberId, isUpdate, fetchMemberById]);
-  useEffect(() => {
-    if (isUpdate && member) {
-      const selectedCollege = collegeList?.find(
-        (item) => item.value === member?.college?._id
-      );
-      setValue("college", selectedCollege || "");
-      setValue("first", member?.name?.first || "");
-      setValue("middle", member?.name?.middle || "");
-      setValue("last", member?.name?.last || "");
-      setValue("email", member?.email || "");
-      setValue("phone", member?.phone || "");
-      setValue("bio", member?.bio || "");
-      setValue("image", member?.image || "");
-    }
-  }, [member, collegeList, setValue]);
 
   const onSubmit = async (data) => {
     try {
@@ -254,6 +280,7 @@ const AddMember = () => {
                     onChange={(e) => {
                       field.onChange(e);
                       handleCollegeChange(e);
+                      setSelectedCollege(e);
                     }}
                   />
                   {errors.college && (
