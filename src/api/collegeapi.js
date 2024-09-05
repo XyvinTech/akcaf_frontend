@@ -62,3 +62,13 @@ export const getBatch = async (collegeId, courseId) => {
     throw error;
   }
 };
+export const getMemberByBatch = async (collegeId, courseId, batchId) => {
+  try {
+    const response = await axiosInstance.get(
+      `/college/${collegeId}/course/${courseId}/batch/${batchId}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

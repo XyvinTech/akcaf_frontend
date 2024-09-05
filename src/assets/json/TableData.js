@@ -6,6 +6,16 @@ export const memberColumns = [
   { title: "Phone Number", field: "phone" },
   { title: "Status", field: "status" },
 ];
+export const groupColumns = [
+  { title: "Group name", field: "groupName", padding: "none" },
+  { title: "Group info", field: "groupInfo" },
+  { title: "No of members", field: "memberCount" },
+];
+export const member = [
+  { title: "Name", field: "fullName", padding: "none" },
+  { title: "Phone Number", field: "phone" },
+  { title: "Status", field: "status" },
+];
 export const batchColumns = [
   { title: "Batch", field: "_id", padding: "none" },
   { title: "No of members", field: "noOfMembers" },

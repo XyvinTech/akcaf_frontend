@@ -1,14 +1,16 @@
 import { Box, Divider, Tab, Tabs } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useCollgeStore } from "../../store/collegestore";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import StyledTable from "../../ui/StyledTable";
 import { batchColumns } from "../../assets/json/TableData";
 
 const BatchList = () => {
   const [selectedTab, setSelectedTab] = useState(0);
+  const navigate = useNavigate();
   const { coursedetails, batches, fetchBatch } = useCollgeStore();
   const { id } = useParams();
+  console.log('coll',id);
   const collegeCourses = coursedetails?.find(
     (college) => college.collegeId === id
   );
@@ -65,7 +67,14 @@ const BatchList = () => {
           p={1}
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
-          <StyledTable columns={batchColumns} data={batches} menu />
+          <StyledTable
+            columns={batchColumns}
+            data={batches}
+            onView={(view) => {
+              navigate(`/college/batch/${view}`, { state: { collegeId: id,courseId : collegeCourses.courses[selectedTab]._id } });
+            }}
+            menu
+          />
         </Box>
       </Box>
     </>

@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import StyledTable from "../../ui/StyledTable";
 import { Box, Grid2, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar";
-import { memberColumns, userData } from "../../assets/json/TableData";
 import { useNavigate } from "react-router-dom";
+import { groupColumns } from "../../assets/json/TableData";
+import { useGroupStore } from "../../store/groupstore";
 
 const GroupPage = () => {
   const navigate = useNavigate();
+  const { fetchGroup, groups } = useGroupStore();
+  useEffect(() => {
+    fetchGroup();
+  }, []);
   return (
     <>
       <Stack
@@ -52,8 +57,8 @@ const GroupPage = () => {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <StyledTable
-            data={userData}
-            columns={memberColumns}
+            data={groups}
+            columns={groupColumns}
             onModify={() => {
               navigate("/groups/group");
             }}

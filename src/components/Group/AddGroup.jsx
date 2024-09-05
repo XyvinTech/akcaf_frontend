@@ -1,11 +1,15 @@
 import { Box, Grid, Typography, Stack } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import StyledInput from "../../ui/StyledInput";
 import StyledSelectField from "../../ui/StyledSelectField";
 import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField";
 import { StyledButton } from "../../ui/StyledButton";
 import { StyledEventUpload } from "../../ui/StyledEventUpload";
+import { useDropDownStore } from "../../store/dropDownStore";
+import { useGroupStore } from "../../store/groupstore";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AddGroup = () => {
   const {
@@ -15,12 +19,46 @@ const AddGroup = () => {
     setValue,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+  const { user, fetchListofUser } = useDropDownStore();
+  const [loading, setLoading] = useState(false);
+  const { addGroups } = useGroupStore();
+  const navigate = useNavigate();
+  useEffect(() => {
+    fetchListofUser();
+  }, []);
+  const option =
+    user && Array.isArray(user)
+      ? user.map((i) => ({
+          value: i?._id,
+          label: i?.email,
+        }))
+      : [];
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+      const participants = data?.participants?.map((user) => user.value);
+      const formData = {
+        participantIds: participants,
+        groupName: data?.groupName,
+        groupInfo: data?.groupInfo,
+      };
+      await addGroups(formData);
+      reset();
+      navigate("/groups");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <Box sx={{ padding: 3 }} bgcolor={"white"} borderRadius={"12px"}border={'1px solid rgba(0, 0, 0, 0.12)'}>
+    <Box
+      sx={{ padding: 3 }}
+      bgcolor={"white"}
+      borderRadius={"12px"}
+      border={"1px solid rgba(0, 0, 0, 0.12)"}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={4}>
           <Grid item xs={12}>
@@ -32,16 +70,16 @@ const AddGroup = () => {
               Group Name
             </Typography>
             <Controller
-              name="group_name"
+              name="groupName"
               control={control}
               defaultValue=""
               rules={{ required: "Group Name is required" }}
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Enter the Group name" {...field} />
-                  {errors.group_name && (
+                  {errors.groupName && (
                     <span style={{ color: "red" }}>
-                      {errors.group_name.message}
+                      {errors.groupName.message}
                     </span>
                   )}
                 </>
@@ -58,15 +96,15 @@ const AddGroup = () => {
               Group Information
             </Typography>
             <Controller
-              name="group_information"
+              name="groupInfo"
               control={control}
               defaultValue=""
               render={({ field }) => (
                 <>
                   <StyledInput placeholder="Type the content here" {...field} />
-                  {errors.group_information && (
+                  {errors.groupInfo && (
                     <span style={{ color: "red" }}>
-                      {errors.group_information.message}
+                      {errors.groupInfo.message}
                     </span>
                   )}
                 </>
@@ -80,50 +118,25 @@ const AddGroup = () => {
               variant="h6"
               color="textSecondary"
             >
-              Group admin
+              Participants
             </Typography>
             <Controller
-              name="group_admin"
+              name="participants"
               control={control}
               defaultValue=""
-              rules={{ required: "Group Admin is required" }}
+              rules={{ required: "Group participants is required" }}
               render={({ field }) => (
                 <>
                   <StyledSelectField
-                    placeholder="Choose the Group Admin"
+                    options={option}
+                    isMulti
+                    placeholder="Choose the Group participants"
                     {...field}
                   />
-                  {errors.group_admin && (
+                  {errors.participants && (
                     <span style={{ color: "red" }}>
-                      {errors.group_admin.message}
+                      {errors.participants.message}
                     </span>
-                  )}
-                </>
-              )}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Typography
-              sx={{ marginBottom: 1 }}
-              variant="h6"
-              color="textSecondary"
-            >
-             Status
-            </Typography>
-            <Controller
-              name="status"
-              control={control}
-              defaultValue=""
-              rules={{ required: "Status is required" }}
-              render={({ field }) => (
-                <>
-                  <StyledSelectField
-                    placeholder="Choose the status"
-                    {...field}
-                  />
-                  {errors.status && (
-                    <span style={{ color: "red" }}>{errors.status.message}</span>
                   )}
                 </>
               )}
@@ -134,7 +147,11 @@ const AddGroup = () => {
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
               <StyledButton name="Cancel" variant="secondary" />
-              <StyledButton name="Save" variant="primary" type="submit" />
+              <StyledButton
+                name={loading ? "Saving..." : "Save"}
+                variant="primary"
+                type="submit"
+              />
             </Stack>
           </Grid>
         </Grid>

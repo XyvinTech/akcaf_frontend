@@ -6,6 +6,7 @@ import {
   getBatch,
   getCollege,
   getCollegeById,
+  getMemberByBatch,
 } from "../api/collegeapi";
 
 const useCollgeStore = create((set) => ({
@@ -42,6 +43,11 @@ const useCollgeStore = create((set) => ({
     const allData = await getBatch(collegeId, courseId);
     set({ batches: allData?.data || [] });
   },
+  getMember: async (collegeId, courseId,batchId) => {
+    const allData = await getMemberByBatch(collegeId, courseId,batchId);
+    set({ batches: allData?.data || [] });
+  },
+
 }));
 
 export { useCollgeStore };

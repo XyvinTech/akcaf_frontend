@@ -1,0 +1,47 @@
+import { toast } from "react-toastify";
+import axiosInstance from "./axiosintercepter";
+
+export const getGroup = async () => {
+  try {
+    const response = await axiosInstance.get(`/chat/list-group`);
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const addGroup = async (data) => {
+  try {
+    const response = await axiosInstance.post("/chat/create-group", data);
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+// export const getPromotionById = async (id) => {
+//   try {
+//     const response = await axiosInstance.get(`/promotion/single/${id}`);
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+// export const deletePromotion = async (id) => {
+//   try {
+//     const response = await axiosInstance.delete(`/promotion/single/${id}`);
+
+//     return response.data;
+//   } catch (error) {
+//     console.error(error.response.data.message);
+//   }
+// };
+// export const editPromotion = async (id, data) => {
+//   try {
+//     const response = await axiosInstance.put(`/promotion/single/${id}`, data);
+//     toast.success(response.data.message);
+//     return response.data;
+//   } catch (error) {
+//     toast.error(error.response.data.message);
+//   }
+// };
