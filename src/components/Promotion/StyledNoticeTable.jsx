@@ -45,9 +45,10 @@ const StyledNoticeTable = () => {
   };
 
   const userColumns = [
-    { title: "Date", field: "startDate", padding: "none" },
-
-    { title: "Media", field: "media" },
+  
+    { title: "Title", field: "title" },
+    { title: "Start Date", field: "startDate", padding: "none" },
+    { title: "End Date", field: "endDate", padding: "none" },
   ];
   return (
     <>

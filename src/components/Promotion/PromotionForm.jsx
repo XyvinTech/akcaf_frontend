@@ -63,8 +63,11 @@ export default function Promotionform({ isUpdate }) {
       } else if (promotion.type === "video") {
         setValue("title", promotion.video_title || "");
         setValue("yt_link", promotion.yt_link || "");
-      } else if (promotion.type === "banner" || promotion.type === "poster") {
+      } else if (promotion.type === "banner" || "") {
         setValue("media", promotion.media || "");
+      } else if (promotion.type === "poster" || "") {
+        setValue("media", promotion.media || "");
+        setValue("link", promotion.link || "");
       }
 
       setType(promotion.type);
@@ -108,6 +111,7 @@ export default function Promotionform({ isUpdate }) {
       } else if (type === "poster") {
         formData.type = "poster";
         formData.media = imageUrl;
+        formData.link = data?.link;
       }
       if (isUpdate && id) {
         await updatePromotion(id, formData);
@@ -235,49 +239,49 @@ export default function Promotionform({ isUpdate }) {
             </Grid>
           )}{" "}
           {type === "notice" && (
-            <>
-              <Grid item xs={12}>
-                <Typography
-                  sx={{ marginBottom: 1 }}
-                  variant="h6"
-                  color="textSecondary"
-                >
-                  Description
-                </Typography>
-                <Controller
-                  name="description"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <>
-                      <StyledMultilineTextField
-                        placeholder="Add Description in less than 500 words"
-                        {...field}
-                      />
-                    </>
-                  )}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography
-                  sx={{ marginBottom: 1 }}
-                  variant="h6"
-                  color="textSecondary"
-                >
-                  Link
-                </Typography>
-                <Controller
-                  name="link"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <>
-                      <StyledInput placeholder="Link" {...field} />
-                    </>
-                  )}
-                />
-              </Grid>
-            </>
+            <Grid item xs={12}>
+              <Typography
+                sx={{ marginBottom: 1 }}
+                variant="h6"
+                color="textSecondary"
+              >
+                Description
+              </Typography>
+              <Controller
+                name="description"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <>
+                    <StyledMultilineTextField
+                      placeholder="Add Description in less than 500 words"
+                      {...field}
+                    />
+                  </>
+                )}
+              />
+            </Grid>
+          )}
+          {(type === "notice" || type === "poster") && (
+            <Grid item xs={12}>
+              <Typography
+                sx={{ marginBottom: 1 }}
+                variant="h6"
+                color="textSecondary"
+              >
+                Link
+              </Typography>
+              <Controller
+                name="link"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <>
+                    <StyledInput placeholder="Link" {...field} />
+                  </>
+                )}
+              />
+            </Grid>
           )}
           <Grid item xs={6}>
             <Typography
