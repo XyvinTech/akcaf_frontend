@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import StyledTable from "../../ui/StyledTable";
 import { Box, Grid2, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
@@ -6,13 +6,32 @@ import StyledSearchbar from "../../ui/StyledSearchbar";
 import { useNavigate } from "react-router-dom";
 import { groupColumns } from "../../assets/json/TableData";
 import { useGroupStore } from "../../store/groupstore";
+import { toast } from "react-toastify";
 
 const GroupPage = () => {
   const navigate = useNavigate();
-  const { fetchGroup, groups } = useGroupStore();
+  const { fetchGroup, groups, deleteGroups } = useGroupStore();
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [isChange, setIsChange] = useState(false);
   useEffect(() => {
     fetchGroup();
-  }, []);
+  }, [isChange]);
+  const handleSelectionChange = (newSelectedIds) => {
+    setSelectedRows(newSelectedIds);
+  };
+  const handleDelete = async () => {
+    if (selectedRows.length > 0) {
+      await Promise.all(selectedRows?.map((id) => deleteGroups(id)));
+      toast.success("Deleted successfully");
+      setIsChange(!isChange);
+      setSelectedRows([]);
+    }
+  };
+  const handleRowDelete = async (id) => {
+    await deleteGroups(id);
+    toast.success("Deleted successfully");
+    setIsChange(!isChange);
+  };
   return (
     <>
       <Stack
@@ -59,9 +78,17 @@ const GroupPage = () => {
           <StyledTable
             data={groups}
             columns={groupColumns}
-            onModify={() => {
-              navigate("/groups/group");
+            onModify={(id) => {
+              navigate("/groups/group", {
+                state: { groupId: id, isUpdate: true },
+              });
             }}
+            onView={(rowId) => {
+              navigate(`/group/${rowId}`);
+            }}
+            onSelectionChange={handleSelectionChange}
+            onDelete={handleDelete}
+            onDeleteRow={handleRowDelete}
           />
         </Box>
       </Box>

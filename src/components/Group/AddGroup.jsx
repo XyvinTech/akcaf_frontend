@@ -3,13 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import StyledInput from "../../ui/StyledInput";
 import StyledSelectField from "../../ui/StyledSelectField";
-import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField";
 import { StyledButton } from "../../ui/StyledButton";
-import { StyledEventUpload } from "../../ui/StyledEventUpload";
 import { useDropDownStore } from "../../store/dropDownStore";
 import { useGroupStore } from "../../store/groupstore";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AddGroup = () => {
   const {
@@ -20,8 +18,11 @@ const AddGroup = () => {
     formState: { errors },
   } = useForm();
   const { user, fetchListofUser } = useDropDownStore();
+  const location = useLocation();
+  const { groupId, isUpdate } = location?.state || {};
   const [loading, setLoading] = useState(false);
-  const { addGroups } = useGroupStore();
+  const { addGroups, fetchGroupById, singleGroup, updateGroup } =
+    useGroupStore();
   const navigate = useNavigate();
   useEffect(() => {
     fetchListofUser();
@@ -33,6 +34,24 @@ const AddGroup = () => {
           label: i?.email,
         }))
       : [];
+  useEffect(() => {
+    if (isUpdate && groupId) {
+      fetchGroupById(groupId);
+    }
+  }, [groupId, isUpdate, fetchGroupById]);
+  useEffect(() => {
+    if (singleGroup && isUpdate) {
+      setValue("groupName", singleGroup?.groupName);
+      setValue("groupInfo", singleGroup?.groupInfo);
+      const participantOptions =
+        singleGroup?.participants.map((id) => {
+          const matchedOption = option.find((opt) => opt.value === id);
+          return matchedOption;
+        }) || [];
+      setValue("participants", participantOptions);
+    }
+  }, [singleGroup, isUpdate, setValue]);
+
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -42,7 +61,11 @@ const AddGroup = () => {
         groupName: data?.groupName,
         groupInfo: data?.groupInfo,
       };
-      await addGroups(formData);
+      if (isUpdate && groupId) {
+        await updateGroup(groupId, formData);
+      } else {
+        await addGroups(formData);
+      }
       reset();
       navigate("/groups");
     } catch (error) {

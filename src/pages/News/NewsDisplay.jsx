@@ -122,11 +122,11 @@ export default function NewsDisplay() {
           columns={newsColumns}
           data={news}
           news
-          onSelectionChange={handleSelectionChange}
+          onDelete={handleDelete}
+          onDeleteRow={handleRowDelete}onSelectionChange={handleSelectionChange}
           onModify={handleEdit}
           onAction={handlePreview}
-          onDelete={handleDelete}
-          onDeleteRow={handleRowDelete}
+          
         />{" "}
         <NewsPreview
           open={previewOpen}

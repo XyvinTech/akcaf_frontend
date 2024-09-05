@@ -27,6 +27,7 @@ import EditNews from "../pages/News/EditNews";
 import { Edit } from "@mui/icons-material";
 import EditPromotion from "../pages/Promotions/EditPromotion";
 import BatchMemberPage from "../pages/Colleges/BatchMemberPage";
+import GroupMembers from "../pages/Groups/GroupMembers";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -101,6 +102,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <GroupPage />
+      </Layout>
+    ),
+  },
+  {
+    path: "/group/:id",
+    element: (
+      <Layout>
+        <GroupMembers />
       </Layout>
     ),
   },
