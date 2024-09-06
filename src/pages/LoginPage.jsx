@@ -1,20 +1,23 @@
 import { useState } from "react";
 import {
   Box,
-  Button,
-  Container,
+  Grid,
   TextField,
   Typography,
   InputAdornment,
   IconButton,
-  List,
+  Stack,
+  Link,
 } from "@mui/material";
-
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Link, useNavigate } from "react-router-dom";
+import Phone from "@mui/icons-material/Phone";
+import Lock from "@mui/icons-material/Lock";
+import { useNavigate } from "react-router-dom";
 import { getLogin } from "../api/adminapi";
+import kssiaImage from "../assets/images/logo.png";
+import { StyledButton } from "../ui/StyledButton";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -23,137 +26,167 @@ function LoginPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showOTP, setShowOTP] = useState(false);
+  const [loginError, setLoginError] = useState(false);
 
   const onSubmit = async (data) => {
     try {
-      const user = await getLogin(data);
+      const formData = {
+        email: data.phone,
+        password: data.otp,
+      };
+      const user = await getLogin(formData);
       localStorage.setItem("token", user.data);
-
       navigate("/dashboard");
     } catch (error) {
-      console.error("error", error);
+      setLoginError(true);
+      console.error("Login error", error);
     }
-  };
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        minHeight: "100vh",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Container maxWidth="xs">
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography variant="h2" sx={{ mb: 3 }}>
-            Log in
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit(onSubmit)}
-            noValidate
-            sx={{ width: "100%" }}
-          >
-            <Controller
-              name="email"
-              control={control}
-              defaultValue=""
-              rules={{
-                required: "Email is required",
-                pattern: {
-                  value: /^\S+@\S+$/i,
-                  message: "Invalid email address",
-                },
-              }}
-              render={({ field }) => (
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  autoComplete="email"
-                  autoFocus
-                  error={!!errors.email}
-                  helperText={errors.email?.message}
-                  {...field}
-                />
-              )}
-            />
-            <Controller
-              name="password"
-              control={control}
-              defaultValue=""
-              rules={{
-                required: "Password is required",
-                minLength: {
-                  value: 3,
-                  message: "Password must be at least 6 characters",
-                },
-              }}
-              render={({ field }) => (
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  label="Password"
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  autoComplete="current-password"
-                  error={!!errors.password}
-                  helperText={errors.password?.message}
-                  {...field}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-            />
+    <Grid container justifyContent="center" alignItems="center" height="100vh">
+      <Grid item xs={12} sm={8} md={6} lg={4}>
+        <Box sx={{ p: 4, bgcolor: "#FFFFFF", borderRadius: 5, boxShadow: 2 }}>
+          <Stack spacing={3} justifyContent="center" alignItems={"center"}>
+            <img src={kssiaImage} alt="KSSIA" width={"133px"} height="36px" />
+          </Stack>
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{
-                mt: 2,
-                mb: 2,
-                borderRadius: "20px",
-              }}
-            >
+          <Stack
+            direction={"column"}
+            spacing={2}
+            sx={{ marginTop: 8, marginBottom: 5 }}
+          >
+            <Typography variant="h5" align="left">
               Sign In
-            </Button>
-          </Box>
-         
+            </Typography>
+            <Typography variant="body2" color="text.secondary" align="left">
+              Login to your account to continue the process
+            </Typography>
+          </Stack>
+
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack spacing={3}>
+              {/* Phone Number Input */}
+              <Controller
+                name="phone"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Phone number is required" }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    label="Enter your Phone Number"
+                    variant="outlined"
+                    error={!!errors.phone}
+                    helperText={errors.phone ? errors.phone.message : ""}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Phone color="action" />
+                        </InputAdornment>
+                      ),
+                      sx: {
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "rgba(0, 0, 0, 0.2)",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "rgba(0, 0, 0, 0.2)",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "rgba(0, 0, 0, 0.2)",
+                        },
+                      },
+                    }}
+                    InputLabelProps={{
+                      sx: {
+                        color: "#888888",
+                        "&.Mui-focused": {
+                          color: "#000000",
+                        },
+                      },
+                    }}
+                  />
+                )}
+              />
+              <Controller
+                name="otp"
+                control={control}
+                defaultValue=""
+                rules={{ required: "OTP is required" }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    label="Enter OTP"
+                    variant="outlined"
+                    type={showOTP ? "password" : "text"}
+                    error={!!errors.otp}
+                    helperText={errors.otp ? errors.otp.message : ""}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Lock color="action" />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setShowOTP(!showOTP)}
+                            edge="end"
+                          >
+                            {showOTP ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      sx: {
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "rgba(0, 0, 0, 0.2)",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "rgba(0, 0, 0, 0.2)",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "rgba(0, 0, 0, 0.2)",
+                        },
+                      },
+                    }}
+                    InputLabelProps={{
+                      sx: {
+                        color: "#888888",
+                        "&.Mui-focused": {
+                          color: "#000000",
+                        },
+                      },
+                    }}
+                  />
+                )}
+              />
+
+              {/* Error Message */}
+              {loginError && (
+                <Typography color="error" variant="body2">
+                  Username or OTP is incorrect
+                </Typography>
+              )}
+
+              {/* Submit Button */}
+              <StyledButton name="Sign in" variant="primary" type="submit">
+                Sign In
+              </StyledButton>
+            </Stack>
+          </form>
+
+          {/* Forgot Password Link */}
+          <Grid marginTop={2}>
+            <Link href="#" variant="body2" align="center">
+              Forgot Your Password?
+            </Link>
+          </Grid>
         </Box>
-      </Container>
-     
-    </Box>
+      </Grid>
+    </Grid>
   );
 }
 

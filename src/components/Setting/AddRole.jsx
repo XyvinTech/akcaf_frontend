@@ -185,14 +185,11 @@ const AddRole = () => {
             </Typography>
             <Grid container sx={{ mt: 4 }} spacing={2}>
               <Grid item xs={4}>
-                <Typography variant="h6" fontWeight="bold">
-                  Permissions
-                </Typography>
+                <Typography variant="h6">Permissions</Typography>
               </Grid>
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  fontWeight="bold"
                   display={"flex"}
                   justifyContent={"center"}
                 >
@@ -202,7 +199,6 @@ const AddRole = () => {
               <Grid item xs={4}>
                 <Typography
                   variant="h6"
-                  fontWeight="bold"
                   display={"flex"}
                   justifyContent={"center"}
                 >
@@ -216,9 +212,12 @@ const AddRole = () => {
                   key={permission.id}
                   alignItems="center"
                   sx={{ mt: 2 }}
+                  p={1}
                 >
-                  <Grid item xs={4}>
-                    <Typography>{permission.name}</Typography>
+                  <Grid item xs={4} p={1}>
+                    <Typography variant="h6" color="textSecondary">
+                      {permission.name}
+                    </Typography>
                   </Grid>
                   <Grid item xs={4} display={"flex"} justifyContent={"center"}>
                     <CircleButton
@@ -246,7 +245,11 @@ const AddRole = () => {
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
               <StyledButton name="Cancel" variant="secondary" />
-              <StyledButton  name={loading ? "Saving..." : "Save"} variant="primary" type="submit" />
+              <StyledButton
+                name={loading ? "Saving..." : "Save"}
+                variant="primary"
+                type="submit"
+              />
             </Stack>
           </Grid>
         </Grid>
