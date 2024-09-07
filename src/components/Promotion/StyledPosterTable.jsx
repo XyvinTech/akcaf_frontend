@@ -29,19 +29,27 @@ const StyledPosterTable = () => {
   };
   const handleDelete = async () => {
     if (selectedRows.length > 0) {
-      await Promise.all(selectedRows?.map((id) => deletePromotions(id)));
-      toast.success("Deleted successfully");
-      setIsChange(!isChange);
-      setSelectedRows([]);
+      try {
+        await Promise.all(selectedRows?.map((id) => deletePromotions(id)));
+        toast.success("Deleted successfully");
+        setIsChange(!isChange);
+        setSelectedRows([]);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   const handleEdit = (id) => {
     navigate(`/promotions/edit/${id}`);
   };
   const handleRowDelete = async (id) => {
-    await deletePromotions(id);
-    toast.success("Deleted successfully");
-    setIsChange(!isChange);
+    try {
+      await deletePromotions(id);
+      toast.success("Deleted successfully");
+      setIsChange(!isChange);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const userColumns = [
