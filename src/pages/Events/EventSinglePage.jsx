@@ -55,22 +55,24 @@ const EventSinglePage = () => {
             </Typography>
           </Grid>
           <Grid item xs={6} container justifyContent="flex-end" spacing={2}>
-            <>
-              <Grid item>
-                <StyledButton
-                  name="Cancel"
-                  variant="secondary"
-                  onClick={handleCancel}
-                />
-              </Grid>
-              <Grid item>
-                <StyledButton
-                  name="Postpone"
-                  variant="primary"
-                  onClick={handlePostpone}
-                />
-              </Grid>
-            </>
+            {event?.status === "pending" && (
+              <>
+                <Grid item>
+                  <StyledButton
+                    name="Cancel"
+                    variant="secondary"
+                    onClick={handleCancel}
+                  />
+                </Grid>
+                <Grid item>
+                  <StyledButton
+                    name="Postpone"
+                    variant="primary"
+                    onClick={handlePostpone}
+                  />
+                </Grid>
+              </>
+            )}
           </Grid>
         </Grid>
       </Box>{" "}
