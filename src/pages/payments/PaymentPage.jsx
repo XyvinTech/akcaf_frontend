@@ -3,7 +3,6 @@ import StyledTable from "../../ui/StyledTable";
 import { Box, Grid2, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar";
-import { useNavigate } from "react-router-dom";
 import { usePaymentStore } from "../../store/paymentstore";
 import { paymentColumns } from "../../assets/json/TableData";
 

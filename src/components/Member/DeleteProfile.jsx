@@ -14,9 +14,9 @@ const DeleteProfile = ({ open, onClose, onChange, id }) => {
       onChange();
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      onClose();
     }
-
-    onClose();
   };
 
   const handleClear = (event) => {

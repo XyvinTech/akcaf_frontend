@@ -31,13 +31,17 @@ const PostponeEvent = ({ open, onClose, onChange, data }) => {
     }
   }, [data, setValue]);
   const onSubmit = async (updateData) => {
-    const formData = {
-      ...updateData,
-    };
-
-    await updateEvent(data?._id, formData);
-    onChange();
-    onClose();
+    try {
+      const formData = {
+        ...updateData,
+      };
+      await updateEvent(data?._id, formData);
+      onChange();
+    } catch (error) {
+      console.error("Error updating event:", error);
+    } finally {
+      onClose();
+    }
   };
 
   const handleClear = (event) => {

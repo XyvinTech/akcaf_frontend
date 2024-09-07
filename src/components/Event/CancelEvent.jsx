@@ -7,9 +7,14 @@ const CancelEvent = ({ open, onClose, onChange, data }) => {
   const { handleSubmit } = useForm();
   const { updateEvent } = useEventStore();
   const onSubmit = async () => {
-    await updateEvent(data?._id, { status: "cancelled" });
-    onChange();
-    onClose();
+    try {
+      await updateEvent(data?._id, { status: "cancelled" });
+      onChange();
+    } catch (error) {
+      console.error("Error updating event:", error);
+    } finally {
+      onClose();
+    }
   };
 
   const handleClear = (event) => {

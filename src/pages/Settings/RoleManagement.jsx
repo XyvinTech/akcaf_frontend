@@ -26,16 +26,24 @@ export default function RoleManagement() {
   };
   const handleDelete = async () => {
     if (selectedRows.length > 0) {
-      await Promise.all(selectedRows?.map((id) => deleteRoles(id)));
-      toast.success("Deleted successfully");
-      setIsChange(!isChange);
-      setSelectedRows([]);
-    }
+      try {
+        await Promise.all(selectedRows?.map((id) => deleteRoles(id)));
+        toast.success("Deleted successfully");
+        setIsChange(!isChange);
+        setSelectedRows([]);
+      } catch (error) {
+        console.log(error);
+      }
+    } 
   };
   const handleRowDelete = async (id) => {
-    await deleteRoles(id);
-    toast.success("Deleted successfully");
-    setIsChange(!isChange);
+    try {
+      await deleteRoles(id);
+      toast.success("Deleted successfully");
+      setIsChange(!isChange);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleEdit = (id) => {
     navigate(`/settings/add-role`, {

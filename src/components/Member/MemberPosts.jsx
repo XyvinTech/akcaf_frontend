@@ -64,14 +64,12 @@ const MemberPosts = ({ id }) => {
             onClose={handleCloseApprove}
             id={approvalId}
             setIsChange={setIsChange}
-            isChange={isChange}
           />
           <FeedReject
             open={rejectOpen}
             onClose={handleCloseReject}
             id={approvalId}
             setIsChange={setIsChange}
-            isChange={isChange}
           />
         </Box>
       </>

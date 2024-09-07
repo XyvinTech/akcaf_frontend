@@ -37,10 +37,14 @@ const CollegePage = () => {
   };
   const handleDelete = async () => {
     if (selectedRows.length > 0) {
-      await Promise.all(selectedRows?.map((id) => deleteColleges(id)));
-      toast.success("Deleted successfully");
-      setIsChange(!isChange);
-      setSelectedRows([]);
+      try {
+        await Promise.all(selectedRows?.map((id) => deleteColleges(id)));
+        toast.success("Deleted successfully");
+        setIsChange(!isChange);
+        setSelectedRows([]);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   return (
