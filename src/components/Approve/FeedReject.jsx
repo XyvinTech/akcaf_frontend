@@ -11,26 +11,22 @@ import { ReactComponent as CloseIcon } from "../../assets/icons/CloseIcon.svg";
 
 import { StyledButton } from "../../ui/StyledButton";
 import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField";
+import { useFeedStore } from "../../store/feedStore";
 
-import { useApprovalStore } from "../../store/approvalstore";
-
-const RejectEntry = ({ open, onClose, id, setIsChange }) => {
+const FeedReject = ({ open, onClose, id, setIsChange }) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
     getValues,
   } = useForm();
-  const { updateApproval } = useApprovalStore();
+  const { updateFeed } = useFeedStore();
   const onSubmit = async (formData) => {
     try {
       const updateData = {
         reason: formData?.reason,
-        status: "rejected",
       };
-
-      await updateApproval(id, updateData);
-
+      await updateFeed("reject", id, updateData);
       setIsChange((prev) => !prev);
     } catch (error) {
       console.error("Error rejecting feed:", error);
@@ -117,4 +113,4 @@ const RejectEntry = ({ open, onClose, id, setIsChange }) => {
   );
 };
 
-export default RejectEntry;
+export default FeedReject;

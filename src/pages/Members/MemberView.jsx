@@ -13,12 +13,14 @@ import MemberProfile from "../../components/Member/MemberProfile";
 import MemberPosts from "../../components/Member/MemberPosts";
 import MemberAnalytics from "../../components/Member/MemberAnalytics";
 import { useMemberStore } from "../../store/Memberstore";
+import { useFeedStore } from "../../store/feedStore";
 
 const MemberView = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [isChange, setIsChange] = useState(false);
   const { id } = useParams();
   const {  fetchMemberById,member } = useMemberStore();
+
   const handleIsChange = () => {
     setIsChange(!isChange);
   };
@@ -85,7 +87,7 @@ const MemberView = () => {
         )}
         {selectedTab === 1 && (
           <Grid>
-            <MemberPosts data={[]} />
+            <MemberPosts id={id} />
           </Grid>
         )}
 

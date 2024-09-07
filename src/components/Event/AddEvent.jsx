@@ -6,12 +6,13 @@ import { Controller, useForm } from "react-hook-form";
 import StyledSelectField from "../../ui/StyledSelectField.jsx";
 import { ReactComponent as Delete } from "../../assets/icons/DeleteIcon.svg";
 import { StyledEventUpload } from "../../ui/StyledEventUpload.jsx";
-import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField.jsx";
 import { StyledCalender } from "../../ui/StyledCalender.jsx";
 import { StyledTime } from "../../ui/StyledTime.jsx";
 import uploadFileToS3 from "../../utils/s3Upload.js";
 import { useEventStore } from "../../store/eventStore.js";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField.jsx";
 
 export default function AddEvent({ setSelectedTab, isUpdate }) {
   const {
@@ -56,6 +57,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       setValue("endDate", event.endDate);
       setValue("startTime", event.startTime);
       setValue("endTime", event.endTime);
+      setValue("description", event.description);
       setValue("organiserName", event.organiserName);
       const selectedplatform = option.find(
         (item) => item.value === event.platform
@@ -98,78 +100,85 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
   ];
 
   const onSubmit = async (data) => {
-    let imageUrl = data?.image || "";
+    try {
+      setLoading(true);
+      let imageUrl = data?.image || "";
 
-    if (imageFile) {
-      try {
-        imageUrl = await new Promise((resolve, reject) => {
-          uploadFileToS3(
-            imageFile,
-            (location) => resolve(location),
-            (error) => reject(error)
-          );
-        });
-      } catch (error) {
-        console.error("Failed to upload image:", error);
-        return;
-      }
-    }
-
-    const speakersData = await Promise.all(
-      data.speakers.map(async (speaker, index) => {
-        let speakerImageUrl = speakers[index]?.image || "";
-
-        if (speaker?.image && typeof speaker.image === "object") {
-          try {
-            speakerImageUrl = await new Promise((resolve, reject) => {
-              uploadFileToS3(
-                speaker.image,
-                (location) => resolve(location),
-                (error) => reject(error)
-              );
-            });
-          } catch (error) {
-            console.error(`Failed to upload image for speaker:`, error);
-          }
+      if (imageFile) {
+        try {
+          imageUrl = await new Promise((resolve, reject) => {
+            uploadFileToS3(
+              imageFile,
+              (location) => resolve(location),
+              (error) => reject(error)
+            );
+          });
+        } catch (error) {
+          console.error("Failed to upload image:", error);
+          return;
         }
+      }
 
-        return {
-          name: speaker?.name,
-          designation: speaker?.designation,
-          role: speaker?.role,
-          image: speakerImageUrl || "",
-        };
-      })
-    );
+      const speakersData = await Promise.all(
+        data.speakers.map(async (speaker, index) => {
+          let speakerImageUrl = speakers[index]?.image || "";
 
-    const formData = {
-      type: data?.type?.value,
-      eventName: data?.eventName,
-      image: imageUrl,
-      startDate: data?.startDate,
-      startTime: data?.startTime,
-      endDate: data?.endDate,
-      endTime: data?.endTime,
-      speakers: speakersData,
-      organiserName: data?.organiserName,
-    };
+          if (speaker?.image && typeof speaker.image === "object") {
+            try {
+              speakerImageUrl = await new Promise((resolve, reject) => {
+                uploadFileToS3(
+                  speaker.image,
+                  (location) => resolve(location),
+                  (error) => reject(error)
+                );
+              });
+            } catch (error) {
+              console.error(`Failed to upload image for speaker:`, error);
+            }
+          }
 
-    if (type === "Online") {
-      formData.platform = data?.platform.value;
-      formData.link = data?.link;
-    } else {
-      formData.venue = data?.venue;
+          return {
+            name: speaker?.name,
+            designation: speaker?.designation,
+            role: speaker?.role,
+            image: speakerImageUrl || "",
+          };
+        })
+      );
+
+      const formData = {
+        type: data?.type?.value,
+        eventName: data?.eventName,
+        image: imageUrl,
+        startDate: data?.startDate,
+        startTime: data?.startTime,
+        endDate: data?.endDate,
+        endTime: data?.endTime,
+        speakers: speakersData,
+        description: data?.description,
+        organiserName: data?.organiserName,
+      };
+
+      if (type === "Online") {
+        formData.platform = data?.platform.value;
+        formData.link = data?.link;
+      } else {
+        formData.venue = data?.venue;
+      }
+
+      if (isUpdate && id) {
+        await updateEvent(id, formData);
+        navigate("/events/list");
+      } else {
+        await addEvent(formData);
+      }
+
+      reset();
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
-
-    if (isUpdate && id) {
-      await updateEvent(id, formData);
-      navigate("/events/list");
-    } else {
-      await addEvent(formData);
-    }
-
-    setSelectedTab(0);
-    reset();
   };
 
   const addSpeaker = () => {
@@ -282,6 +291,34 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   />
                   {errors.image && (
                     <span style={{ color: "red" }}>{errors.image.message}</span>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              color="textSecondary"
+            >
+              Description
+            </Typography>
+            <Controller
+              name="description"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Description is required" }}
+              render={({ field }) => (
+                <>
+                  <StyledMultilineTextField
+                    placeholder={"Add description"}
+                    {...field}
+                  />
+                  {errors.description && (
+                    <span style={{ color: "red" }}>
+                      {errors.description.message}
+                    </span>
                   )}
                 </>
               )}
@@ -475,7 +512,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
               variant="h6"
               color="textSecondary"
             >
-            Organiser Name
+              Organiser Name
             </Typography>
             <Controller
               name="organiserName"
@@ -484,10 +521,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
               rules={{ required: "Organiser Name is required" }}
               render={({ field }) => (
                 <>
-                  <StyledInput
-                    placeholder="Enter organiser Name"
-                    {...field}
-                  />
+                  <StyledInput placeholder="Enter organiser Name" {...field} />
                   {errors.organiserName && (
                     <span style={{ color: "red" }}>
                       {errors.organiserName.message}
@@ -624,7 +658,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
               />
 
               <StyledButton
-                name={isUpdate ? "Update Event" : "Add Event"}
+                name={loading ? "Saving..." : "Save"}
                 type="submit"
                 loading={loading}
                 variant={"primary"}

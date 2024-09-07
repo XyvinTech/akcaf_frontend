@@ -6,10 +6,26 @@ export const memberColumns = [
   { title: "Phone Number", field: "phone" },
   { title: "Status", field: "status" },
 ];
+export const groupmemberColumns = [
+  { title: "Name", field: "name", padding: "none" },
+  { title: "College Name", field: "college" },
+  { title: "Course", field: "course" },
+  { title: "Batch number", field: "batch" },
+  { title: "Phone Number", field: "phone" },
+  { title: "Status", field: "status" },
+];
 export const groupColumns = [
   { title: "Group name", field: "groupName", padding: "none" },
   { title: "Group info", field: "groupInfo" },
   { title: "No of members", field: "memberCount" },
+];
+export const paymentColumns = [
+  { title: "Member name", field: "fullName", padding: "none" },
+  { title: "Date", field: "createdAt" },
+  { title: "Time", field: "updatedAt" },
+  { title: "Transaction ID", field: "razorpayId", padding: "none" },
+  { title: "Amount", field: "amount" },
+  { title: "Status", field: "status" },
 ];
 export const member = [
   { title: "Name", field: "fullName", padding: "none" },
@@ -27,6 +43,19 @@ export const collegeColumns = [
   { title: "No of courses", field: "noOfCourses" },
   { title: "No of batches", field: "noOfBatches" },
   { title: "No of members", field: "noOfMembers" },
+];
+export const feedColumns = [
+  { title: "Date", field: "createdAt", padding: "none" },
+  { title: "Member name", field: "fullName" },
+  { title: "Type", field: "type" },
+  { title: "Image", field: "media" },
+  { title: "Status", field: "status" },
+];
+export const postColumns = [
+  { title: "Date", field: "createdAt", padding: "none" },
+  { title: "Type", field: "type" },
+  { title: "Image", field: "media" },
+  { title: "Status", field: "status" },
 ];
 export const approvalColumns = [
   { title: "Date", field: "createdAt", padding: "none" },
@@ -62,7 +91,7 @@ export const eventList = [
   { title: "Status", field: "status" },
   { title: "Type", field: "type" },
   { title: "Mode", field: "mode" },
-  { title: "RSVP", field: "rsvp" },
+  { title: "RSVP", field: "rsvpCount" },
 ];
 export const newsColumns = [
   { title: "Category", field: "category", padding: "none" },

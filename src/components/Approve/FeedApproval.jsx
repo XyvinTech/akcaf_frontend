@@ -1,17 +1,14 @@
 import { Typography, Dialog, DialogContent, Stack } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { StyledButton } from "../../ui/StyledButton";
-import { useApprovalStore } from "../../store/approvalstore";
+import { useFeedStore } from "../../store/feedStore";
 
-const ApproveApproval = ({ open, onClose, setIsChange, id }) => {
+const FeedApproval = ({ open, onClose, setIsChange, id }) => {
   const { handleSubmit } = useForm();
-  const { updateApproval } = useApprovalStore();
+  const { updateFeed } = useFeedStore();
   const onSubmit = async () => {
     try {
-      const formData = {
-        status: "active",
-      };
-      await updateApproval(id, formData);
+      await updateFeed("accept", id);
       setIsChange((prev) => !prev);
     } catch (error) {
       console.error("Error approving feed:", error);
@@ -78,4 +75,4 @@ const ApproveApproval = ({ open, onClose, setIsChange, id }) => {
   );
 };
 
-export default ApproveApproval;
+export default FeedApproval;

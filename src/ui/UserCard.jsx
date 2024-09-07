@@ -12,11 +12,11 @@ const UserCard = ({ user }) => {
       spacing={2}
       bgcolor={"white"}
       borderRadius={"12px"}
-      padding={"10px"}
+      padding={"10px"}spacing={2}
       minHeight={"420px"}
       position="relative"
     >
-      <Grid item md={6} xs={12} lg={6}>
+      <Grid item md={6} xs={12} lg={4}>
         <img
           src={user?.image}
           alt="img"
@@ -29,7 +29,7 @@ const UserCard = ({ user }) => {
         item
         md={6}
         xs={12}
-        lg={6}
+        lg={8}
         justifyContent={"center"}
         alignItems={"center"}
       >
@@ -61,14 +61,14 @@ const UserCard = ({ user }) => {
               {user?.phone}
             </Typography>
           </Stack>
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack direction="row" alignItems="center" spacing={2}>
             <EmailIcon />
             <Typography variant="h7" color={"textPrimary"}>
               {user?.email}
             </Typography>
           </Stack>
           {user?.address && (
-            <Stack direction="row" alignItems="flex-start" spacing={1}>
+            <Stack direction="row" alignItems="center"  spacing={1}>
               <LocationIcon />
               <Typography variant="h7" color={"textPrimary"}>
                 {user?.address}

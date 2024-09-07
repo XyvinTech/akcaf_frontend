@@ -49,5 +49,3 @@ export const updateEventById = async (id, data) => {
     console.error("Error caught:", error);
   }
 };
-
-

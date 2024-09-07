@@ -122,7 +122,7 @@ const EventSinglePage = () => {
         )}{" "}
         {selectedTab === 1 && (
           <Grid>
-            <RsvpTable />
+            <RsvpTable data={event?.rsvp} />
           </Grid>
         )}
       </Box>{" "}

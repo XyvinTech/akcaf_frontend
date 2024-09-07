@@ -28,6 +28,7 @@ import { Edit } from "@mui/icons-material";
 import EditPromotion from "../pages/Promotions/EditPromotion";
 import BatchMemberPage from "../pages/Colleges/BatchMemberPage";
 import GroupMembers from "../pages/Groups/GroupMembers";
+import PaymentPage from "../pages/payments/PaymentPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -183,6 +184,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <EditPromotion />
+      </Layout>
+    ),
+  },
+  {
+    path: "/payments",
+    element: (
+      <Layout>
+        <PaymentPage />
       </Layout>
     ),
   },

@@ -67,6 +67,11 @@ const subNavigation = [
     icon: <CalendarMonthIcon />,
   },
   {
+    name: "Payments",
+    to: "/payments",
+    icon: <CalendarMonthIcon />,
+  },
+  {
     name: "Notifications",
     to: "/notifications",
     icon: <NotificationsNoneOutlinedIcon />,
