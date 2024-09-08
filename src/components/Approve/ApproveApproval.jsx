@@ -9,7 +9,7 @@ const ApproveApproval = ({ open, onClose, setIsChange, id }) => {
   const onSubmit = async () => {
     try {
       const formData = {
-        status: "active",
+        status: "awaiting_payment",
       };
       await updateApproval(id, formData);
       setIsChange((prev) => !prev);

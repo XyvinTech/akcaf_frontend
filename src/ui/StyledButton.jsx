@@ -16,7 +16,7 @@ const buttonVariants = css`
   ${(props) =>
     props.variant === "secondary" &&
     css`
-    border: none;
+    border: none;font-family: Inter;
       font-size: 16px;
       font-weight: 400;
       color: #4a4647;

@@ -62,7 +62,7 @@ export const approvalColumns = [
   { title: "Name", field: "fullName" },
   { title: "Phone Number", field: "phone" },
   { title: "Email", field: "email" },
-  { title: "Course", field: "experience" },
+  { title: "Course", field: "course" },
   { title: "Batch number", field: "batch" },
 ];
 export const adminColumns = [

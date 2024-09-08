@@ -24,15 +24,19 @@ import AddAdminPage from "../pages/Settings/AddAdminPage";
 import AddRolePage from "../pages/Settings/AddRolePage";
 import LoginPage from "../pages/LoginPage";
 import EditNews from "../pages/News/EditNews";
-import { Edit } from "@mui/icons-material";
 import EditPromotion from "../pages/Promotions/EditPromotion";
 import BatchMemberPage from "../pages/Colleges/BatchMemberPage";
 import GroupMembers from "../pages/Groups/GroupMembers";
 import PaymentPage from "../pages/payments/PaymentPage";
+import QRPage from "../pages/QRPage";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LoginPage />,
+  },
+  {
+    path: "/user",
+    element: <QRPage />,
   },
   {
     path: "/dashboard",

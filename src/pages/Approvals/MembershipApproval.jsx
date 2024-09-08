@@ -13,12 +13,13 @@ const MembershipApproval = () => {
   const [isChange, setIsChange] = useState(false);
   const { fetchApproval, approvals } = useApprovalStore();
   const [approvalId, setApprovalId] = useState(null);
+
+  const handleChange = () => {
+    setIsChange((prev) => !prev);
+  };
   useEffect(() => {
     fetchApproval();
   }, [isChange]);
-  const handleChange = () => {
-    setIsChange(!isChange);
-  };
   const handleReject = (id) => {
     setApprovalId(id);
     setRejectOpen(true);
@@ -33,6 +34,7 @@ const MembershipApproval = () => {
   const handleCloseApprove = () => {
     setApproveOpen(false);
   };
+
   return (
     <>
       {" "}
@@ -63,13 +65,13 @@ const MembershipApproval = () => {
           open={rejectOpen}
           onClose={handleCloseReject}
           id={approvalId}
-          setIsChange={setIsChange}
+          setIsChange={handleChange}
         />
         <ApproveApproval
           open={approveOpen}
           onClose={handleCloseApprove}
           id={approvalId}
-          setIsChange={setIsChange}
+          setIsChange={handleChange}
         />
       </Box>
     </>

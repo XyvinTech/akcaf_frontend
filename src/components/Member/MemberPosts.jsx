@@ -15,7 +15,6 @@ const MemberPosts = ({ id }) => {
   const [approvalId, setApprovalId] = useState(null);
   useEffect(() => {
     fetchFeedByUser(id);
-    console.log("tijo", isChange);
   }, [isChange]);
 
   const handleReject = (id) => {
