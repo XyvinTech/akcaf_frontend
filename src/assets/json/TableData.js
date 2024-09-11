@@ -48,6 +48,7 @@ export const feedColumns = [
   { title: "Date", field: "createdAt", padding: "none" },
   { title: "Member name", field: "fullName" },
   { title: "Type", field: "type" },
+  { title: "Content", field: "content" },
   { title: "Image", field: "media" },
   { title: "Status", field: "status" },
 ];
@@ -55,6 +56,7 @@ export const postColumns = [
   { title: "Date", field: "createdAt", padding: "none" },
   { title: "Type", field: "type" },
   { title: "Image", field: "media" },
+  { title: "Content", field: "content" },
   { title: "Status", field: "status" },
 ];
 export const approvalColumns = [

@@ -60,7 +60,7 @@ const MemberProfile = ({ data }) => {
                     ml={1}
                   >
                     <a
-                      href={media?.url}
+                      href={media?.link}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

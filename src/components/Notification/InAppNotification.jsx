@@ -52,15 +52,20 @@ export default function InAppNotification({}) {
           return;
         }
       }
+      const users = data?.to?.map((user) => ({
+        user: user.value,
+      }));
       const formData = {
         content: data?.content,
         subject: data?.subject,
-        users: data?.to?.map((user) => user.value),
+        users: users,
         media: imageUrl,
       };
       formData.type = "in-app";
       await addNotifications(formData);
+
       reset();
+      set
     } catch (error) {
       toast.error(error.message);
     } finally {
