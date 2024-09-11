@@ -87,6 +87,7 @@ const subNavigation = [
 const SimpleDialog = ({ open, onClose }) => {
   const navigate = useNavigate();
   const handleLogout = () => {
+    localStorage.removeItem("token");
     navigate("/");
   };
 
@@ -170,7 +171,8 @@ const Layout = (props) => {
     setDialogOpen(false);
   };
   const handleLogout = () => {
-    logoutAuth(navigate);
+    localStorage.removeItem("token");
+    navigate("/");
   };
   const drawer = (
     <div style={{ position: "relative", height: "100%" }}>

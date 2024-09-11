@@ -72,12 +72,12 @@ function LoginPage() {
                 name="phone"
                 control={control}
                 defaultValue=""
-                rules={{ required: "Phone number is required" }}
+                rules={{ required: "Email is required" }}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     fullWidth
-                    label="Enter your Phone Number"
+                    label="Enter your Email"
                     variant="outlined"
                     error={!!errors.phone}
                     helperText={errors.phone ? errors.phone.message : ""}
@@ -114,12 +114,12 @@ function LoginPage() {
                 name="otp"
                 control={control}
                 defaultValue=""
-                rules={{ required: "OTP is required" }}
+                rules={{ required: "Password is required" }}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     fullWidth
-                    label="Enter OTP"
+                    label="Enter Password"
                     variant="outlined"
                     type={showOTP ? "password" : "text"}
                     error={!!errors.otp}

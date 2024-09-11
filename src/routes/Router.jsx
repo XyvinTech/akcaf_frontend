@@ -29,6 +29,7 @@ import BatchMemberPage from "../pages/Colleges/BatchMemberPage";
 import GroupMembers from "../pages/Groups/GroupMembers";
 import PaymentPage from "../pages/payments/PaymentPage";
 import QRPage from "../pages/QRPage";
+import { PrivateRoute } from "./PrivateRouter";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -41,186 +42,232 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      <Layout>
-        <DashboardPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <DashboardPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/members",
     element: (
-      <Layout>
-        <MemberPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <MemberPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/members/:id",
     element: (
-      <Layout>
-        <MemberView />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <MemberView />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/members/member",
     element: (
-      <Layout>
-        <AddMemberPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <AddMemberPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/colleges",
     element: (
-      <Layout>
-        <CollegePage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <CollegePage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/college/add",
     element: (
-      <Layout>
-        <AddCollegePage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <AddCollegePage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/college/:id",
     element: (
-      <Layout>
-        <Batchpage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <Batchpage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/college/batch/:id",
     element: (
-      <Layout>
-        <BatchMemberPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <BatchMemberPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/groups",
     element: (
-      <Layout>
-        <GroupPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <GroupPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/group/:id",
     element: (
-      <Layout>
-        <GroupMembers />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <GroupMembers />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/groups/group",
     element: (
-      <Layout>
-        <AddGroupPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <AddGroupPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/events/list",
     element: (
-      <Layout>
-        <EventsListPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <EventsListPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/events/:id",
     element: (
-      <Layout>
-        <EventSinglePage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <EventSinglePage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/events/edit/:id",
     element: (
-      <Layout>
-        <EditEvent />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <EditEvent />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/events/history",
     element: (
-      <Layout>
-        <EventHistoryPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <EventHistoryPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
 
   {
     path: "/approvals",
     element: (
-      <Layout>
-        <ApprovalPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <ApprovalPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/promotions",
     element: (
-      <Layout>
-        <PromotionPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <PromotionPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/promotions/promotion",
     element: (
-      <Layout>
-        <Createpromotion />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <Createpromotion />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/promotions/edit/:id",
     element: (
-      <Layout>
-        <EditPromotion />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <EditPromotion />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/payments",
     element: (
-      <Layout>
-        <PaymentPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <PaymentPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/notifications",
     element: (
-      <Layout>
-        <NotificationPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <NotificationPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/news",
     element: (
-      <Layout>
-        <NewsPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <NewsPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/news/edit/:id",
     element: (
-      <Layout>
-        <EditNews />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <EditNews />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
@@ -234,25 +281,31 @@ const router = createBrowserRouter([
   {
     path: "/settings/add-admin",
     element: (
-      <Layout>
-        <AddAdminPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <AddAdminPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/settings/add-role",
     element: (
-      <Layout>
-        <AddRolePage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <AddRolePage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/logout",
     element: (
-      <Layout>
-        <LogoutPage />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <LogoutPage />
+        </Layout>
+      </PrivateRoute>
     ),
   },
 ]);
