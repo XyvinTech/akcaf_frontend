@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://3.108.205.101:3000/api/v1",
+  baseURL: "https://akcafconnect.com/api/v1/",
 });
 axiosInstance.interceptors.request.use(
   (config) => {
