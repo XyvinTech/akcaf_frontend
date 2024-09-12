@@ -32,7 +32,7 @@ const AddAdmin = () => {
         college: data?.college.value,
         role: data?.role.value,
         phone: data?.phone,
-        password: "password123",
+        password: "admin@akcaf",
       };
       await addAdmins(formData);
       reset();

@@ -9,9 +9,11 @@ export const collegeDropDown = async () => {
     return null;
   }
 };
-export const getCollege = async () => {
+export const getCollege = async (filter) => {
   try {
-    const response = await axiosInstance.get(`/college/list`);
+    const response = await axiosInstance.get(`/college/list`, {
+      params: filter,
+    });
     return response.data;
   } catch (error) {
     return null;
@@ -70,5 +72,19 @@ export const getMemberByBatch = async (collegeId, courseId, batchId) => {
     return response.data;
   } catch (error) {
     throw error;
+  }
+};
+export const addCollegeBulk = async (data) => {
+  try {
+    console.log(data);
+
+    const response = await axiosInstance.post(
+      "/college/bulk",
+      data
+    );
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
   }
 };

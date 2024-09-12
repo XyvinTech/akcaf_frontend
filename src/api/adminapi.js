@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import axiosInstance from "./axiosintercepter";
-const baseURL = "https://akcafconnect.com/api/v1/";
+const baseURL = "https://akcaf-backend.onrender.com/api/v1/";
 export const getLogin = async (datas) => {
   try {
     const response = await axios.post(`${baseURL}admin/login`, datas);

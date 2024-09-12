@@ -15,13 +15,16 @@ const CollegePage = () => {
   const [isChange, setIsChange] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [collegeId, setCollegeId] = useState(null);
-  const { colleges, fetchCollege, deleteColleges } = useCollgeStore();
+  const { colleges, fetchCollege, deleteColleges,pageNo } = useCollgeStore();
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
   };
   useEffect(() => {
-    fetchCollege();
-  }, [isChange]);
+    let filter = {};
+
+    filter.page = pageNo;
+    fetchCollege(filter);
+  }, [isChange, pageNo]);
   const handleRemove = (id) => {
     setCollegeId(id);
     setRemoveOpen(true);

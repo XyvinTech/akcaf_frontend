@@ -9,11 +9,31 @@ import {
   getMemberByBatch,
 } from "../api/collegeapi";
 
-const useCollgeStore = create((set) => ({
+const useCollgeStore = create((set,get) => ({
   colleges: [],
   college: [],
   coursedetails: [],
   batches: [],
+  totalCount: 0,
+  rowPerSize: 10,
+  pageNo: 1,
+  pageInc: () => {
+    const { pageNo, totalCount, rowPerSize } = get();
+    const totalPages = Math.ceil(totalCount / rowPerSize);
+
+    if (pageNo < totalPages) {
+      set({ pageNo: pageNo + 1 });
+    }
+  },
+  pageDec: () => {
+    const { pageNo } = get();
+    if (pageNo > 1) {
+      set({ pageNo: pageNo - 1 });
+    }
+  },
+  rowChange: (value) => {
+    set({ rowPerSize: value });
+  },
   fetchCollege: async (filter) => {
     const allData = await getCollege(filter);
     set({
@@ -24,6 +44,7 @@ const useCollgeStore = create((set) => ({
           courses: college.courseDetails || [],
         })) || [],
     });
+    set({ totalCount: allData?.totalCount || 0 });
   },
 
   addColleges: async (data) => {
