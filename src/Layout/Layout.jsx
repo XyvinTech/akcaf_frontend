@@ -41,7 +41,7 @@ import logo from "../assets/images/logo.png";
 import { LogoutOutlined, PaymentOutlined } from "@mui/icons-material";
 const drawerWidth = 250;
 const subNavigation = [
-  { name: "Dashboard", to: "/", icon: <GridViewIcon /> },
+  { name: "Dashboard", to: "/dashboard", icon: <GridViewIcon /> },
   { name: "Members", to: "/members", icon: <PeopleAltOutlinedIcon /> },
   { name: "Colleges", to: "/colleges", icon: <SchoolOutlinedIcon /> },
   { name: "Groups", to: "/groups", icon: <GroupsOutlinedIcon /> },
