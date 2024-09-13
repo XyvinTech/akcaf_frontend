@@ -16,7 +16,7 @@ const UserCard = ({ user }) => {
       minHeight={"420px"}
       position="relative"
     >
-      <Grid item md={6} xs={12} lg={4}>
+      <Grid item md={6} xs={12} >
         <img
           src={user?.image}
           alt="img"
@@ -29,7 +29,7 @@ const UserCard = ({ user }) => {
         item
         md={6}
         xs={12}
-        lg={8}
+        // lg={6}
         justifyContent={"center"}
         alignItems={"center"}
       >
