@@ -82,7 +82,7 @@ const MemberView = () => {
       <Box padding="15px" marginBottom={4}>
         {selectedTab === 0 && (
           <Grid spacing={2}>
-            <MemberProfile data={member} />
+            <MemberProfile data={member} loading={loading} />
           </Grid>
         )}
         {selectedTab === 1 && (
