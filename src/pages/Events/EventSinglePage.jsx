@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Grid, Skeleton, Tab, Tabs, Typography } from "@mui/material";
 import SpeakerTable from "../../components/Event/SpeakerTable";
 import RsvpTable from "../../components/Event/RsvpTable";
 import CancelEvent from "../../components/Event/CancelEvent";
@@ -13,6 +13,7 @@ const EventSinglePage = () => {
   const [postponeOpen, setPostponeOpen] = useState(false);
   const [cancelOpen, setCancelOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
+  const { loading } = useEventStore();
   const { id } = useParams();
 
   const { fetchEventById, event } = useEventStore();
@@ -78,9 +79,16 @@ const EventSinglePage = () => {
       </Box>{" "}
       <Box padding="30px" marginBottom={4}>
         <Grid container alignItems="center" spacing={4}>
+        {loading ? (
+          <Grid item md={6}>
+            <Skeleton variant="rectangular" width="100%" height={200} />
+        </Grid>) : 
+        (
           <Grid item md={6}>
             <EventCard user={event} />
           </Grid>
+        )}
+          
         </Grid>
       </Box>
       <Box marginBottom={4}>
