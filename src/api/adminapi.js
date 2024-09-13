@@ -30,6 +30,14 @@ export const getAdmin = async () => {
     console.error(error.response.data.message);
   }
 };
+export const getAdminById = async () => {
+  try {
+    const response = await axiosInstance.get(`/admin`);
+    return response.data;
+  } catch (error) {
+    console.error(error.response.data.message);
+  }
+};
 export const fetchListofAdminById = async (id) => {
   try {
     const response = await axiosInstance.get(`/admin/single/${id}`);
