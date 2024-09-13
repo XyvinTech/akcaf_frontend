@@ -19,7 +19,7 @@ const MemberView = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [isChange, setIsChange] = useState(false);
   const { id } = useParams();
-  const {  fetchMemberById,member } = useMemberStore();
+  const { fetchMemberById, member, loading } = useMemberStore();
 
   const handleIsChange = () => {
     setIsChange(!isChange);
