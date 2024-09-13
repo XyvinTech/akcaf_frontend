@@ -2,7 +2,6 @@ import React from "react";
 import { Grid, Stack, Typography, Box } from "@mui/material";
 import { ReactComponent as EmailIcon } from "../assets/icons/EmailIcon.svg";
 import { ReactComponent as PhoneIcon } from "../assets/icons/PhoneIcon.svg";
-
 import { ReactComponent as LocationIcon } from "../assets/icons/LocationIcon.svg";
 
 const UserCard = ({ user }) => {
