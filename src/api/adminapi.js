@@ -12,7 +12,14 @@ export const getLogin = async (datas) => {
     console.error(error.response.data.message);
   }
 };
-
+export const getAdminById = async () => {
+  try {
+    const response = await axiosInstance.get(`/admin`);
+    return response.data;
+  } catch (error) {
+    console.error(error.response.data.message);
+  }
+};
 export const addAdmin = async (data) => {
   try {
     const response = await axiosInstance.post(`/admin`, data);
