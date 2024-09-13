@@ -1,7 +1,6 @@
 export const memberColumns = [
   { title: "Name", field: "fullName", padding: "none" },
   { title: "College Name", field: "college" },
-  { title: "Course", field: "course" },
   { title: "Batch number", field: "batch" },
   { title: "Phone Number", field: "phone" },
   { title: "Status", field: "status" },
