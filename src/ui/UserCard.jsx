@@ -9,10 +9,10 @@ const UserCard = ({ user }) => {
   return (
     <Grid
       container
-      spacing={2}
+      spacing={4}
       bgcolor={"white"}
       borderRadius={"12px"}
-      padding={"10px"}spacing={2}
+      padding={"10px"}
       minHeight={"420px"}
       position="relative"
     >
