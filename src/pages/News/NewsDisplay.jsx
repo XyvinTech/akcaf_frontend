@@ -8,6 +8,7 @@ import NewsPreview from "../../components/News/NewsPreview";
 import { newsColumns } from "../../assets/json/TableData";
 import { useNewsStore } from "../../store/newsStore";
 import { toast } from "react-toastify";
+import { useListStore } from "../../store/listStore";
 
 export default function NewsDisplay() {
   const navigate = useNavigate();
@@ -15,8 +16,8 @@ export default function NewsDisplay() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
-  const { fetchNews, news, deleteNews, fetchNewsById, singleNews } =
-    useNewsStore();
+  const { deleteNews, fetchNewsById, singleNews } = useNewsStore();
+  const { fetchNews, pageNo } = useListStore();
   const [previewOpen, setPreviewOpen] = useState(false);
   const handleOpenFilter = () => {
     setFilterOpen(true);
@@ -47,8 +48,10 @@ export default function NewsDisplay() {
     setIsChange(!isChange);
   };
   useEffect(() => {
-    fetchNews();
-  }, [isChange]);
+    let filter = {};
+    filter.pageNo = pageNo;
+    fetchNews(filter);
+  }, [isChange, pageNo]);
   const handleEdit = (id) => {
     navigate(`/news/edit/${id}`);
   };
@@ -120,13 +123,12 @@ export default function NewsDisplay() {
       >
         <StyledTable
           columns={newsColumns}
-          data={news}
           news
           onDelete={handleDelete}
-          onDeleteRow={handleRowDelete}onSelectionChange={handleSelectionChange}
+          onDeleteRow={handleRowDelete}
+          onSelectionChange={handleSelectionChange}
           onModify={handleEdit}
           onAction={handlePreview}
-          
         />{" "}
         <NewsPreview
           open={previewOpen}

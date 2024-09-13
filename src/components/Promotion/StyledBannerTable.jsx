@@ -5,18 +5,20 @@ import StyledTable from "../../ui/StyledTable";
 import { useNavigate } from "react-router-dom";
 import { usePromotionStore } from "../../store/promotionstore";
 import { toast } from "react-toastify";
+import { useListStore } from "../../store/listStore";
 
 const StyledBannerTable = () => {
   const navigate = useNavigate();
   const [filterOpen, setFilterOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-  const { fetchPromotion, promotions, deletePromotions } = usePromotionStore();
+  const { deletePromotions } = usePromotionStore();
+  const { fetchPromotion, pageNo } = useListStore();
   useEffect(() => {
     let filter = { type: "banner" };
-
+    filter.pageNo = pageNo;
     fetchPromotion(filter);
-  }, [isChange]);
+  }, [isChange, pageNo]);
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -77,7 +79,6 @@ const StyledBannerTable = () => {
       >
         <StyledTable
           columns={userColumns}
-          data={promotions}
           onSelectionChange={handleSelectionChange}
           onDelete={handleDelete}
           onDeleteRow={handleRowDelete}

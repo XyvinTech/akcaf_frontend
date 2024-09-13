@@ -54,20 +54,24 @@ export const editCollege = async (id, data) => {
     toast.error(error.response.data.message);
   }
 };
-export const getBatch = async (collegeId, courseId) => {
+export const getBatch = async (collegeId, courseId,filter) => {
   try {
     const response = await axiosInstance.get(
-      `/college/${collegeId}/course/${courseId}`
+      `/college/${collegeId}/course/${courseId}`,{
+        params: filter,
+      }
     );
     return response.data;
   } catch (error) {
     throw error;
   }
 };
-export const getMemberByBatch = async (collegeId, courseId, batchId) => {
+export const getMemberByBatch = async (collegeId, courseId, batchId,filter) => {
   try {
     const response = await axiosInstance.get(
-      `/college/${collegeId}/course/${courseId}/batch/${batchId}`
+      `/college/${collegeId}/course/${courseId}/batch/${batchId}`,{
+        params: filter,
+      }
     );
     return response.data;
   } catch (error) {

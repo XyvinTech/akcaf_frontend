@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import RemoveCollege from "../../components/College/RemoveCollege";
 import { useCollgeStore } from "../../store/collegestore";
 import { toast } from "react-toastify";
+import { useListStore } from "../../store/listStore";
 
 const CollegePage = () => {
   const navigate = useNavigate();
@@ -15,15 +16,15 @@ const CollegePage = () => {
   const [isChange, setIsChange] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [collegeId, setCollegeId] = useState(null);
-  const { colleges, fetchCollege, deleteColleges,pageNo } = useCollgeStore();
+  const { deleteColleges } = useCollgeStore();
+  const { fetchColleges, pageNo } = useListStore();
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
   };
   useEffect(() => {
     let filter = {};
-
-    filter.page = pageNo;
-    fetchCollege(filter);
+    filter.pageNo = pageNo;
+    fetchColleges(filter);
   }, [isChange, pageNo]);
   const handleRemove = (id) => {
     setCollegeId(id);
@@ -94,7 +95,6 @@ const CollegePage = () => {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <StyledTable
-            data={colleges}
             columns={collegeColumns}
             onSelectionChange={handleSelectionChange}
             onDeleteRow={handleRemove}
@@ -106,9 +106,9 @@ const CollegePage = () => {
             }}
             onDelete={handleDelete}
             onAction={handleMember}
-            onView={(id) => {
-              navigate(`/college/${id}`);
-            }}
+            // onView={(id) => {
+            //   navigate(`/college/${id}`);
+            // }}
           />
           <RemoveCollege
             open={removeOpen}

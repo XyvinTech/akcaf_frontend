@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { createEvent, deleteEventById, getEventById, getEvents, updateEventById } from "../api/eventapi";
+import { createEvent, deleteEventById, getEventById, updateEventById } from "../api/eventapi";
 
 const useEventStore = create((set) => ({
   events: [],
@@ -12,10 +12,7 @@ const useEventStore = create((set) => ({
   addEvent: async (data) => {
     await createEvent(data);
   },
-  fetchEvent: async () => {
-    const allData = await getEvents();
-    set({ events: allData?.data || [] });
-  },
+
   deleteEvent: async (id) => {
     await deleteEventById(id);
   },

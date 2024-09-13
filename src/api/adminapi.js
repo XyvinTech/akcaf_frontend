@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import axiosInstance from "./axiosintercepter";
-const baseURL = "https://akcaf-backend.onrender.com/api/v1/";
+const baseURL = "https://akcafconnect.com/api/v1/";
 export const getLogin = async (datas) => {
   try {
     const response = await axios.post(`${baseURL}admin/login`, datas);
@@ -12,7 +12,14 @@ export const getLogin = async (datas) => {
     console.error(error.response.data.message);
   }
 };
-
+export const getAdminById = async () => {
+  try {
+    const response = await axiosInstance.get(`/admin`);
+    return response.data;
+  } catch (error) {
+    console.error(error.response.data.message);
+  }
+};
 export const addAdmin = async (data) => {
   try {
     const response = await axiosInstance.post(`/admin`, data);
@@ -22,9 +29,11 @@ export const addAdmin = async (data) => {
     throw error.response.data;
   }
 };
-export const getAdmin = async () => {
+export const getAdmin = async (filter) => {
   try {
-    const response = await axiosInstance.get(`/admin/list`);
+    const response = await axiosInstance.get(`/admin/list`, {
+      params: filter,
+    });
     return response.data;
   } catch (error) {
     console.error(error.response.data.message);

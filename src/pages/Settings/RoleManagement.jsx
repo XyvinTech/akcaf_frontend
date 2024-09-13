@@ -7,12 +7,14 @@ import StyledTable from "../../ui/StyledTable.jsx";
 import { roleColumns } from "../../assets/json/TableData";
 import { useRoleStore } from "../../store/roleStore.js";
 import { toast } from "react-toastify";
+import { useListStore } from "../../store/listStore.js";
 export default function RoleManagement() {
   const navigate = useNavigate();
   const [selectedRows, setSelectedRows] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
-  const { getRoles, roles, deleteRoles } = useRoleStore();
+  const {   deleteRoles } = useRoleStore();
+  const { getRoles, pageNo } = useListStore();
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -51,8 +53,10 @@ export default function RoleManagement() {
     });
   };
   useEffect(() => {
-    getRoles();
-  }, [isChange]);
+    let filter = {};
+    filter.pageNo = pageNo;
+    getRoles(filter);
+  }, [isChange, pageNo]);
   return (
     <>
       {" "}
@@ -94,7 +98,6 @@ export default function RoleManagement() {
           >
             <StyledTable
               columns={roleColumns}
-              data={roles}
               onSelectionChange={handleSelectionChange}
               onModify={handleEdit}
               onDelete={handleDelete}

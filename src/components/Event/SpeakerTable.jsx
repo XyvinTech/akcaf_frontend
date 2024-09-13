@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/material";
 import React, { useState } from "react";
 import StyledSearchbar from "../../ui/StyledSearchbar";
-import StyledTable from "../../ui/StyledTable";
+import EventTable from "../../ui/EventTable";
 const SpeakerTable = ({ data }) => {
   const userColumns = [
     { title: "name", field: "name", padding: "none" },
@@ -27,7 +27,7 @@ const SpeakerTable = ({ data }) => {
         p={1}
         border={"1px solid rgba(0, 0, 0, 0.12)"}
       >
-        <StyledTable columns={userColumns} data={data} menu />{" "}
+        <EventTable columns={userColumns} data={data} menu />{" "}
       </Box>
     </>
   );

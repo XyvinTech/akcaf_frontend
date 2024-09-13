@@ -1,9 +1,11 @@
 import { toast } from "react-toastify";
 import axiosInstance from "./axiosintercepter";
 
-export const getApproval = async () => {
+export const getApproval = async (filter) => {
   try {
-    const response = await axiosInstance.get("/admin/approvals");
+    const response = await axiosInstance.get("/admin/approvals", {
+      params: filter,
+    });
     return response.data;
   } catch (error) {
     return null;

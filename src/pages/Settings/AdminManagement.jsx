@@ -6,12 +6,13 @@ import StyledSearchbar from "../../ui/StyledSearchbar.jsx";
 import StyledTable from "../../ui/StyledTable.jsx";
 import { adminColumns, userData } from "../../assets/json/TableData";
 import { useAdminStore } from "../../store/adminStore.js";
+import { useListStore } from "../../store/listStore.js";
 export default function AdminManagement() {
   const navigate = useNavigate();
   const [selectedRows, setSelectedRows] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
-  const { getAdmins, admins } = useAdminStore();
+  const { getAdmins,pageNo } = useListStore();
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -24,8 +25,10 @@ export default function AdminManagement() {
     console.log("Selected items:", newSelectedIds);
   };
   useEffect(() => {
-    getAdmins();
-  }, [isChange]);
+    let filter = {};
+    filter.pageNo = pageNo;
+    getAdmins(filter);
+  }, [isChange,pageNo]);
   return (
     <>
       {" "}
@@ -66,7 +69,7 @@ export default function AdminManagement() {
           >
             <StyledTable
               columns={adminColumns}
-              data={admins}
+            
               onSelectionChange={handleSelectionChange}
             />{" "}
           </Box>

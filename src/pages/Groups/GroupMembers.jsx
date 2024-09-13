@@ -5,13 +5,16 @@ import { StyledButton } from "../../ui/StyledButton";
 import StyledTable from "../../ui/StyledTable";
 import { useGroupStore } from "../../store/groupstore";
 import { groupmemberColumns } from "../../assets/json/TableData";
+import { useListStore } from "../../store/listStore";
 
 const GroupMembers = () => {
   const { id } = useParams();
-  const { fetchMembers, group } = useGroupStore(); 
+  const { fetchMembers, pageNo } = useListStore(); 
   useEffect(() => {
-    fetchMembers(id);
-  }, []);
+    let filter = {};
+    filter.pageNo = pageNo;
+    fetchMembers(id, filter);
+  }, [pageNo]);
   return (
     <>
       {" "}
@@ -39,7 +42,7 @@ const GroupMembers = () => {
           p={1}
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
-          <StyledTable columns={groupmemberColumns} data={group} menu />
+          <StyledTable columns={groupmemberColumns}  menu />
         </Box>
       </Box>
     </>

@@ -6,31 +6,36 @@ import { eventList, userData } from "../../assets/json/TableData";
 import { useNavigate } from "react-router-dom";
 import { useEventStore } from "../../store/eventStore";
 import { toast } from "react-toastify";
+import { useListStore } from "../../store/listStore";
 
 const EventList = () => {
   const navigate = useNavigate();
   const [selectedRows, setSelectedRows] = useState([]);
   const [isChange, setIsChange] = useState(false);
-  const { fetchEvent, events,deleteEvent } = useEventStore();
+  const { deleteEvent } = useEventStore();
+  const { fetchEvent, pageNo } = useListStore();
   useEffect(() => {
-    fetchEvent();
-  }, [isChange]);
+    let filter = {};
+
+    filter.pageNo = pageNo;
+    fetchEvent(filter);
+  }, [isChange, pageNo]);
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
   };
-const handleDelete = async () => {
-  if (selectedRows.length > 0) {
-    await Promise.all(selectedRows?.map((id) => deleteEvent(id)));
+  const handleDelete = async () => {
+    if (selectedRows.length > 0) {
+      await Promise.all(selectedRows?.map((id) => deleteEvent(id)));
+      toast.success("Deleted successfully");
+      setIsChange(!isChange);
+      setSelectedRows([]);
+    }
+  };
+  const handleRowDelete = async (id) => {
+    await deleteEvent(id);
     toast.success("Deleted successfully");
     setIsChange(!isChange);
-    setSelectedRows([]);
-  }
-};
-const handleRowDelete = async (id) => {
-  await deleteEvent(id);
-  toast.success("Deleted successfully");
-  setIsChange(!isChange);
-};
+  };
   return (
     <Box>
       <Stack
@@ -50,7 +55,6 @@ const handleRowDelete = async (id) => {
         border={"1px solid rgba(0, 0, 0, 0.12)"}
       >
         <StyledTable
-          data={events}
           columns={eventList}
           onSelectionChange={handleSelectionChange}
           onView={(id) => {

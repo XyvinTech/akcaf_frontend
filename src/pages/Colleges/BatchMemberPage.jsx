@@ -5,16 +5,18 @@ import { StyledButton } from "../../ui/StyledButton";
 import StyledTable from "../../ui/StyledTable";
 import { useCollgeStore } from "../../store/collegestore";
 import { member } from "../../assets/json/TableData";
+import { useListStore } from "../../store/listStore";
 
 const BatchMemberPage = () => {
   const { id } = useParams();
   const location = useLocation();
   const { collegeId, courseId } = location.state || {};
-  const { batches, getMember } = useCollgeStore();
-  console.log(id, collegeId, courseId);
+  const {  getMember, pageNo } = useListStore();
   useEffect(() => {
-    getMember(collegeId, courseId, id);
-  }, []);
+    let filter = {};
+    filter.pageNo = pageNo;
+    getMember(collegeId, courseId, id, filter);
+  }, [pageNo]);
   return (
     <>
       {" "}
@@ -42,7 +44,7 @@ const BatchMemberPage = () => {
           p={1}
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
-          <StyledTable columns={member} data={batches} menu />
+          <StyledTable columns={member}  menu />
         </Box>
       </Box>
     </>

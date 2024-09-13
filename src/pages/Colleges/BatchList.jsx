@@ -4,23 +4,25 @@ import { useCollgeStore } from "../../store/collegestore";
 import { useNavigate, useParams } from "react-router-dom";
 import StyledTable from "../../ui/StyledTable";
 import { batchColumns } from "../../assets/json/TableData";
+import { useListStore } from "../../store/listStore";
 
 const BatchList = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const navigate = useNavigate();
-  const { coursedetails, batches, fetchBatch } = useCollgeStore();
+  const { coursedetails, pageNo, fetchBatch } = useListStore();
   const { id } = useParams();
-  console.log('coll',id);
   const collegeCourses = coursedetails?.find(
     (college) => college.collegeId === id
   );
 
   useEffect(() => {
     if (collegeCourses?.courses?.[selectedTab]) {
+      let filter = {};
+      filter.pageNo = pageNo;
       const selectedCourseId = collegeCourses.courses[selectedTab]._id;
-      fetchBatch(id, selectedCourseId);
+      fetchBatch(id, selectedCourseId, filter);
     }
-  }, [selectedTab, collegeCourses]);
+  }, [selectedTab, collegeCourses, pageNo]);
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -69,7 +71,6 @@ const BatchList = () => {
         >
           <StyledTable
             columns={batchColumns}
-            data={batches}
             onView={(view) => {
               navigate(`/college/batch/${view}`, { state: { collegeId: id,courseId : collegeCourses.courses[selectedTab]._id } });
             }}

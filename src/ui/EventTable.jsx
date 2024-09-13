@@ -24,7 +24,6 @@ import { ReactComponent as RightIcon } from "../assets/icons/RightIcon.svg";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { StyledButton } from "./StyledButton";
 import moment from "moment";
-import { useListStore } from "../store/listStore";
 
 const StyledTableCell = styled(TableCell)`
   &.${tableCellClasses.head} {
@@ -34,7 +33,6 @@ const StyledTableCell = styled(TableCell)`
     padding: 16px;
 
     text-align: center;
-  
     font-weight: 600;
   }
   &.${tableCellClasses.body} {
@@ -58,7 +56,7 @@ const StyledTableRow = styled(TableRow)`
   }
 `;
 
-const StyledTable = ({
+const EventTable = ({
   columns,
   onSelectionChange,
   onView,
@@ -66,6 +64,7 @@ const StyledTable = ({
   onModify,
   onAction,
   menu,
+  data,
   news,
   onDeleteRow,
   member,
@@ -75,19 +74,10 @@ const StyledTable = ({
   const [selectedIds, setSelectedIds] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [rowId, setRowId] = useState(null);
-  const {
-    lists,
-    totalCount,
-    rowPerSize,
-    rowChange,
-    pageNo,
-    pageInc,
-    loading,
-    pageDec,
-  } = useListStore();
+
   const handleSelectAllClick = (event) => {
     const isChecked = event.target.checked;
-    const newSelectedIds = isChecked ? lists.map((row) => row._id) : [];
+    const newSelectedIds = isChecked ? data.map((row) => row._id) : [];
     setSelectedIds(newSelectedIds);
     onSelectionChange(newSelectedIds);
   };
@@ -136,8 +126,15 @@ const StyledTable = ({
   const handleRowClick = (id) => {
     onView(id);
   };
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
 
+    return () => clearTimeout(timer);
+  }, []);
   const isSelected = (id) => selectedIds.includes(id);
 
   const getStatusVariant = (status) => {
@@ -181,9 +178,9 @@ const StyledTable = ({
               <StyledTableCell padding="checkbox">
                 <Checkbox
                   checked={
-                    lists &&
-                    lists.length > 0 &&
-                    selectedIds.length === lists.length
+                    data &&
+                    data.length > 0 &&
+                    selectedIds.length === data.length
                   }
                   onChange={handleSelectAllClick}
                 />
@@ -201,6 +198,8 @@ const StyledTable = ({
           </TableHead>
           <TableBody>
             {loading ? (
+              // Display skeletons while loading
+
               Array.from(new Array(5)).map((_, index) => (
                 <StyledTableRow key={index}>
                   <StyledTableCell padding="checkbox">
@@ -227,7 +226,7 @@ const StyledTable = ({
                   </StyledTableCell>
                 </StyledTableRow>
               ))
-            ) : lists.length === 0 ? (
+            ) : !data || data.length === 0 ? (
               <StyledTableRow>
                 <StyledTableCell colSpan={columns.length + 2}>
                   <Typography variant="h7" textAlign="center">
@@ -236,7 +235,7 @@ const StyledTable = ({
                 </StyledTableCell>
               </StyledTableRow>
             ) : (
-              lists.map((row) => (
+              data.map((row) => (
                 <StyledTableRow
                   role="checkbox"
                   key={row._id}
@@ -456,12 +455,10 @@ const StyledTable = ({
             <Box display="flex" alignItems="center">
               <TablePagination
                 component="div"
-                rowsPerPage={rowPerSize}
-                labelDisplayedRows={({ from, to }) =>
-                  `${pageNo}-${Math.ceil(
-                    totalCount / rowPerSize
-                  )} of ${totalCount}`
-                }
+                count={data ? data.length : 0}
+                rowsPerPage={10}
+                page={0}
+                onPageChange={() => {}}
                 ActionsComponent={({ onPageChange }) => (
                   <Stack
                     direction="row"
@@ -469,30 +466,8 @@ const StyledTable = ({
                     alignItems="center"
                     marginLeft={2}
                   >
-                    {" "}
-                    <Box
-                      onClick={pageDec}
-                      sx={{
-                        cursor: pageNo > 1 ? "pointer" : "not-allowed",
-                        opacity: pageNo > 1 ? 1 : 0.5,
-                      }}
-                    >
-                      <LeftIcon />{" "}
-                    </Box>
-                    <Box
-                      onClick={pageInc}
-                      sx={{
-                        cursor:
-                          pageNo < Math.ceil(totalCount / rowPerSize)
-                            ? "pointer"
-                            : "not-allowed",
-                        opacity:
-                          pageNo < Math.ceil(totalCount / rowPerSize) ? 1 : 0.5,
-                      }}
-                    >
-                      {" "}
-                      <RightIcon />{" "}
-                    </Box>
+                    <LeftIcon />
+                    <RightIcon />
                   </Stack>
                 )}
               />
@@ -504,4 +479,4 @@ const StyledTable = ({
   );
 };
 
-export default StyledTable;
+export default EventTable;

@@ -10,9 +10,11 @@ export const createRole = async (data) => {
     throw error.response.data;
   }
 };
-export const fetchRole = async () => {
+export const fetchRole = async (filter) => {
   try {
-    const response = await axiosInstance.get("/role/list");
+    const response = await axiosInstance.get("/role/list", {
+      params: filter,
+    });
     return response.data;
   } catch (error) {
     console.error(error.response.data.message);

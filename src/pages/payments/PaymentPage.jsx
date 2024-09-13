@@ -5,12 +5,15 @@ import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import { usePaymentStore } from "../../store/paymentstore";
 import { paymentColumns } from "../../assets/json/TableData";
+import { useListStore } from "../../store/listStore";
 
 const MemberPage = () => {
-  const { fetchPayment, payments } = usePaymentStore();
+  const { fetchPayment, pageNo } = useListStore();
   useEffect(() => {
-    fetchPayment();
-  }, []);
+    let filter = {};
+    filter.pageNo = pageNo;
+    fetchPayment(filter);
+  }, [pageNo]);
 
   return (
     <>
@@ -48,7 +51,7 @@ const MemberPage = () => {
           p={1}
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
-          <StyledTable data={payments} columns={paymentColumns} menu/>
+          <StyledTable  columns={paymentColumns} menu />
         </Box>
       </Box>
     </>

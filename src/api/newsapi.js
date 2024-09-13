@@ -1,9 +1,11 @@
 import { toast } from "react-toastify";
 import axiosInstance from "./axiosintercepter";
 
-export const getNews = async () => {
+export const getNews = async (filter) => {
   try {
-    const response = await axiosInstance.get("/news/list");
+    const response = await axiosInstance.get("/news/list",{
+      params: filter,
+    });
     return response.data;
   } catch (error) {
     return null;

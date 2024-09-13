@@ -6,20 +6,23 @@ import RejectEntry from "../../components/Approve/RejectEntry";
 import ApproveApproval from "../../components/Approve/ApproveApproval";
 import { useApprovalStore } from "../../store/approvalstore";
 import { approvalColumns } from "../../assets/json/TableData";
+import { useListStore } from "../../store/listStore";
 
 const MembershipApproval = () => {
   const [rejectOpen, setRejectOpen] = useState(false);
   const [approveOpen, setApproveOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
-  const { fetchApproval, approvals } = useApprovalStore();
+  const { fetchApproval, pageNo } = useListStore();
   const [approvalId, setApprovalId] = useState(null);
 
   const handleChange = () => {
     setIsChange((prev) => !prev);
   };
   useEffect(() => {
-    fetchApproval();
-  }, [isChange]);
+    let filter = {};
+    filter.pageNo = pageNo;
+    fetchApproval(filter);
+  }, [isChange, pageNo]);
   const handleReject = (id) => {
     setApprovalId(id);
     setRejectOpen(true);
@@ -56,7 +59,6 @@ const MembershipApproval = () => {
       >
         <StyledTable
           columns={approvalColumns}
-          data={approvals}
           payment
           onModify={handleApprove}
           onAction={handleReject}

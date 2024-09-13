@@ -7,16 +7,19 @@ import { memberColumns, userData } from "../../assets/json/TableData";
 import { useNavigate } from "react-router-dom";
 import DeleteProfile from "../../components/Member/DeleteProfile";
 import { useMemberStore } from "../../store/Memberstore";
+import { useListStore } from "../../store/listStore";
 
 const MemberPage = () => {
   const navigate = useNavigate();
-  const { fetchMember, members } = useMemberStore();
+  const { fetchMember,pageNo } = useListStore();
   const [isChange, setIschange] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [memberId, setMemberId] = useState(null);
   useEffect(() => {
-    fetchMember();
-  }, [isChange]);
+    let filter = {};
+    filter.pageNo = pageNo;
+    fetchMember(filter);
+  }, [isChange, pageNo]);  
 
   const handleRowDelete = (id) => {
     setMemberId(id);
@@ -72,7 +75,6 @@ const MemberPage = () => {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <StyledTable
-            data={members}
             columns={memberColumns}
             member
             onDeleteRow={handleRowDelete}

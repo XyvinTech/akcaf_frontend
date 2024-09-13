@@ -11,9 +11,11 @@ export const getFeed = async (filter) => {
     return null;
   }
 };
-export const getFeedByUser = async (id) => {
+export const getFeedByUser = async (id,filter) => {
   try {
-    const response = await axiosInstance.get(`/feeds/user/${id}`);
+    const response = await axiosInstance.get(`/feeds/user/${id}`,{
+      params: filter,
+    });
     return response.data;
   } catch (error) {
     return null;

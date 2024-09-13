@@ -1,9 +1,11 @@
 import { toast } from "react-toastify";
 import axiosInstance from "./axiosintercepter";
 
-export const getGroup = async () => {
+export const getGroup = async (filter) => {
   try {
-    const response = await axiosInstance.get(`/chat/list-group`);
+    const response = await axiosInstance.get(`/chat/list-group`,{
+      params: filter,
+    });
     return response.data;
   } catch (error) {
     return null;
@@ -19,9 +21,11 @@ export const addGroup = async (data) => {
     throw error.response.data;
   }
 };
-export const getGroupById = async (id) => {
+export const getGroupById = async (id,filter) => {
   try {
-    const response = await axiosInstance.get(`/chat/group-details/${id}`);
+    const response = await axiosInstance.get(`/chat/group-details/${id}`,{
+      params: filter,
+    });
     return response.data;
   } catch (error) {
     return null;

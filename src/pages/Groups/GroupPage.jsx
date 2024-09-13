@@ -7,15 +7,19 @@ import { useNavigate } from "react-router-dom";
 import { groupColumns } from "../../assets/json/TableData";
 import { useGroupStore } from "../../store/groupstore";
 import { toast } from "react-toastify";
+import { useListStore } from "../../store/listStore";
 
 const GroupPage = () => {
   const navigate = useNavigate();
-  const { fetchGroup, groups, deleteGroups } = useGroupStore();
+  const {   deleteGroups } = useGroupStore();
+  const { fetchGroup, pageNo } = useListStore();
   const [selectedRows, setSelectedRows] = useState([]);
   const [isChange, setIsChange] = useState(false);
   useEffect(() => {
-    fetchGroup();
-  }, [isChange]);
+    let filter = {};
+    filter.pageNo = pageNo;
+    fetchGroup(filter);
+  }, [isChange, pageNo]);
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
   };
@@ -84,7 +88,6 @@ const GroupPage = () => {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <StyledTable
-            data={groups}
             columns={groupColumns}
             onModify={(id) => {
               navigate("/groups/group", {

@@ -1,5 +1,4 @@
 import React from "react";
-import StyledTable from "../../ui/StyledTable";
 import { Box, Grid, Grid2, Stack, Typography } from "@mui/material";
 import AddMember from "../../components/Member/AddMember";
 

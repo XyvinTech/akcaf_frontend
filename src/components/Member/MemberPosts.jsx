@@ -6,16 +6,20 @@ import { useFeedStore } from "../../store/feedStore";
 import { postColumns } from "../../assets/json/TableData";
 import FeedApproval from "../Approve/FeedApproval";
 import FeedReject from "../Approve/FeedReject";
+import { useListStore } from "../../store/listStore";
 
 const MemberPosts = ({ id }) => {
-  const { fetchFeedByUser, feeds } = useFeedStore();
+  const { fetchFeedByUser, pageNo } = useListStore();
   const [rejectOpen, setRejectOpen] = useState(false);
   const [approveOpen, setApproveOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
   const [approvalId, setApprovalId] = useState(null);
   useEffect(() => {
-    fetchFeedByUser(id);
-  }, [isChange]);
+    let filter = {};
+
+    filter.pageNo = pageNo;
+    fetchFeedByUser(id, filter);
+  }, [isChange, pageNo]);
 
   const handleReject = (id) => {
     setApprovalId(id);
@@ -53,7 +57,6 @@ const MemberPosts = ({ id }) => {
         >
           <StyledTable
             columns={postColumns}
-            data={feeds}
             payment
             onAction={handleReject}
             onModify={handleApprove}

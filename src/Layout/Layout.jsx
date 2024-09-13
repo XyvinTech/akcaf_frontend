@@ -39,9 +39,10 @@ import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import ApprovalOutlinedIcon from "@mui/icons-material/ApprovalOutlined";
 import logo from "../assets/images/logo.png";
 import { LogoutOutlined, PaymentOutlined } from "@mui/icons-material";
+import { useAdminStore } from "../store/adminStore";
 const drawerWidth = 250;
 const subNavigation = [
-  { name: "Dashboard", to: "/", icon: <GridViewIcon /> },
+  { name: "Dashboard", to: "/dashboard", icon: <GridViewIcon /> },
   { name: "Members", to: "/members", icon: <PeopleAltOutlinedIcon /> },
   { name: "Colleges", to: "/colleges", icon: <SchoolOutlinedIcon /> },
   { name: "Groups", to: "/groups", icon: <GroupsOutlinedIcon /> },
@@ -86,10 +87,15 @@ const subNavigation = [
 ];
 const SimpleDialog = ({ open, onClose }) => {
   const navigate = useNavigate();
+  const { singleAdmin, fetchAdminById } = useAdminStore();
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/");
   };
+  useEffect(() => {
+    fetchAdminById();
+  }, []);
+  console.log("single", singleAdmin);
 
   return (
     <Dialog
@@ -110,7 +116,7 @@ const SimpleDialog = ({ open, onClose }) => {
       <Stack spacing={2} borderRadius={3} padding="10px" paddingTop={"20px"}>
         <Stack alignItems="center">
           <Typography variant="h7" color="#292D32" paddingBottom={1}>
-            Admin
+          {singleAdmin?.name}
           </Typography>
           <Typography variant="h7" color="rgba(41, 45, 50, 0.44)">
             Admin
@@ -142,7 +148,7 @@ const Layout = (props) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
+const {singleAdmin}=useAdminStore()
   const location = useLocation();
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -392,7 +398,7 @@ const Layout = (props) => {
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ marginLeft: "10px" }}>
                   <Typography variant="h7" color={"#292D32"} display="block">
-                    Admin
+                  {singleAdmin?.name}
                   </Typography>
                   <Typography
                     variant="h7"
