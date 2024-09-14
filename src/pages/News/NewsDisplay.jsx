@@ -17,7 +17,8 @@ export default function NewsDisplay() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
   const { deleteNews, fetchNewsById, singleNews } = useNewsStore();
-  const { fetchNews, pageNo } = useListStore();
+  const { fetchNews} = useListStore();
+  const [pageNo, setPageNo] = useState(1);
   const [previewOpen, setPreviewOpen] = useState(false);
   const handleOpenFilter = () => {
     setFilterOpen(true);
@@ -128,6 +129,8 @@ export default function NewsDisplay() {
           onDeleteRow={handleRowDelete}
           onSelectionChange={handleSelectionChange}
           onModify={handleEdit}
+          pageNo={pageNo}
+          setPageNo={setPageNo}
           onAction={handlePreview}
         />{" "}
         <NewsPreview

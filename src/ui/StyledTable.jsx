@@ -34,7 +34,7 @@ const StyledTableCell = styled(TableCell)`
     padding: 16px;
 
     text-align: center;
-  
+
     font-weight: 600;
   }
   &.${tableCellClasses.body} {
@@ -67,6 +67,8 @@ const StyledTable = ({
   onAction,
   menu,
   news,
+  pageNo,
+  setPageNo,
   onDeleteRow,
   member,
   payment,
@@ -75,16 +77,7 @@ const StyledTable = ({
   const [selectedIds, setSelectedIds] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [rowId, setRowId] = useState(null);
-  const {
-    lists,
-    totalCount,
-    rowPerSize,
-    rowChange,
-    pageNo,
-    pageInc,
-    loading,
-    pageDec,
-  } = useListStore();
+  const { lists, totalCount, rowPerSize, rowChange, loading } = useListStore();
   const handleSelectAllClick = (event) => {
     const isChecked = event.target.checked;
     const newSelectedIds = isChecked ? lists.map((row) => row._id) : [];
@@ -137,7 +130,6 @@ const StyledTable = ({
     onView(id);
   };
 
-
   const isSelected = (id) => selectedIds.includes(id);
 
   const getStatusVariant = (status) => {
@@ -172,6 +164,13 @@ const StyledTable = ({
   const formatTime = (time) => {
     return moment(time).format("h:mm A");
   };
+  const pageInc = () => {
+    setPageNo((prev) => prev + 1);
+  };
+  const pageDec = () => {
+    setPageNo((prev) => prev - 1);
+  };
+
   return (
     <Box bgcolor={"white"} borderRadius={"16px"}>
       <TableContainer sx={{ border: "none" }}>
@@ -471,7 +470,7 @@ const StyledTable = ({
                   >
                     {" "}
                     <Box
-                      onClick={pageDec}
+                      onClick={pageInc}
                       sx={{
                         cursor: pageNo > 1 ? "pointer" : "not-allowed",
                         opacity: pageNo > 1 ? 1 : 0.5,

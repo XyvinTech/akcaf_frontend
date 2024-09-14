@@ -14,7 +14,8 @@ export default function RoleManagement() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
   const {   deleteRoles } = useRoleStore();
-  const { getRoles, pageNo } = useListStore();
+  const { getRoles } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -101,6 +102,8 @@ export default function RoleManagement() {
               onSelectionChange={handleSelectionChange}
               onModify={handleEdit}
               onDelete={handleDelete}
+              pageNo={pageNo}
+              setPageNo={setPageNo}
               onDeleteRow={handleRowDelete}
             />{" "}
           </Box>

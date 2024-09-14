@@ -8,7 +8,7 @@ import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar.jsx";
 export default function EventHistorypage() {
   const [filterOpen, setFilterOpen] = useState(false);
-
+  const [pageNo, setPageNo] = useState(1);
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -16,7 +16,7 @@ export default function EventHistorypage() {
   const handleCloseFilter = () => {
     setFilterOpen(false);
   };
- 
+
   return (
     <>
       {" "}
@@ -47,12 +47,11 @@ export default function EventHistorypage() {
           <Stack
             direction={"row"}
             justifyContent={"end"}
-            paddingBottom={'15px'}
+            paddingBottom={"15px"}
             alignItems={"center"}
           >
             <Stack direction={"row"} spacing={2}>
               <StyledSearchbar />
-           
             </Stack>
           </Stack>{" "}
           <Box
@@ -61,7 +60,12 @@ export default function EventHistorypage() {
             p={1}
             border={"1px solid rgba(0, 0, 0, 0.12)"}
           >
-            <StyledTable columns={memberColumns} data={userData} />{" "}
+            <StyledTable
+              columns={memberColumns}
+              data={userData}
+              pageNo={pageNo}
+              setPageNo={setPageNo}
+            />{" "}
           </Box>
         </>
       </Box>

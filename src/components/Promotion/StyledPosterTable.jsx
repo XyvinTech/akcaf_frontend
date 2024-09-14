@@ -12,8 +12,9 @@ const StyledPosterTable = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-  const {  deletePromotions } = usePromotionStore();
-  const { fetchPromotion, pageNo } = useListStore();
+  const { deletePromotions } = usePromotionStore();
+  const { fetchPromotion } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
   useEffect(() => {
     let filter = { type: "poster" };
     filter.pageNo = pageNo;
@@ -83,6 +84,8 @@ const StyledPosterTable = () => {
           onDelete={handleDelete}
           onDeleteRow={handleRowDelete}
           onModify={handleEdit}
+          pageNo={pageNo}
+          setPageNo={setPageNo}
         />{" "}
       </Box>
     </>

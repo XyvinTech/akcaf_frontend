@@ -11,7 +11,8 @@ const BatchMemberPage = () => {
   const { id } = useParams();
   const location = useLocation();
   const { collegeId, courseId } = location.state || {};
-  const {  getMember, pageNo } = useListStore();
+  const { getMember } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
@@ -44,7 +45,12 @@ const BatchMemberPage = () => {
           p={1}
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
-          <StyledTable columns={member}  menu />
+          <StyledTable
+            columns={member}
+            menu
+            pageNo={pageNo}
+            setPageNo={setPageNo}
+          />
         </Box>
       </Box>
     </>

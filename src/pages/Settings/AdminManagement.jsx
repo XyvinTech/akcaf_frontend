@@ -12,7 +12,8 @@ export default function AdminManagement() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
-  const { getAdmins,pageNo } = useListStore();
+  const { getAdmins } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -28,7 +29,7 @@ export default function AdminManagement() {
     let filter = {};
     filter.pageNo = pageNo;
     getAdmins(filter);
-  }, [isChange,pageNo]);
+  }, [isChange, pageNo]);
   return (
     <>
       {" "}
@@ -69,7 +70,8 @@ export default function AdminManagement() {
           >
             <StyledTable
               columns={adminColumns}
-            
+              pageNo={pageNo}
+              setPageNo={setPageNo}
               onSelectionChange={handleSelectionChange}
             />{" "}
           </Box>

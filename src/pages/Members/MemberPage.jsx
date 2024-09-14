@@ -11,15 +11,16 @@ import { useListStore } from "../../store/listStore";
 
 const MemberPage = () => {
   const navigate = useNavigate();
-  const { fetchMember,pageNo } = useListStore();
+  const { fetchMember } = useListStore();
   const [isChange, setIschange] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [memberId, setMemberId] = useState(null);
+  const [pageNo, setPageNo] = useState(1);
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
     fetchMember(filter);
-  }, [isChange, pageNo]);  
+  }, [isChange, pageNo]);
 
   const handleRowDelete = (id) => {
     setMemberId(id);
@@ -81,6 +82,8 @@ const MemberPage = () => {
             onView={(id) => {
               navigate(`/members/${id}`);
             }}
+            pageNo={pageNo}
+            setPageNo={setPageNo}
             onModify={(id) => {
               navigate(`/members/member`, {
                 state: { memberId: id, isUpdate: true },

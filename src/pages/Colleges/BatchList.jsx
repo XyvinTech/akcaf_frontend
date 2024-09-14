@@ -9,7 +9,8 @@ import { useListStore } from "../../store/listStore";
 const BatchList = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const navigate = useNavigate();
-  const { coursedetails, pageNo, fetchBatch } = useListStore();
+  const { coursedetails,  fetchBatch } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
   const { id } = useParams();
   const collegeCourses = coursedetails?.find(
     (college) => college.collegeId === id
@@ -74,7 +75,9 @@ const BatchList = () => {
             onView={(view) => {
               navigate(`/college/batch/${view}`, { state: { collegeId: id,courseId : collegeCourses.courses[selectedTab]._id } });
             }}
-            menu
+            menu 
+            pageNo={pageNo}
+            setPageNo={setPageNo}
           />
         </Box>
       </Box>

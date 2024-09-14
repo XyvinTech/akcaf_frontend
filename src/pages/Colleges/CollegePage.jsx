@@ -17,7 +17,8 @@ const CollegePage = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [collegeId, setCollegeId] = useState(null);
   const { deleteColleges } = useCollgeStore();
-  const { fetchColleges, pageNo } = useListStore();
+  const { fetchColleges } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
   };
@@ -104,6 +105,8 @@ const CollegePage = () => {
                 state: { collegeId: id, isUpdate: true },
               });
             }}
+            pageNo={pageNo}
+            setPageNo={setPageNo}
             onDelete={handleDelete}
             onAction={handleMember}
             // onView={(id) => {

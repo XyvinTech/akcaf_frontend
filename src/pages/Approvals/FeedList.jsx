@@ -12,7 +12,8 @@ const FeedList = () => {
   const [rejectOpen, setRejectOpen] = useState(false);
   const [approveOpen, setApproveOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
-  const { fetchFeed, pageNo } = useListStore();
+  const { fetchFeed } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
   const [approvalId, setApprovalId] = useState(null);
   useEffect(() => {
     let filter = {};
@@ -55,7 +56,8 @@ const FeedList = () => {
       >
         <StyledTable
           columns={feedColumns}
-        
+          pageNo={pageNo}
+          setPageNo={setPageNo}
           payment
           onModify={handleApprove}
           onAction={handleReject}

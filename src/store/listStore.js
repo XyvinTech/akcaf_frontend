@@ -18,6 +18,9 @@ const useListStore = create((set, get) => ({
   pageNo: 1,
   loading: false,
   coursedetails: [],
+  pageInitial: (value) => {
+    set({ pageNo: value });
+  },
   pageInc: () => {
     const { pageNo, totalCount, rowPerSize } = get();
     const totalPages = Math.ceil(totalCount / rowPerSize);
@@ -35,6 +38,7 @@ const useListStore = create((set, get) => ({
   rowChange: (value) => {
     set({ rowPerSize: value });
   },
+
   fetchColleges: async (filter) => {
     set({ loading: true });
     const allData = await getCollege(filter);

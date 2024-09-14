@@ -8,7 +8,8 @@ import { paymentColumns } from "../../assets/json/TableData";
 import { useListStore } from "../../store/listStore";
 
 const MemberPage = () => {
-  const { fetchPayment, pageNo } = useListStore();
+  const { fetchPayment } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
@@ -51,7 +52,12 @@ const MemberPage = () => {
           p={1}
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
-          <StyledTable  columns={paymentColumns} menu />
+          <StyledTable
+            columns={paymentColumns}
+            menu
+            pageNo={pageNo}
+            setPageNo={setPageNo}
+          />
         </Box>
       </Box>
     </>

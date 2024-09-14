@@ -13,7 +13,8 @@ const EventList = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [isChange, setIsChange] = useState(false);
   const { deleteEvent } = useEventStore();
-  const { fetchEvent, pageNo } = useListStore();
+  const { fetchEvent } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
   useEffect(() => {
     let filter = {};
 
@@ -60,6 +61,8 @@ const EventList = () => {
           onView={(id) => {
             navigate(`/events/${id}`);
           }}
+          pageNo={pageNo}
+          setPageNo={setPageNo}
           onDelete={handleDelete}
           onDeleteRow={handleRowDelete}
           onModify={(id) => {

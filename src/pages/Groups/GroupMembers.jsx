@@ -9,7 +9,8 @@ import { useListStore } from "../../store/listStore";
 
 const GroupMembers = () => {
   const { id } = useParams();
-  const { fetchMembers, pageNo } = useListStore(); 
+  const { fetchMembers } = useListStore(); 
+  const [pageNo, setPageNo] = useState(1);
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
@@ -42,7 +43,7 @@ const GroupMembers = () => {
           p={1}
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
-          <StyledTable columns={groupmemberColumns}  menu />
+          <StyledTable columns={groupmemberColumns}  menu  pageNo={pageNo} setPageNo={setPageNo}/>
         </Box>
       </Box>
     </>

@@ -12,7 +12,8 @@ import { useListStore } from "../../store/listStore";
 const GroupPage = () => {
   const navigate = useNavigate();
   const {   deleteGroups } = useGroupStore();
-  const { fetchGroup, pageNo } = useListStore();
+  const { fetchGroup } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isChange, setIsChange] = useState(false);
   useEffect(() => {
@@ -97,6 +98,8 @@ const GroupPage = () => {
             onView={(rowId) => {
               navigate(`/group/${rowId}`);
             }}
+            pageNo={pageNo}
+            setPageNo={setPageNo}
             onSelectionChange={handleSelectionChange}
             onDelete={handleDelete}
             onDeleteRow={handleRowDelete}

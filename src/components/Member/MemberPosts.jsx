@@ -9,7 +9,8 @@ import FeedReject from "../Approve/FeedReject";
 import { useListStore } from "../../store/listStore";
 
 const MemberPosts = ({ id }) => {
-  const { fetchFeedByUser, pageNo } = useListStore();
+  const { fetchFeedByUser } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
   const [rejectOpen, setRejectOpen] = useState(false);
   const [approveOpen, setApproveOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
@@ -60,6 +61,8 @@ const MemberPosts = ({ id }) => {
             payment
             onAction={handleReject}
             onModify={handleApprove}
+            pageNo={pageNo}
+            setPageNo={setPageNo}
           />{" "}
           <FeedApproval
             open={approveOpen}

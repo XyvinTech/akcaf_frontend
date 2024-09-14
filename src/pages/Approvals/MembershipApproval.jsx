@@ -12,9 +12,9 @@ const MembershipApproval = () => {
   const [rejectOpen, setRejectOpen] = useState(false);
   const [approveOpen, setApproveOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
-  const { fetchApproval, pageNo } = useListStore();
+  const { fetchApproval } = useListStore();
   const [approvalId, setApprovalId] = useState(null);
-
+  const [pageNo, setPageNo] = useState(1);
   const handleChange = () => {
     setIsChange((prev) => !prev);
   };
@@ -62,6 +62,8 @@ const MembershipApproval = () => {
           payment
           onModify={handleApprove}
           onAction={handleReject}
+          pageNo={pageNo}
+          setPageNo={setPageNo}
         />
         <RejectEntry
           open={rejectOpen}

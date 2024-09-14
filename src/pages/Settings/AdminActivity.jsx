@@ -9,7 +9,7 @@ export default function AdminActivity() {
   const navigate = useNavigate();
   const [selectedRows, setSelectedRows] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
-
+  const [pageNo, setPageNo] = useState(1);
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -67,6 +67,8 @@ export default function AdminActivity() {
               data={userData}
               onSelectionChange={handleSelectionChange}
               onView={handleView}
+              pageNo={pageNo}
+              setPageNo={setPageNo}
             />{" "}
           </Box>
         </Grid>

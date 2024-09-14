@@ -13,7 +13,8 @@ const StyledNoticeTable = () => {
   const [isChange, setIsChange] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const { deletePromotions } = usePromotionStore();
-  const { fetchPromotion, pageNo } = useListStore();
+  const { fetchPromotion } = useListStore();
+  const [pageNo, setPageNo] = useState(1);
   useEffect(() => {
     let filter = { type: "notice" };
     filter.pageNo = pageNo;
@@ -83,6 +84,8 @@ const StyledNoticeTable = () => {
           onDelete={handleDelete}
           onDeleteRow={handleRowDelete}
           onModify={handleEdit}
+          pageNo={pageNo}
+          setPageNo={setPageNo}
         />{" "}
       </Box>
     </>
