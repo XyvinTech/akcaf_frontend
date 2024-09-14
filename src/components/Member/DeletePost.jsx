@@ -46,8 +46,8 @@ const DeleteProfile = ({ open, onClose, onChange }) => {
               color={"textSecondary"}
               textAlign={"center"}
             >
-              Lorem ipsum dolor sit amet consectetur. Eget in ac urna
-              suspendisse.{" "}
+              {/* Lorem ipsum dolor sit amet consectetur. Eget in ac urna
+              suspendisse.{" "} */}
             </Typography>
           </Stack>
         </DialogContent>

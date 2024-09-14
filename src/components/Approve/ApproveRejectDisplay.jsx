@@ -99,7 +99,7 @@ const ApproveRejectDisplay = ({ open, onClose, data, onChange }) => {
             Reason for Rejection
           </Typography>
           <Typography variant="h7" color={"textSecondary"}>
-            {data?.reason || "Lorem ipsum dolor sit amet consectetur."}
+            {data?.reason }
           </Typography>
         </Stack>
       </DialogContent>

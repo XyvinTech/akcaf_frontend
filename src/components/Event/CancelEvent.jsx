@@ -52,8 +52,8 @@ const CancelEvent = ({ open, onClose, onChange, data }) => {
               color={"textSecondary"}
               textAlign={"center"}
             >
-              Lorem ipsum dolor sit amet consectetur. Eget in ac urna
-              suspendisse.{" "}
+              {/* Lorem ipsum dolor sit amet consectetur. Eget in ac urna
+              suspendisse.{" "} */}
             </Typography>
           </Stack>
         </DialogContent>
