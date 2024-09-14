@@ -470,7 +470,7 @@ const StyledTable = ({
                   >
                     {" "}
                     <Box
-                      onClick={pageInc}
+                      onClick={pageDec}
                       sx={{
                         cursor: pageNo > 1 ? "pointer" : "not-allowed",
                         opacity: pageNo > 1 ? 1 : 0.5,
