@@ -3,7 +3,7 @@ import axiosInstance from "./axiosintercepter";
 
 export const getMember = async (filter) => {
   try {
-    const response = await axiosInstance.get(`/user/admin/list`,{
+    const response = await axiosInstance.get(`/user/admin/list`, {
       params: filter,
     });
     return response.data;
@@ -11,7 +11,14 @@ export const getMember = async (filter) => {
     return null;
   }
 };
-
+export const getSingleUser = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/user/get/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const addMember = async (data) => {
   try {
     const response = await axiosInstance.post("/user/admin", data);

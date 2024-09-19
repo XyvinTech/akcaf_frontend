@@ -19,7 +19,7 @@ const ApproveApproval = ({ open, onClose, setIsChange, id }) => {
       onClose();
     }
   };
-
+  
   const handleClear = (event) => {
     event.preventDefault();
     onClose();
