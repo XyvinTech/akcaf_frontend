@@ -8,7 +8,7 @@ const CertificateCard = ({ certificate }) => {
     <Box
       borderRadius={"8px"}
       bgcolor={"white"}
-     
+      width={"390px"}
       border={"1px solid rgba(0, 0, 0, 0.12)"}
     >
       <Box

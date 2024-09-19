@@ -17,7 +17,7 @@ import { useParams } from "react-router-dom";
 const QRPage = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-const {id} = useParams();
+  const { id } = useParams();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,6 +32,26 @@ const {id} = useParams();
 
     fetchData();
   }, []);
+  const handleSaveContact = () => {
+    const vCardData = `
+BEGIN:VCARD
+VERSION:3.0
+FN:${userData?.name?.first} ${userData?.name?.last}
+ORG:${userData?.company?.name}
+TEL:${userData?.phone}
+EMAIL:${userData?.email}
+ADR:${userData?.address}
+END:VCARD
+    `;
+
+    const blob = new Blob([vCardData], { type: "text/vcard" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${userData?.name?.first}_${userData?.name?.last}.vcf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   const renderSocialIcon = (platform) => {
     switch (platform) {
       case "instagram":
@@ -116,12 +136,17 @@ const {id} = useParams();
               <Stack direction={"row"} spacing={2} mb={4}>
                 <a
                   href={`https://wa.me/${userData?.company?.phone}`}
-                  target="_blank"   style={{ textDecoration: 'none' }}
+                  target="_blank"
+                  style={{ textDecoration: "none" }}
                   rel="noopener noreferrer"
                 >
                   <StyledButton variant={"primary"} name={"SAY HAI"} />
                 </a>
-                <StyledButton variant={"secondary"} name={"SAVE CONTACT"} />
+                <StyledButton
+                  variant={"secondary"}
+                  name={"SAVE CONTACT"}
+                  onClick={handleSaveContact}
+                />
               </Stack>
               {userData?.social && userData?.social?.length > 0 && (
                 <>
