@@ -1,7 +1,7 @@
+import { useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
 import YouTube from 'react-youtube';
 
-// Utility function to extract video ID from URL
 const extractVideoId = (url) => {
   const match = url.match(/(?:https?:\/\/)?(?:www\.)?youtu\.be\/([^\?&"'>]+)/) ||
                 url.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:embed\/|v\/|watch\?v=)([^"?&'<>]+)/);
@@ -9,11 +9,13 @@ const extractVideoId = (url) => {
 };
 
 const Video = ({ url }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const videoId = extractVideoId(url);
 
   const opts = {
     height: '202',
-    width: '388',
+    width: isMobile? '100%' : '388',
     playerVars: {
       autoplay: 1,
     },

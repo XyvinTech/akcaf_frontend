@@ -44,7 +44,6 @@ const {id} = useParams();
         return null;
     }
   };
-  console.log("datauser", userData);
 
   return (
     <>

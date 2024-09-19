@@ -1,12 +1,14 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 const CertificateCard = ({ certificate }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Box
       borderRadius={"8px"}
       bgcolor={"white"}
-      width={"390px"}
+     
       border={"1px solid rgba(0, 0, 0, 0.12)"}
     >
       <Box
@@ -15,7 +17,7 @@ const CertificateCard = ({ certificate }) => {
         sx={{
           borderTopLeftRadius: "12px",
           borderTopRightRadius: "12px",
-          width: "390px",
+          width: isMobile ? "100%" : "390px",
           height: "260px",
         }}
         alt={certificate?.name}
