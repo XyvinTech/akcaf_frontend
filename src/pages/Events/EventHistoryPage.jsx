@@ -6,13 +6,26 @@ import StyledTable from "../../ui/StyledTable.jsx";
 import { memberColumns, userData } from "../../assets/json/TableData";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar.jsx";
+import { useListStore } from "../../store/listStore.js";
 export default function EventHistorypage() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [pageNo, setPageNo] = useState(1);
+  const [search, setSearch] = useState("");
+  const { fetchEvent } = useListStore();
+  const [row, setRow] = useState(10);
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
-
+  useEffect(() => {
+    let filter = {};
+    if (search) {
+      filter.search = search;
+    }
+    filter.status = "completed";
+    filter.pageNo = pageNo;
+    filter.limit = row;
+    fetchEvent(filter);
+  }, [pageNo, search, row]);
   const handleCloseFilter = () => {
     setFilterOpen(false);
   };
@@ -51,7 +64,10 @@ export default function EventHistorypage() {
             alignItems={"center"}
           >
             <Stack direction={"row"} spacing={2}>
-              <StyledSearchbar />
+              <StyledSearchbar
+                placeholder={"Search"}
+                onchange={(e) => setSearch(e.target.value)}
+              />
             </Stack>
           </Stack>{" "}
           <Box
@@ -65,6 +81,8 @@ export default function EventHistorypage() {
               data={userData}
               pageNo={pageNo}
               setPageNo={setPageNo}
+              rowPerSize={row}
+              setRowPerSize={setRow}
             />{" "}
           </Box>
         </>

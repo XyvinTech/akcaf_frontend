@@ -10,6 +10,7 @@ export default function AdminActivity() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [pageNo, setPageNo] = useState(1);
+  const[row, setRow] = useState(10)
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };

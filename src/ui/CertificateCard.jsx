@@ -8,7 +8,7 @@ const CertificateCard = ({ certificate }) => {
     <Box
       borderRadius={"8px"}
       bgcolor={"white"}
-      width={"390px"}
+      width={isMobile ? "100%" : "268px"}
       border={"1px solid rgba(0, 0, 0, 0.12)"}
     >
       <Box
@@ -17,8 +17,9 @@ const CertificateCard = ({ certificate }) => {
         sx={{
           borderTopLeftRadius: "12px",
           borderTopRightRadius: "12px",
-          width: isMobile ? "100%" : "390px",
-          height: "260px",
+          width: isMobile ? "100%" : "268px",
+          height: "160px",
+          objectFit: "cover",
         }}
         alt={certificate?.name}
       />

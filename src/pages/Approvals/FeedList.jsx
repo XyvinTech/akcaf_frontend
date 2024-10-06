@@ -13,13 +13,19 @@ const FeedList = () => {
   const [approveOpen, setApproveOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
   const { fetchFeed } = useListStore();
+  const [search, setSearch] = useState("");
   const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const [approvalId, setApprovalId] = useState(null);
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
+    filter.limit = row;
+    if (search) {
+      filter.search = search;
+    }
     fetchFeed(filter);
-  }, [isChange, pageNo]);
+  }, [isChange, pageNo, search,row]);
 
   const handleReject = (id) => {
     setApprovalId(id);
@@ -45,7 +51,10 @@ const FeedList = () => {
         alignItems={"center"}
       >
         <Stack direction={"row"} spacing={2}>
-          <StyledSearchbar placeholder={"Search"} />
+          <StyledSearchbar
+            placeholder={"Search"}
+            onchange={(e) => setSearch(e.target.value)}
+          />
         </Stack>
       </Stack>
       <Box
@@ -61,6 +70,8 @@ const FeedList = () => {
           payment
           onModify={handleApprove}
           onAction={handleReject}
+          rowPerSize={row}
+          setRowPerSize={setRow}
         />
         <FeedReject
           open={rejectOpen}

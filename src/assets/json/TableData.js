@@ -6,9 +6,9 @@ export const memberColumns = [
   { title: "Status", field: "status" },
 ];
 export const groupmemberColumns = [
+  { title: "Member ID", field: "memberId", padding: "none" },
   { title: "Name", field: "name", padding: "none" },
   { title: "College Name", field: "college" },
-  { title: "Course", field: "course" },
   { title: "Batch number", field: "batch" },
   { title: "Phone Number", field: "phone" },
   { title: "Status", field: "status" },
@@ -25,6 +25,11 @@ export const paymentColumns = [
   { title: "Transaction ID", field: "razorpayId", padding: "none" },
   { title: "Amount", field: "amount" },
   { title: "Status", field: "status" },
+];
+export const reportColumns = [
+  { title: "Report By", field: "reportBy", padding: "none" },
+  { title: "Report Type", field: "reportType" },
+  { title: "Content", field: "content" }
 ];
 export const member = [
   { title: "Name", field: "fullName", padding: "none" },
@@ -79,7 +84,6 @@ export const roleColumns = [
   { title: "Role Name", field: "roleName", padding: "none" },
 
   { title: "Created on", field: "createdAt" },
-  { title: "Access ", field: "contact" },
   { title: "Description", field: "description" },
   { title: "Status", field: "status" },
 ];
@@ -87,19 +91,15 @@ export const eventList = [
   { title: "Event name", field: "eventName", padding: "none" },
   { title: "Date", field: "startDate" },
   { title: "Time", field: "startTime" },
-  { title: "Duration", field: "designation" },
   { title: "Organiser name", field: "organiserName" },
   { title: "Status", field: "status" },
   { title: "Type", field: "type" },
-  { title: "Mode", field: "mode" },
-  { title: "RSVP", field: "rsvpCount" },
+ 
 ];
 export const newsColumns = [
   { title: "Category", field: "category", padding: "none" },
 
   { title: "Title", field: "title" },
-  { title: "Content", field: "content" },
-  { title: "Image", field: "media" },
 ];
 export const userData = [
   {

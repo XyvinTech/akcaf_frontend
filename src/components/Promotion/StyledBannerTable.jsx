@@ -11,6 +11,7 @@ const StyledBannerTable = () => {
   const navigate = useNavigate();
   const [filterOpen, setFilterOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
+  const [row, setRow] = useState(10);
   const [selectedRows, setSelectedRows] = useState([]);
   const { deletePromotions } = usePromotionStore();
   const { fetchPromotion } = useListStore();
@@ -18,8 +19,9 @@ const StyledBannerTable = () => {
   useEffect(() => {
     let filter = { type: "banner" };
     filter.pageNo = pageNo;
+    filter.limit = row;
     fetchPromotion(filter);
-  }, [isChange, pageNo]);
+  }, [isChange, pageNo,row]);
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -56,7 +58,8 @@ const StyledBannerTable = () => {
   };
 
   const userColumns = [
-    { title: "Date", field: "startDate", padding: "none" },
+    { title: "Start Date", field: "startDate", padding: "none" },
+    { title: "End Date", field: "endDate", padding: "none" },
 
     { title: "Media", field: "media" },
   ];
@@ -68,12 +71,11 @@ const StyledBannerTable = () => {
         paddingBottom={"15px"}
         alignItems={"center"}
       >
-        <Stack direction={"row"} spacing={2}>
-          <StyledSearchbar />
-        </Stack>
+       
       </Stack>{" "}
       <Box
         borderRadius={"16px"}
+        paddingTop={"15px"}
         bgcolor={"white"}
         p={1}
         border={"1px solid rgba(0, 0, 0, 0.12)"}
@@ -86,6 +88,8 @@ const StyledBannerTable = () => {
           onModify={handleEdit}
           pageNo={pageNo}
           setPageNo={setPageNo}
+          rowPerSize={row}
+          setRowPerSize={setRow}
         />{" "}
       </Box>
     </>

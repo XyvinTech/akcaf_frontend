@@ -3,12 +3,11 @@ import StyledTable from "../../ui/StyledTable";
 import { Box, Grid2, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar";
-import { usePaymentStore } from "../../store/paymentstore";
-import { paymentColumns } from "../../assets/json/TableData";
+import { paymentColumns, reportColumns } from "../../assets/json/TableData";
 import { useListStore } from "../../store/listStore";
 
-const MemberPage = () => {
-  const { fetchPayment } = useListStore();
+const ReportPage = () => {
+  const { fetchReport } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [search, setSearch] = useState("");
   const[row, setRow] = useState(10)
@@ -19,7 +18,7 @@ const MemberPage = () => {
     if (search) {
       filter.search = search;
     }
-    fetchPayment(filter);
+    fetchReport(filter);
   }, [pageNo,search,row]);
 
   return (
@@ -34,7 +33,7 @@ const MemberPage = () => {
       >
         <Stack>
           <Typography variant="h4" color="textSecondary">
-            Payments
+            Reports
           </Typography>
         </Stack>
         <Stack direction={"row"} spacing={2}>
@@ -49,7 +48,7 @@ const MemberPage = () => {
           alignItems={"center"}
         >
           <Stack direction={"row"} spacing={2}>
-            <StyledSearchbar placeholder={"Search"} onchange={(e) => {setSearch(e.target.value)}} />
+            <StyledSearchbar placeholder={"Search"} onchange={(e) => setSearch(e.target.value)} />
           </Stack>
         </Stack>
         <Box
@@ -59,7 +58,7 @@ const MemberPage = () => {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <StyledTable
-            columns={paymentColumns}
+            columns={reportColumns}
             menu
             pageNo={pageNo}
             setPageNo={setPageNo}
@@ -72,4 +71,4 @@ const MemberPage = () => {
   );
 };
 
-export default MemberPage;
+export default ReportPage;

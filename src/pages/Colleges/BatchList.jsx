@@ -9,8 +9,9 @@ import { useListStore } from "../../store/listStore";
 const BatchList = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const navigate = useNavigate();
-  const { coursedetails,  fetchBatch } = useListStore();
+  const { coursedetails, fetchBatch } = useListStore();
   const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const { id } = useParams();
   const collegeCourses = coursedetails?.find(
     (college) => college.collegeId === id
@@ -20,10 +21,11 @@ const BatchList = () => {
     if (collegeCourses?.courses?.[selectedTab]) {
       let filter = {};
       filter.pageNo = pageNo;
+      filter.limit = row;
       const selectedCourseId = collegeCourses.courses[selectedTab]._id;
       fetchBatch(id, selectedCourseId, filter);
     }
-  }, [selectedTab, collegeCourses, pageNo]);
+  }, [selectedTab, collegeCourses, pageNo, row]);
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -73,11 +75,18 @@ const BatchList = () => {
           <StyledTable
             columns={batchColumns}
             onView={(view) => {
-              navigate(`/college/batch/${view}`, { state: { collegeId: id,courseId : collegeCourses.courses[selectedTab]._id } });
+              navigate(`/college/batch/${view}`, {
+                state: {
+                  collegeId: id,
+                  courseId: collegeCourses.courses[selectedTab]._id,
+                },
+              });
             }}
-            menu 
+            menu
             pageNo={pageNo}
             setPageNo={setPageNo}
+            rowPerSize={row}
+            setRowPerSize={setRow}
           />
         </Box>
       </Box>

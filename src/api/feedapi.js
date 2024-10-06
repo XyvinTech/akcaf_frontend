@@ -3,7 +3,7 @@ import axiosInstance from "./axiosintercepter";
 
 export const getFeed = async (filter) => {
   try {
-    const response = await axiosInstance.get(`/feeds/list`, {
+    const response = await axiosInstance.get(`/feeds/admin/list`, {
       params: filter,
     });
     return response.data;

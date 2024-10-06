@@ -30,6 +30,7 @@ import GroupMembers from "../pages/Groups/GroupMembers";
 import PaymentPage from "../pages/payments/PaymentPage";
 import QRPage from "../pages/QRPage";
 import { PrivateRoute } from "./PrivateRouter";
+import ReportPage from "../pages/Reports/ReportPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -236,6 +237,16 @@ const router = createBrowserRouter([
       <PrivateRoute>
         <Layout>
           <PaymentPage />
+        </Layout>
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/reports",
+    element: (
+      <PrivateRoute>
+        <Layout>
+          <ReportPage />
         </Layout>
       </PrivateRoute>
     ),

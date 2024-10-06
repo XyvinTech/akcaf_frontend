@@ -11,6 +11,7 @@ import { useListStore } from "../../store/listStore";
 const MemberPosts = ({ id }) => {
   const { fetchFeedByUser } = useListStore();
   const [pageNo, setPageNo] = useState(1);
+  const[row,setRow] = useState(10)
   const [rejectOpen, setRejectOpen] = useState(false);
   const [approveOpen, setApproveOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
@@ -19,8 +20,9 @@ const MemberPosts = ({ id }) => {
     let filter = {};
 
     filter.pageNo = pageNo;
+    filter.limit = row
     fetchFeedByUser(id, filter);
-  }, [isChange, pageNo]);
+  }, [isChange, pageNo,row]);
 
   const handleReject = (id) => {
     setApprovalId(id);
@@ -63,6 +65,8 @@ const MemberPosts = ({ id }) => {
             onModify={handleApprove}
             pageNo={pageNo}
             setPageNo={setPageNo}
+            rowPerSize={row}
+            setRowPerSize={setRow}
           />{" "}
           <FeedApproval
             open={approveOpen}

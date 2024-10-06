@@ -149,7 +149,7 @@ const AddMember = () => {
       const formData = {
         name: {
           first: data?.first,
-          middle: data?.middle,
+          ...(data?.middle && { middle: data?.middle }),
           last: data?.last,
         },
         email: data?.email,

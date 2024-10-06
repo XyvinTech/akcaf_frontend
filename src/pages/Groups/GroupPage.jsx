@@ -14,13 +14,15 @@ const GroupPage = () => {
   const {   deleteGroups } = useGroupStore();
   const { fetchGroup } = useListStore();
   const [pageNo, setPageNo] = useState(1);
+  const[row,setRow] = useState(10)
   const [selectedRows, setSelectedRows] = useState([]);
   const [isChange, setIsChange] = useState(false);
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
+    filter.limit = row
     fetchGroup(filter);
-  }, [isChange, pageNo]);
+  }, [isChange, pageNo,row]);
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
   };
@@ -102,6 +104,8 @@ const GroupPage = () => {
             setPageNo={setPageNo}
             onSelectionChange={handleSelectionChange}
             onDelete={handleDelete}
+            rowPerSize={row}
+            setRowPerSize={setRow}
             onDeleteRow={handleRowDelete}
           />
         </Box>

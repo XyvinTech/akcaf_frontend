@@ -37,7 +37,7 @@ function LoginPage() {
       };
       const user = await getLogin(formData);
       localStorage.setItem("token", user.data);
-      navigate("/dashboard");
+      navigate("/members");
     } catch (error) {
       setLoginError(true);
       console.error("Login error", error);

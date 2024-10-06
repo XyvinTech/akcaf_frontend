@@ -2,7 +2,6 @@ import { Box, Grid, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddRole from "../../components/Setting/AddRole";
-// import Addnewrole from "../../../components/Addnewrole";
 export default function AddRolePage() {
   const navigate = useNavigate();
   const [selectedRows, setSelectedRows] = useState([]);

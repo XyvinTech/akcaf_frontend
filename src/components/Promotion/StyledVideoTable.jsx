@@ -15,11 +15,13 @@ const StyledVideoTable = () => {
   const { deletePromotions } = usePromotionStore();
   const { fetchPromotion } = useListStore();
   const [pageNo, setPageNo] = useState(1);
+  const[row, setRow] = useState(10)
   useEffect(() => {
     let filter = { type: "video" };
     filter.pageNo = pageNo;
+    filter.limit = row
     fetchPromotion(filter);
-  }, [isChange, pageNo]);
+  }, [isChange, pageNo,row]);
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -58,7 +60,7 @@ const StyledVideoTable = () => {
   const userColumns = [
     { title: "Date", field: "startDate", padding: "none" },
 
-    { title: "Media", field: "media" },
+    { title: "Title", field: "title" },
   ];
   return (
     <>
@@ -68,9 +70,7 @@ const StyledVideoTable = () => {
         paddingBottom={"15px"}
         alignItems={"center"}
       >
-        <Stack direction={"row"} spacing={2}>
-          <StyledSearchbar />
-        </Stack>
+       
       </Stack>{" "}
       <Box
         borderRadius={"16px"}
@@ -86,6 +86,8 @@ const StyledVideoTable = () => {
           onModify={handleEdit}
           pageNo={pageNo}
           setPageNo={setPageNo}
+          rowPerSize={row}
+          setRowPerSize={setRow}
         />{" "}
       </Box>
     </>

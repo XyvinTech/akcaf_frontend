@@ -14,6 +14,8 @@ export default function AdminManagement() {
   const [isChange, setIsChange] = useState(false);
   const { getAdmins } = useListStore();
   const [pageNo, setPageNo] = useState(1);
+  const[row, setRow] = useState(10)
+  const [search, setSearch] = useState("");
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -28,8 +30,12 @@ export default function AdminManagement() {
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
+    filter.limit = row
+    if (search) {
+      filter.search = search;
+    }
     getAdmins(filter);
-  }, [isChange, pageNo]);
+  }, [isChange, pageNo,search,row]);
   return (
     <>
       {" "}
@@ -46,7 +52,7 @@ export default function AdminManagement() {
             spacing={2}
           >
             <Grid item>
-              <StyledSearchbar />
+              <StyledSearchbar placeholder={"Search"} onchange={(e) => setSearch(e.target.value)} />
             </Grid>
             <Grid item></Grid>
             <Grid item>
@@ -72,6 +78,8 @@ export default function AdminManagement() {
               columns={adminColumns}
               pageNo={pageNo}
               setPageNo={setPageNo}
+              rowPerSize={row}
+              setRowPerSize={setRow}
               onSelectionChange={handleSelectionChange}
             />{" "}
           </Box>

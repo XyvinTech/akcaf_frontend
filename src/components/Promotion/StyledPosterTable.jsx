@@ -15,11 +15,13 @@ const StyledPosterTable = () => {
   const { deletePromotions } = usePromotionStore();
   const { fetchPromotion } = useListStore();
   const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   useEffect(() => {
     let filter = { type: "poster" };
     filter.pageNo = pageNo;
+    filter.limit = row;
     fetchPromotion(filter);
-  }, [isChange, pageNo]);
+  }, [isChange, pageNo,row]);
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -56,7 +58,8 @@ const StyledPosterTable = () => {
   };
 
   const userColumns = [
-    { title: "Date", field: "startDate", padding: "none" },
+    { title: "Start Date", field: "startDate", padding: "none" },
+    { title: "End Date", field: "endDate", padding: "none" },
 
     { title: "Media", field: "media" },
   ];
@@ -68,9 +71,7 @@ const StyledPosterTable = () => {
         paddingBottom={"15px"}
         alignItems={"center"}
       >
-        <Stack direction={"row"} spacing={2}>
-          <StyledSearchbar />
-        </Stack>
+       
       </Stack>{" "}
       <Box
         borderRadius={"16px"}
@@ -86,6 +87,8 @@ const StyledPosterTable = () => {
           onModify={handleEdit}
           pageNo={pageNo}
           setPageNo={setPageNo}
+          rowPerSize={row}
+          setRowPerSize={setRow}
         />{" "}
       </Box>
     </>

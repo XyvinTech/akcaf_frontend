@@ -23,13 +23,10 @@ const NewsPreview = ({ open, onClose, onChange, data, onEdit }) => {
       media: data.media,
       content: data.content,
     };
-    if (data.status==='published')
-    {
-      formData.status='unpublished'
-    }
-    else
-    {
-      formData.status='published'
+    if (data.status === "published") {
+      formData.status = "unpublished";
+    } else {
+      formData.status = "published";
     }
     await updateNews(data?._id, formData);
     onChange();
@@ -50,6 +47,7 @@ const NewsPreview = ({ open, onClose, onChange, data, onEdit }) => {
     <Dialog
       open={open}
       onClose={onClose}
+      maxWidth="md"
       PaperProps={{
         sx: { borderRadius: "12px" },
       }}
@@ -68,9 +66,12 @@ const NewsPreview = ({ open, onClose, onChange, data, onEdit }) => {
           </Box>
         </DialogTitle>
         <Divider />
-        <DialogContent sx={{ height: "auto", width: "500px", padding: 0 }}>
+        <DialogContent sx={{ height: "auto", padding: 0 }}>
           <Stack spacing={2} padding={2} justifyContent={"center"}>
-            <img src={data?.media} width={"461px"} height={"262px"} />
+            <Box display="flex" justifyContent="center">
+              <img src={data?.media} width={"461px"} height={"262px"} />
+            </Box>
+
             <Typography variant="h5" color={"textTertiary"}>
               {data?.title}
             </Typography>

@@ -12,15 +12,21 @@ import { useListStore } from "../../store/listStore";
 const MemberPage = () => {
   const navigate = useNavigate();
   const { fetchMember } = useListStore();
+  const [search, setSearch] = useState("");
   const [isChange, setIschange] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [memberId, setMemberId] = useState(null);
   const [pageNo, setPageNo] = useState(1);
+  const[row,setRow] = useState(10)
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
+    if (search) {
+    filter.search = search;
+    }
+    filter.limit = row
     fetchMember(filter);
-  }, [isChange, pageNo]);
+  }, [isChange, pageNo,search,row]);
 
   const handleRowDelete = (id) => {
     setMemberId(id);
@@ -66,7 +72,10 @@ const MemberPage = () => {
           alignItems={"center"}
         >
           <Stack direction={"row"} spacing={2}>
-            <StyledSearchbar placeholder={"Search"} />
+            <StyledSearchbar
+              placeholder={"Search"}
+              onchange={(e) => setSearch(e.target.value)}
+            />
           </Stack>
         </Stack>
         <Box
@@ -88,7 +97,8 @@ const MemberPage = () => {
               navigate(`/members/member`, {
                 state: { memberId: id, isUpdate: true },
               });
-            }}
+            }}  rowPerSize={row}
+            setRowPerSize={setRow}
           />
           <DeleteProfile
             open={deleteOpen}

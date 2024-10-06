@@ -13,9 +13,11 @@ export default function RoleManagement() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
-  const {   deleteRoles } = useRoleStore();
+  const { deleteRoles } = useRoleStore();
   const { getRoles } = useListStore();
   const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
+  const [search, setSearch] = useState("");
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -37,7 +39,7 @@ export default function RoleManagement() {
       } catch (error) {
         console.log(error);
       }
-    } 
+    }
   };
   const handleRowDelete = async (id) => {
     try {
@@ -56,8 +58,12 @@ export default function RoleManagement() {
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
+    filter.limit = row;
+    if (search) {
+      filter.search = search;
+    }
     getRoles(filter);
-  }, [isChange, pageNo]);
+  }, [isChange, pageNo, search, row]);
   return (
     <>
       {" "}
@@ -74,7 +80,9 @@ export default function RoleManagement() {
             spacing={2}
           >
             <Grid item>
-              <StyledSearchbar />
+              <StyledSearchbar
+                placeholder="Search " onchange={(e) => setSearch(e.target.value)}
+              />
             </Grid>
             <Grid item></Grid>
             <Grid item>
@@ -105,6 +113,8 @@ export default function RoleManagement() {
               pageNo={pageNo}
               setPageNo={setPageNo}
               onDeleteRow={handleRowDelete}
+              rowPerSize={row}
+              setRowPerSize={setRow}
             />{" "}
           </Box>
         </Grid>

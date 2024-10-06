@@ -14,8 +14,8 @@ const Video = ({ url }) => {
   const videoId = extractVideoId(url);
 
   const opts = {
-    height: '202',
-    width: isMobile? '100%' : '388',
+    height:isMobile? '200' : '150',
+    width: isMobile? '100%' : '268',
     playerVars: {
       autoplay: 1,
     },

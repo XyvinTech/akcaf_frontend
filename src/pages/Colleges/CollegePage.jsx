@@ -16,17 +16,23 @@ const CollegePage = () => {
   const [isChange, setIsChange] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [collegeId, setCollegeId] = useState(null);
+  const [search, setSearch] = useState("");
   const { deleteColleges } = useCollgeStore();
   const { fetchColleges } = useListStore();
   const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
   };
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
+    if (search) {
+      filter.search = search;
+    }
+    filter.limit = row;
     fetchColleges(filter);
-  }, [isChange, pageNo]);
+  }, [isChange, pageNo, search, row]);
   const handleRemove = (id) => {
     setCollegeId(id);
     setRemoveOpen(true);
@@ -86,7 +92,10 @@ const CollegePage = () => {
           alignItems={"center"}
         >
           <Stack direction={"row"} spacing={2}>
-            <StyledSearchbar placeholder={"Search"} />
+            <StyledSearchbar
+              placeholder={"Search"}
+              onchange={(e) => setSearch(e.target.value)}
+            />
           </Stack>
         </Stack>
         <Box
@@ -109,9 +118,8 @@ const CollegePage = () => {
             setPageNo={setPageNo}
             onDelete={handleDelete}
             onAction={handleMember}
-            // onView={(id) => {
-            //   navigate(`/college/${id}`);
-            // }}
+            rowPerSize={row}
+            setRowPerSize={setRow}
           />
           <RemoveCollege
             open={removeOpen}

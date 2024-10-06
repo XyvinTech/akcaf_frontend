@@ -13,11 +13,13 @@ const BatchMemberPage = () => {
   const { collegeId, courseId } = location.state || {};
   const { getMember } = useListStore();
   const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
+    filter.limit = row;
     getMember(collegeId, courseId, id, filter);
-  }, [pageNo]);
+  }, [pageNo, row]);
   return (
     <>
       {" "}
@@ -50,6 +52,8 @@ const BatchMemberPage = () => {
             menu
             pageNo={pageNo}
             setPageNo={setPageNo}
+            rowPerSize={row}
+            setRowPerSize={setRow}
           />
         </Box>
       </Box>

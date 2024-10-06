@@ -10,6 +10,7 @@ import { getPayment } from "../api/paymentapi";
 import { getNews } from "../api/newsapi";
 import { getMember } from "../api/memberapi";
 import { getGroup, getGroupById } from "../api/groupapi";
+import { getReport } from "../api/reportapi";
 
 const useListStore = create((set, get) => ({
   lists: [],
@@ -134,7 +135,7 @@ const useListStore = create((set, get) => ({
   fetchMembers: async (id, filter) => {
     set({ loading: true });
     const allData = await getGroupById(id, filter);
-    set({ lists: allData?.data || [] });
+    set({ lists: allData?.data?.participantsData || [] });
     set({ totalCount: allData?.totalCount || 0 });
     set({ loading: false });
   },
@@ -153,6 +154,13 @@ const useListStore = create((set, get) => ({
   fetchBatch: async (collegeId, courseId, filter) => {
     set({ loading: true });
     const allData = await getBatch(collegeId, courseId, filter);
+    set({ lists: allData?.data || [] });
+    set({ totalCount: allData?.totalCount || 0 });
+    set({ loading: false });
+  },
+  fetchReport: async (filter) => {
+    set({ loading: true });
+    const allData = await getReport(filter);
     set({ lists: allData?.data || [] });
     set({ totalCount: allData?.totalCount || 0 });
     set({ loading: false });

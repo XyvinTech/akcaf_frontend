@@ -29,7 +29,7 @@ const AddGroup = () => {
   }, []);
   const option =
     user && Array.isArray(user)
-      ? user.map((i) => ({
+      ? user?.map((i) => ({
           value: i?._id,
           label: i?.name,
         }))
@@ -44,7 +44,7 @@ const AddGroup = () => {
       setValue("groupName", singleGroup?.groupName);
       setValue("groupInfo", singleGroup?.groupInfo);
       const participantOptions =
-        singleGroup?.participants.map((id) => {
+        singleGroup?.participants?.map((id) => {
           const matchedOption = option.find((opt) => opt.value === id);
           return matchedOption;
         }) || [];

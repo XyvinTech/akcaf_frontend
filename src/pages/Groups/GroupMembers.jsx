@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledTable from "../../ui/StyledTable";
@@ -11,11 +11,13 @@ const GroupMembers = () => {
   const { id } = useParams();
   const { fetchMembers } = useListStore(); 
   const [pageNo, setPageNo] = useState(1);
+  const [row,setRow] = useState(10)
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
+    filter.limit = row
     fetchMembers(id, filter);
-  }, [pageNo]);
+  }, [pageNo,row]);
   return (
     <>
       {" "}
@@ -43,7 +45,7 @@ const GroupMembers = () => {
           p={1}
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
-          <StyledTable columns={groupmemberColumns}  menu  pageNo={pageNo} setPageNo={setPageNo}/>
+          <StyledTable columns={groupmemberColumns}  menu  pageNo={pageNo} setPageNo={setPageNo} rowPerSize={row} setRowPerSize={setRow}/>
         </Box>
       </Box>
     </>

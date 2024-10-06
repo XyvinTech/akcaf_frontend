@@ -3,7 +3,7 @@ import axiosInstance from "./axiosintercepter";
 
 export const getGroup = async (filter) => {
   try {
-    const response = await axiosInstance.get(`/chat/list-group`,{
+    const response = await axiosInstance.get(`/chat/admin/list-group`,{
       params: filter,
     });
     return response.data;

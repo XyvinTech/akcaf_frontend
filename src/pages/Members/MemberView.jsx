@@ -19,7 +19,7 @@ const MemberView = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [isChange, setIsChange] = useState(false);
   const { id } = useParams();
-  const { fetchMemberById, member, loading } = useMemberStore();
+  const { fetchMemberById, member, loading, refreshMember } = useMemberStore();
 
   const handleIsChange = () => {
     setIsChange(!isChange);
@@ -27,8 +27,7 @@ const MemberView = () => {
 
   useEffect(() => {
     fetchMemberById(id);
-  }, [isChange]);
-
+  }, [isChange, refreshMember]);
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };

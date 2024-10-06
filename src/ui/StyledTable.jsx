@@ -72,12 +72,12 @@ const StyledTable = ({
   onDeleteRow,
   member,
   payment,
-  college,
+  college, rowPerSize,setRowPerSize
 }) => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [rowId, setRowId] = useState(null);
-  const { lists, totalCount, rowPerSize, rowChange, loading } = useListStore();
+  const { lists, totalCount, rowChange, loading } = useListStore();
   const handleSelectAllClick = (event) => {
     const isChecked = event.target.checked;
     const newSelectedIds = isChecked ? lists.map((row) => row._id) : [];
@@ -170,7 +170,10 @@ const StyledTable = ({
   const pageDec = () => {
     setPageNo((prev) => prev - 1);
   };
-
+  const handleChangeRowsPerPage = (event) => {
+    setRowPerSize(parseInt(event.target.value, 10));
+    setPageNo(1); 
+  };
   return (
     <Box bgcolor={"white"} borderRadius={"16px"}>
       <TableContainer sx={{ border: "none" }}>
@@ -461,6 +464,7 @@ const StyledTable = ({
                     totalCount / rowPerSize
                   )} of ${totalCount}`
                 }
+                onRowsPerPageChange={handleChangeRowsPerPage}
                 ActionsComponent={({ onPageChange }) => (
                   <Stack
                     direction="row"
@@ -472,6 +476,7 @@ const StyledTable = ({
                     <Box
                       onClick={pageDec}
                       sx={{
+                        display:"flex",alignItems:"center",
                         cursor: pageNo > 1 ? "pointer" : "not-allowed",
                         opacity: pageNo > 1 ? 1 : 0.5,
                       }}
@@ -481,6 +486,7 @@ const StyledTable = ({
                     <Box
                       onClick={pageInc}
                       sx={{
+                        display:"flex",alignItems:"center",
                         cursor:
                           pageNo < Math.ceil(totalCount / rowPerSize)
                             ? "pointer"

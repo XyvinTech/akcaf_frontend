@@ -16,9 +16,12 @@ export default function NewsDisplay() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [isChange, setIsChange] = useState(false);
+
   const { deleteNews, fetchNewsById, singleNews } = useNewsStore();
-  const { fetchNews} = useListStore();
+  const { fetchNews } = useListStore();
   const [pageNo, setPageNo] = useState(1);
+  const [row, setRow] = useState(10);
+  const [search, setSearch] = useState("");
   const [previewOpen, setPreviewOpen] = useState(false);
   const handleOpenFilter = () => {
     setFilterOpen(true);
@@ -51,8 +54,15 @@ export default function NewsDisplay() {
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
+    if (search) {
+      filter.search = search;
+    }
+    filter.limit = row;
+    if (selectedTab) {
+      filter.category = selectedTab;
+    }
     fetchNews(filter);
-  }, [isChange, pageNo]);
+  }, [isChange, pageNo, search,selectedTab,row]);
   const handleEdit = (id) => {
     navigate(`/news/edit/${id}`);
   };
@@ -67,6 +77,7 @@ export default function NewsDisplay() {
   const handleChange = () => {
     setIsChange(!isChange);
   };
+console.log("anjana",search);
 
   return (
     <>
@@ -78,7 +89,7 @@ export default function NewsDisplay() {
         marginRight={2}
       >
         <Stack direction={"row"} spacing={2}>
-          <StyledSearchbar />
+        <StyledSearchbar placeholder={"Search"} onchange={(e) => setSearch(e.target.value)} />
         </Stack>
       </Stack>
 
@@ -106,13 +117,13 @@ export default function NewsDisplay() {
           />
           <StyledButton
             name="Market"
-            variant={selectedTab === "Market" ? "primary" : "secondary"}
-            onClick={() => handleTabChange("Market")}
+            variant={selectedTab === "Politics" ? "primary" : "secondary"}
+            onClick={() => handleTabChange("Politics")}
           />
           <StyledButton
             name="Economy"
-            variant={selectedTab === "Economy" ? "primary" : "secondary"}
-            onClick={() => handleTabChange("Economy")}
+            variant={selectedTab === "Entertainment" ? "primary" : "secondary"}
+            onClick={() => handleTabChange("Entertainment")}
           />
         </Stack>
       </Stack>
@@ -132,6 +143,8 @@ export default function NewsDisplay() {
           pageNo={pageNo}
           setPageNo={setPageNo}
           onAction={handlePreview}
+          rowPerSize={row}
+          setRowPerSize={setRow}
         />{" "}
         <NewsPreview
           open={previewOpen}

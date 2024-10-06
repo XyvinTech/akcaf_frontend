@@ -54,3 +54,22 @@ export const editMember = async (id, data) => {
     toast.error(error.response.data.message);
   }
 };
+
+export const userBlock = async (id) => {
+  try {
+    const response = await axiosInstance.patch(`/user/admin/block-user/${id}`);
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
+};
+export const userUnBlock = async (id) => {
+  try {
+    const response = await axiosInstance.patch(`/user/admin/unblock-user/${id}`);
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
+};

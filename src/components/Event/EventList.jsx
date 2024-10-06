@@ -12,15 +12,20 @@ const EventList = () => {
   const navigate = useNavigate();
   const [selectedRows, setSelectedRows] = useState([]);
   const [isChange, setIsChange] = useState(false);
+  const [search, setSearch] = useState("");
+  const [row, setRow] = useState(10);
   const { deleteEvent } = useEventStore();
   const { fetchEvent } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   useEffect(() => {
     let filter = {};
-
+    if (search) {
+      filter.search = search;
+    }
     filter.pageNo = pageNo;
+    filter.limit = row;
     fetchEvent(filter);
-  }, [isChange, pageNo]);
+  }, [isChange, pageNo, search, row]);
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
   };
@@ -46,7 +51,12 @@ const EventList = () => {
         alignItems={"center"}
       >
         <Stack direction={"row"} spacing={2}>
-          <StyledSearchbar placeholder={"Search"} />
+          <StyledSearchbar
+            placeholder={"Search"}
+            onchange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
         </Stack>
       </Stack>
       <Box
@@ -65,6 +75,8 @@ const EventList = () => {
           setPageNo={setPageNo}
           onDelete={handleDelete}
           onDeleteRow={handleRowDelete}
+          rowPerSize={row}
+          setRowPerSize={setRow}
           onModify={(id) => {
             navigate(`/events/edit/${id}`);
           }}

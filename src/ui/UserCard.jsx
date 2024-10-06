@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, Stack, Typography, Box } from "@mui/material";
 import { ReactComponent as EmailIcon } from "../assets/icons/EmailIcon.svg";
 import { ReactComponent as PhoneIcon } from "../assets/icons/PhoneIcon.svg";
 import { ReactComponent as LocationIcon } from "../assets/icons/LocationIcon.svg";
+import { StyledButton } from "./StyledButton";
+import BlockProfile from "../components/Member/BlockProfile";
+import { useParams } from "react-router-dom";
+import image from "../assets/images/image.png";
+import UnBlockProfile from "../components/Member/UnBlockProfile";
 
 const UserCard = ({ user }) => {
+  const [open, setOpen] = useState(false);
+  const [unopen, setUnOpen] = useState(false);
+  const { id } = useParams();
+  const handleBlock = () => {
+    setOpen(true);
+  };
+  const handleUnBlock = () => {
+    setUnOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleUnClose = () => {
+    setUnOpen(false);
+  };
   return (
     <Grid
       container
@@ -15,9 +35,9 @@ const UserCard = ({ user }) => {
       minHeight={"420px"}
       position="relative"
     >
-      <Grid item md={6} xs={12} >
+      <Grid item md={6} xs={12}>
         <img
-          src={user?.image}
+          src={user?.image || image}
           alt="img"
           width={"216px"}
           height={"216px"}
@@ -51,7 +71,7 @@ const UserCard = ({ user }) => {
             {user?.name?.first} {user?.name?.middle} {user?.name?.last}
           </Typography>
           <Typography variant="h7" color={"textPrimary"}>
-          {user?.college?.collegeName} 
+            {user?.college?.collegeName}
           </Typography>
 
           <Stack direction="row" alignItems="center" spacing={1}>
@@ -66,12 +86,30 @@ const UserCard = ({ user }) => {
               {user?.email}
             </Typography>
           </Stack>
+         
           {user?.address && (
-            <Stack direction="row" alignItems="center"  spacing={1}>
+            <Stack direction="row" alignItems="center" spacing={1}>
               <LocationIcon />
               <Typography variant="h7" color={"textPrimary"}>
                 {user?.address}
               </Typography>
+            </Stack>
+          )} {user?.status === "active" && (
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <StyledButton
+                variant={"primary"}
+                name={"Block"}
+                onClick={handleBlock}
+              />
+            </Stack>
+          )}
+          {user?.status === "blocked" && (
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <StyledButton
+                variant={"secondary"}
+                name={"UnBlock"}
+                onClick={handleUnBlock}
+              />
             </Stack>
           )}
         </Stack>
@@ -96,6 +134,8 @@ const UserCard = ({ user }) => {
           </>
         )}
       </Grid>
+      <BlockProfile open={open} onClose={handleClose} id={id} />
+      <UnBlockProfile open={unopen} onClose={handleUnClose} id={id} />
     </Grid>
   );
 };
