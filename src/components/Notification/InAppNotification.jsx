@@ -65,7 +65,6 @@ export default function InAppNotification({}) {
       await addNotifications(formData);
 
       reset();
-      set
     } catch (error) {
       toast.error(error.message);
     } finally {
