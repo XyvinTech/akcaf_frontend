@@ -162,8 +162,9 @@ const StyledTable = ({
     }
   };
   const formatIndianDate = (date) => {
-    return moment(date).format("DD-MM-YYYY");
+    return moment.utc(date).format("DD-MM-YYYY");
   };
+  
   const formatTime = (time) => {
     return moment.utc(time).format("h:mm A"); 
   };

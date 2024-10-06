@@ -56,23 +56,22 @@ const CustomTextField = styled(TextField)({
 });
 
 export const StyledCalender = ({ label, onChange, placeholder, value }) => {
- 
   const [selectedDate, setSelectedDate] = React.useState(
-    value ? moment(value) : null
+    value ? moment.utc(value) : null // Initialize with UTC value
   );
 
   React.useEffect(() => {
     if (value) {
-      setSelectedDate(moment(value));
+      setSelectedDate(moment.utc(value)); // Ensure the value is set in UTC
     }
   }, [value]);
 
   const handleDateChange = (date) => {
     if (date) {
-      const isoDate = moment(date).toISOString();
-      setSelectedDate(moment(date));
+      const utcDate = moment.utc(date).toISOString(); // Convert date to UTC
+      setSelectedDate(moment.utc(date)); // Set selected date in UTC format
       if (onChange) {
-        onChange(isoDate);
+        onChange(utcDate); // Return the UTC date in ISO format
       }
     }
   };
