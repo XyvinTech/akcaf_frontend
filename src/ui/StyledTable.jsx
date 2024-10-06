@@ -367,9 +367,7 @@ const StyledTable = ({
                           : member
                           ? [
                               <>
-                                <MenuItem onClick={handleView}>
-                                  View Details
-                                </MenuItem>
+                               
                                 <MenuItem onClick={handleModify}>Edit</MenuItem>
                                 <MenuItem
                                   onClick={() => handleRowDelete(row._id)}
