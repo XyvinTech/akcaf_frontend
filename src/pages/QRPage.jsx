@@ -18,6 +18,7 @@ import { ReactComponent as AppWebsiteIcon } from "../assets/icons/AppWebsiteIcon
 import { ReactComponent as AppTwitterIcon } from "../assets/icons/AppTwitterIcon.svg";
 import { ReactComponent as AppFacebookIcon } from "../assets/icons/AppFacebookIcon.svg";
 import { ReactComponent as BioIcon } from "../assets/icons/BioIcon.svg";
+
 import { ReactComponent as WhatsappIcon } from "../assets/icons/WhatsappIcon.svg";
 import Video from "../components/Member/Video";
 import CertificateCard from "../ui/CertificateCard";
