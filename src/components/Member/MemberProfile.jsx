@@ -2,13 +2,15 @@ import { Box, Grid, Skeleton, Typography } from "@mui/material";
 import React, { useState } from "react";
 import UserCard from "../../ui/UserCard";
 import CompanyCard from "../../ui/CompanyCard";
-import CertificateCard from "../../ui/CertificateCard";
 import AwardCard from "../../ui/AwardCard";
 import { ReactComponent as WebsiteIcon } from "../../assets/icons/WebsiteIcon.svg";
 import { ReactComponent as InstagramIcon } from "../../assets/icons/InstagramIcon.svg";
 import { ReactComponent as TwitterIcon } from "../../assets/icons/TwitterIcon.svg";
 import { ReactComponent as LinkedInIcon } from "../../assets/icons/LinkedInIcon.svg";
 import Video from "./Video";
+import CertificateBox from "../../ui/CerficateBox";
+import AwardBox from "../../ui/AwardBox";
+import VideoCard from "../../ui/VideoCard";
 
 const MemberProfile = ({ data, loading }) => {
   const renderSocialIcon = (platform) => {
@@ -161,7 +163,7 @@ const MemberProfile = ({ data, loading }) => {
           )}
           {data?.videos?.map((videoItem, index) => (
             <Grid item md={4} xs={12} key={index}>
-              <Video url={videoItem.link} />
+              <VideoCard url={videoItem.link} />
             </Grid>
           ))}
           {data?.certificates && data?.certificates?.length > 0 && (
@@ -173,7 +175,7 @@ const MemberProfile = ({ data, loading }) => {
               </Grid>
               {data?.certificates?.map((certificate, index) => (
                 <Grid item md={6} xs={12} key={index}>
-                  <CertificateCard certificate={certificate} />
+                  <CertificateBox certificate={certificate} />
                 </Grid>
               ))}
             </>
@@ -186,8 +188,8 @@ const MemberProfile = ({ data, loading }) => {
                 </Typography>
               </Grid>
               {data?.awards?.map((award, index) => (
-                <Grid item md={6} xs={12} key={index}>
-                  <AwardCard award={award} />
+                <Grid item md={4} xs={12} key={index}>
+                  <AwardBox award={award} />
                 </Grid>
               ))}
             </>
