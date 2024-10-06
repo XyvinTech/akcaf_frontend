@@ -29,7 +29,7 @@ export default function EmailNotification({}) {
     user && Array.isArray(user)
       ? user.map((i) => ({
           value: i?._id,
-          label: i?.email,
+          label: i?.name,
         }))
       : [];
   const onSubmit = async (data) => {
