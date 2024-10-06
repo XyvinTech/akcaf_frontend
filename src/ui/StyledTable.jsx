@@ -165,8 +165,9 @@ const StyledTable = ({
     return moment(date).format("DD-MM-YYYY");
   };
   const formatTime = (time) => {
-    return moment(time).format("h:mm A");
+    return moment.utc(time).format("h:mm A"); 
   };
+  
   const pageInc = () => {
     setPageNo((prev) => prev + 1);
   };

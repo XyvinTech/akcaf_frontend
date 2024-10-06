@@ -23,16 +23,23 @@ export default function InAppNotification({}) {
   const { addNotifications } = useNotificationStore();
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState([]);
   useEffect(() => {
     fetchListofUser();
   }, []);
   const option =
     user && Array.isArray(user)
-      ? user.map((i) => ({
-          value: i?._id,
-          label: i?.name,
-        }))
+      ? selectedOptions.some((opt) => opt.value === "*")
+        ? [{ value: "*", label: "All" }]
+        : [
+            { value: "*", label: "All" },
+            ...user.map((i) => ({
+              value: i._id,
+              label: i.name,
+            })),
+          ]
       : [];
+
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -101,6 +108,11 @@ export default function InAppNotification({}) {
                     options={option}
                     isMulti
                     {...field}
+                    value={selectedOptions}
+                    onChange={(selected) => {
+                      setSelectedOptions(selected);
+                      field.onChange(selected);
+                    }}
                   />
                   {errors.to && (
                     <span style={{ color: "red" }}>{errors.to.message}</span>
