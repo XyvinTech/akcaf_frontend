@@ -21,7 +21,7 @@ const getStatusColor = (status) => {
 
 const EventCard = ({ user }) => {
   const formatDate = (date) => {
-    return date ? moment(date).format("DD-MM-YYYY") : "-";
+    return date ? moment.utc(date).format("DD-MM-YYYY") : "-";
   };
 
   return (
