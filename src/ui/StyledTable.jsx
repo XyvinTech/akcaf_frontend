@@ -72,7 +72,9 @@ const StyledTable = ({
   onDeleteRow,
   member,
   payment,
-  college, rowPerSize,setRowPerSize
+  college,
+  rowPerSize,
+  setRowPerSize,
 }) => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -153,7 +155,8 @@ const StyledTable = ({
         return "#9C27B0";
       case "created":
         return "#FFC107";
-
+      case "live":
+        return "#03A9F4";
       default:
         return "#607D8B";
     }
@@ -172,7 +175,7 @@ const StyledTable = ({
   };
   const handleChangeRowsPerPage = (event) => {
     setRowPerSize(parseInt(event.target.value, 10));
-    setPageNo(1); 
+    setPageNo(1);
   };
   return (
     <Box bgcolor={"white"} borderRadius={"16px"}>
@@ -367,7 +370,6 @@ const StyledTable = ({
                           : member
                           ? [
                               <>
-                               
                                 <MenuItem onClick={handleModify}>Edit</MenuItem>
                                 <MenuItem
                                   onClick={() => handleRowDelete(row._id)}
@@ -474,7 +476,8 @@ const StyledTable = ({
                     <Box
                       onClick={pageDec}
                       sx={{
-                        display:"flex",alignItems:"center",
+                        display: "flex",
+                        alignItems: "center",
                         cursor: pageNo > 1 ? "pointer" : "not-allowed",
                         opacity: pageNo > 1 ? 1 : 0.5,
                       }}
@@ -484,7 +487,8 @@ const StyledTable = ({
                     <Box
                       onClick={pageInc}
                       sx={{
-                        display:"flex",alignItems:"center",
+                        display: "flex",
+                        alignItems: "center",
                         cursor:
                           pageNo < Math.ceil(totalCount / rowPerSize)
                             ? "pointer"
