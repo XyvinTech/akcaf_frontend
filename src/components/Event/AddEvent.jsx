@@ -27,7 +27,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
   const [type, setType] = useState();
   const navigate = useNavigate();
   const handleTypeChange = (selectedOption) => {
-    setType(selectedOption.value);
+    setType(selectedOption?.value);
   };
   const [speakers, setSpeakers] = useState([
     {
@@ -49,7 +49,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
 
   useEffect(() => {
     if (event && isUpdate) {
-      const selectedType = types.find((item) => item.value === event.type);
+      const selectedType = types.find((item) => item?.value === event.type);
       setValue("type", selectedType || "");
       setValue("eventName", event.eventName);
       setValue("venue", event.venue);
@@ -66,7 +66,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       setValue("platform", selectedplatform || "");
       setValue("link", event.link);
       setValue("speakers", event.speakers || []);
-      setType(selectedType.value);
+      setType(selectedType?.value);
 
       if (Array.isArray(event.speakers)) {
         setSpeakers(event.speakers);

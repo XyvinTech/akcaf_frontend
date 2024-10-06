@@ -51,7 +51,7 @@ export default function EmailNotification({}) {
         }
       }
       const users = data?.to?.map((user) => ({
-        user: user.value,
+        user: user?.value,
       }));
       const formData = {
         content: data?.content,

@@ -52,7 +52,7 @@ const AddMember = () => {
   useEffect(() => {
     if (isUpdate && member) {
       const selectedCollege = collegeList?.find(
-        (item) => item.value === member?.college?._id
+        (item) => item?.value === member?.college?._id
       );
       setSelectedCollege(selectedCollege);
       setValue("college", selectedCollege || "");
@@ -77,11 +77,11 @@ const AddMember = () => {
         );
       }
       const selectedRole = roleOptions?.find(
-        (item) => item.value === member?.role
+        (item) => item?.value === member?.role
       );
       setValue("role", selectedRole || "");
       const selectedStatus = statusOptions?.find(
-        (item) => item.value === member?.status
+        (item) => item?.value === member?.status
       );
       setValue("status", selectedStatus || "");
     }
@@ -89,7 +89,7 @@ const AddMember = () => {
 
   const handleCollegeChange = (selectedCollegeId) => {
     const selectedCollege = college?.find(
-      (item) => item?._id === selectedCollegeId.value
+      (item) => item?._id === selectedCollegeId?.value
     );
     if (selectedCollege) {
       const updatedCourses = selectedCollege?.course?.map((course) => ({

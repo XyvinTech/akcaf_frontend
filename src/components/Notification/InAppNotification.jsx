@@ -29,7 +29,7 @@ export default function InAppNotification({}) {
   }, []);
   const option =
     user && Array.isArray(user)
-      ? selectedOptions.some((opt) => opt.value === "*")
+      ? selectedOptions.some((opt) => opt?.value === "*")
         ? [{ value: "*", label: "All" }]
         : [
             { value: "*", label: "All" },
@@ -60,7 +60,7 @@ export default function InAppNotification({}) {
         }
       }
       const users = data?.to?.map((user) => ({
-        user: user.value,
+        user: user?.value,
       }));
       const formData = {
         content: data?.content,

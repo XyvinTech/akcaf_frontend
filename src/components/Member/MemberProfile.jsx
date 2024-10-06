@@ -176,7 +176,7 @@ const MemberProfile = ({ data, loading }) => {
                 </Typography>
               </Grid>
               {data?.certificates?.map((certificate, index) => (
-                <Grid item md={6} xs={12} key={index}>
+                <Grid item md={4} xs={12} key={index}>
                   <CertificateBox certificate={certificate} />
                 </Grid>
               ))}

@@ -39,18 +39,18 @@ const AddCollege = () => {
     if (college && isUpdate) {
       setValue("collegeName", college?.collegeName);
       const selectedCountry = country.find(
-        (item) => item.value === college?.country
+        (item) => item?.value === college?.country
       );
       setValue("country", selectedCountry || "");
-      const selectedState = state.find((item) => item.value === college?.state);
+      const selectedState = state.find((item) => item?.value === college?.state);
       setValue("state", selectedState || "");
       const selectedCourses = college?.course?.map((courseId) =>
-        courseOption.find((option) => option.value === courseId)
+        courseOption.find((option) => option?.value === courseId)
       );
       setValue("course", selectedCourses || []);
       setValue("startYear", college?.startYear);
       const selectedStatus = option.find(
-        (item) => item.value === (college?.status ? "active" : "inactive")
+        (item) => item?.value === (college?.status ? "active" : "inactive")
       );
       setValue("status", selectedStatus || "");
     }

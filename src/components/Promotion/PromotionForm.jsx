@@ -51,7 +51,7 @@ export default function Promotionform({ isUpdate }) {
   }, [id, isUpdate, fetchPromotionById]);
   useEffect(() => {
     if (isUpdate && promotion) {
-      const selectedType = option.find((item) => item.value === promotion.type);
+      const selectedType = option.find((item) => item?.value === promotion.type);
       setValue("type", selectedType || "");
       setValue("startDate", promotion.startDate);
       setValue("endDate", promotion.endDate);

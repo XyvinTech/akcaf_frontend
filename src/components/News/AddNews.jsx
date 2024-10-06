@@ -49,7 +49,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
   useEffect(() => {
     if (singleNews && isUpdate) {
       const selectedCategory = option.find(
-        (item) => item.value === singleNews.category
+        (item) => item?.value === singleNews.category
       );
       setValue("category", selectedCategory || "");
       setValue("title", singleNews.title);

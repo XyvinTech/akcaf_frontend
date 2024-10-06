@@ -45,7 +45,7 @@ const AddGroup = () => {
       setValue("groupInfo", singleGroup?.groupInfo);
       const participantOptions =
         singleGroup?.participants?.map((id) => {
-          const matchedOption = option.find((opt) => opt.value === id);
+          const matchedOption = option.find((opt) => opt?.value === id);
           return matchedOption;
         }) || [];
       setValue("participants", participantOptions);
@@ -55,7 +55,7 @@ const AddGroup = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const participants = data?.participants?.map((user) => user.value);
+      const participants = data?.participants?.map((user) => user?.value);
       const formData = {
         participantIds: participants,
         groupName: data?.groupName,
