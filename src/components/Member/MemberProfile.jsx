@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import UserCard from "../../ui/UserCard";
 import CompanyCard from "../../ui/CompanyCard";
 import AwardCard from "../../ui/AwardCard";
-import { ReactComponent as WebsiteIcon } from "../../assets/icons/WebsiteIcon.svg";
-import { ReactComponent as InstagramIcon } from "../../assets/icons/InstagramIcon.svg";
-import { ReactComponent as TwitterIcon } from "../../assets/icons/TwitterIcon.svg";
-import { ReactComponent as LinkedInIcon } from "../../assets/icons/LinkedInIcon.svg";
-import Video from "./Video";
+import { ReactComponent as WebsiteIcon } from "../../assets/icons/AppWebsiteIcon.svg";
+import { ReactComponent as InstagramIcon } from "../../assets/icons/AppInstagramIcon.svg";
+import { ReactComponent as TwitterIcon } from "../../assets/icons/AppTwitterIcon.svg";
+import { ReactComponent as LinkedInIcon } from "../../assets/icons/AppLinkedInIcon.svg";
+import { ReactComponent as FacebookIcon } from "../../assets/icons/AppFacebookIcon.svg";
 import CertificateBox from "../../ui/CerficateBox";
 import AwardBox from "../../ui/AwardBox";
 import VideoCard from "../../ui/VideoCard";
@@ -21,6 +21,8 @@ const MemberProfile = ({ data, loading }) => {
         return <TwitterIcon />;
       case "linkedin":
         return <LinkedInIcon />;
+        case "facebook":
+          return <FacebookIcon />;
       default:
         return null;
     }
