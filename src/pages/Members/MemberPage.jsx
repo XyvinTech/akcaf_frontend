@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import StyledTable from "../../ui/StyledTable";
-import { Box, Grid2, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import { memberColumns, userData } from "../../assets/json/TableData";

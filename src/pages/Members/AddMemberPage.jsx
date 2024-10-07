@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid, Grid2, Stack, Typography } from "@mui/material";
+import { Box, Grid,  Stack, Typography } from "@mui/material";
 import AddMember from "../../components/Member/AddMember";
 
 const AddMemberPage = () => {

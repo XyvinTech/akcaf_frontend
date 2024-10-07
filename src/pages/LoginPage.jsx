@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Grid,
@@ -36,14 +36,18 @@ function LoginPage() {
         password: data.otp,
       };
       const user = await getLogin(formData);
-      localStorage.setItem("token", user.data);
+      localStorage.setItem("4ZbQwXtY8uVrN5mP7kL3JhF6", user.data);
       navigate("/members");
     } catch (error) {
       setLoginError(true);
       console.error("Login error", error);
     }
   };
-
+  useEffect(() => {
+    if (localStorage.getItem("4ZbQwXtY8uVrN5mP7kL3JhF6")) {
+      navigate("/members");
+    }
+  }, []);
   return (
     <Grid container justifyContent="center" alignItems="center" height="100vh">
       <Grid item xs={12} sm={8} md={6} lg={4}>

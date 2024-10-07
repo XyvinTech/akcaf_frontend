@@ -96,7 +96,7 @@ const SimpleDialog = ({ open, onClose }) => {
   const navigate = useNavigate();
   const { singleAdmin, fetchAdminById } = useAdminStore();
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("4ZbQwXtY8uVrN5mP7kL3JhF6");
     navigate("/");
   };
   useEffect(() => {
@@ -183,7 +183,7 @@ const {singleAdmin}=useAdminStore()
     setDialogOpen(false);
   };
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("4ZbQwXtY8uVrN5mP7kL3JhF6");
     navigate("/");
   };
   const drawer = (
