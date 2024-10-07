@@ -56,7 +56,6 @@ const CustomTextField = styled(TextField)({
 });
 
 export const StyledCalender = ({ label, onChange, placeholder, value }) => {
- 
   const [selectedDate, setSelectedDate] = React.useState(
     value ? moment(value) : null
   );
@@ -69,10 +68,11 @@ export const StyledCalender = ({ label, onChange, placeholder, value }) => {
 
   const handleDateChange = (date) => {
     if (date) {
-      const isoDate = moment(date).toISOString();
+      // Change the format to 'YYYY-MM-DD'
+      const formattedDate = moment(date).format('YYYY-MM-DD'); 
       setSelectedDate(moment(date));
       if (onChange) {
-        onChange(isoDate);
+        onChange(formattedDate); // Pass the formatted date
       }
     }
   };
