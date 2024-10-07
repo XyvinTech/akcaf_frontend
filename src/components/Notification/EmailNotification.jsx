@@ -40,6 +40,7 @@ export default function EmailNotification({}) {
       : [];
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       let imageUrl = data?.media || "";
 
       if (imageFile) {
@@ -66,8 +67,10 @@ export default function EmailNotification({}) {
         media: imageUrl,
       };
       formData.type = "email";
-       await addNotifications(formData);
+      await addNotifications(formData);
       reset();
+      setSelectedOptions([]);
+      setImageFile(null); 
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -155,11 +158,11 @@ export default function EmailNotification({}) {
               control={control}
               defaultValue=""
               rules={{ required: "Message is required" }}
-              render={({ field: { onChange } }) => (
+              render={({ field }) => (
                 <>
-                  <StyledMultilineTextField
-                    label="Add message"
-                    onChange={onChange}
+                  <StyledMultilineTextField placeholder={"Enter message"}
+                    
+                    {...field}
                   />
                   {errors.content && (
                     <span style={{ color: "red" }}>

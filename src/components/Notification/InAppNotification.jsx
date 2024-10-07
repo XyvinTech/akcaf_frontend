@@ -72,6 +72,9 @@ export default function InAppNotification({}) {
       await addNotifications(formData);
 
       reset();
+      setImageFile(null);
+      setSelectedOptions([]);
+
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -159,11 +162,11 @@ export default function InAppNotification({}) {
               control={control}
               defaultValue=""
               rules={{ required: "Message is required" }}
-              render={({ field: { onChange } }) => (
+              render={({ field }) => (
                 <>
                   <StyledMultilineTextField
-                    label="Add message"
-                    onChange={onChange}
+                    placeholder="Enter message"
+                    {...field}
                   />
                   {errors.content && (
                     <span style={{ color: "red" }}>
