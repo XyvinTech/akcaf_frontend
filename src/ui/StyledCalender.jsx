@@ -3,7 +3,7 @@ import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from 'moment';
 const theme = createTheme({
   components: {
@@ -77,7 +77,7 @@ export const StyledCalender = ({ label, onChange, placeholder, value }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <LocalizationProvider dateAdapter={AdapterMoment}>
         <DatePicker
           label={label}
           value={value ? new Date(value) : null} // Ensure value is a Date object
