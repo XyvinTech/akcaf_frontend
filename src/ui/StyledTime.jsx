@@ -57,21 +57,20 @@ const CustomTextField = styled(TextField)({
 });
 
 export const StyledTime = ({ label, placeholder, onChange, value }) => {
-  // Initialize with UTC time or null
   const [selectedDate, setSelectedDate] = React.useState(
-    value ? moment.utc(value) : null
+    value ? moment(value) : null
   );
 
   React.useEffect(() => {
     if (value) {
-      setSelectedDate(moment.utc(value));
+      setSelectedDate(moment(value));
     }
   }, [value]);
 
   const handleDateChange = (date) => {
     if (date && moment(date).isValid()) {
-      const isoDate = moment.utc(date).toISOString();
-      setSelectedDate(moment.utc(date));
+      const isoDate = moment(date).toISOString(); 
+      setSelectedDate(moment(date)); 
       if (onChange) {
         onChange(isoDate); 
       }

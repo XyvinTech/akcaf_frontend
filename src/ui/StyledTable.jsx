@@ -166,7 +166,7 @@ const StyledTable = ({
   };
   
   const formatTime = (time) => {
-    return moment.utc(time).format("h:mm A"); 
+    return moment(time).format("h:mm A"); 
   };
   
   const pageInc = () => {
