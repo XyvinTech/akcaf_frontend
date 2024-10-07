@@ -41,7 +41,7 @@ const UserCard = ({ user }) => {
           alt="img"
           width={"216px"}
           height={"216px"}
-          style={{ borderRadius: "12px" }}
+          style={{ borderRadius: "12px", objectFit: "cover" }}
         />
       </Grid>
       <Grid
