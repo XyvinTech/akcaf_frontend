@@ -66,35 +66,40 @@ const UserCard = ({ user }) => {
           >
             {user?.role}
           </Typography>
-
           <Typography variant="h5" color={"textPrimary"}>
             {user?.name?.first} {user?.name?.middle} {user?.name?.last}
           </Typography>
           <Typography variant="h7" color={"textPrimary"}>
             {user?.college?.collegeName}
           </Typography>
-
           <Stack direction="row" alignItems="center" spacing={1}>
-            <PhoneIcon />
+            <Stack>
+              <PhoneIcon />{" "}
+            </Stack>
             <Typography variant="h7" color={"textPrimary"}>
               {user?.phone}
             </Typography>
           </Stack>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <EmailIcon />
+            <Stack>
+              {" "}
+              <EmailIcon />{" "}
+            </Stack>
             <Typography variant="h7" color={"textPrimary"}>
               {user?.email}
             </Typography>
           </Stack>
-         
           {user?.address && (
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <LocationIcon />
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <Stack>
+                <LocationIcon />{" "}
+              </Stack>
               <Typography variant="h7" color={"textPrimary"}>
                 {user?.address}
               </Typography>
             </Stack>
-          )} {user?.status === "active" && (
+          )}{" "}
+          {user?.status === "active" && (
             <Stack direction="row" alignItems="center" spacing={2}>
               <StyledButton
                 variant={"primary"}

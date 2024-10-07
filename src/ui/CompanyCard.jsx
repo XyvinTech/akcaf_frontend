@@ -23,27 +23,31 @@ const CompanyCard = ({ company }) => {
         />
         <Box>
           <Typography variant="h4" color="#000000" mt={1}>
-          {company?.company?.name}
+            {company?.company?.name}
           </Typography>
           <Typography variant="h7" color="#000000" mt={1}>
-          {company?.company?.designation}
+            {company?.company?.designation}
           </Typography>
         </Box>
       </Grid>
       <Grid item xs={12}>
         <Stack spacing={"14px"}>
-        
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <PhoneIcon />
-              <Typography variant="h7" color={"textTertiary"}>
-              {company?.company?.phone}
-              </Typography>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Stack>
+              {" "}
+              <PhoneIcon />{" "}
             </Stack>
-         
-          <Stack direction="row" alignItems="flex-start" spacing={1}>
-            <LocationIcon />
             <Typography variant="h7" color={"textTertiary"}>
-            {company?.company?.address}
+              {company?.company?.phone}
+            </Typography>
+          </Stack>
+          <Stack direction="row" alignItems="flex-start" spacing={1}>
+            <Stack>
+              {" "}
+              <LocationIcon />{" "}
+            </Stack>
+            <Typography variant="h7" color={"textTertiary"}>
+              {company?.company?.address}
             </Typography>
           </Stack>{" "}
         </Stack>
