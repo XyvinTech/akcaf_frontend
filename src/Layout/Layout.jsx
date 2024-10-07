@@ -26,8 +26,6 @@ import {
 } from "@mui/material";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { ReactComponent as ExpandMoreIcon } from "../assets/icons/ExpandMoreIcon.svg";
-import { ReactComponent as NotificationIcon } from "../assets/icons/NotificationIcon.svg";
-import GridViewIcon from "@mui/icons-material/GridView";
 import { ReactComponent as LogoutIcon } from "../assets/icons/LogoutIcon.svg";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
@@ -387,7 +385,7 @@ const {singleAdmin}=useAdminStore()
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Box display={isMobile && "none"}> </Box>
-            <NotificationIcon />
+            {/* <NotificationIcon /> */}
             <Box
               borderRadius="24px"
               padding={"5px 20px 5px 5px"}
