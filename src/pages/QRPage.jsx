@@ -201,16 +201,16 @@ END:VCARD
               </Typography>
               <Stack spacing={2} mb={4} mt={4}>
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <AppPhoneIcon />
+                <Stack> <AppPhoneIcon /> </Stack>
                   <Typography variant="h7">{userData?.phone}</Typography>
                 </Stack>
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <AppEmailIcon />
+                <Stack><AppEmailIcon /> </Stack>
                   <Typography variant="h7">{userData?.email}</Typography>
                 </Stack>
                 {userData?.address && (
                   <Stack direction="row" alignItems="center" spacing={1}>
-                    <AppLocationIcon />
+                     <Stack> <AppLocationIcon /> </Stack>
                     <Typography variant="h7">{userData?.address}</Typography>
                   </Stack>
                 )}
@@ -232,13 +232,13 @@ END:VCARD
                   </Typography>
                   <Stack spacing={2} mb={4} mt={4}>
                     <Stack direction="row" alignItems="center" spacing={1}>
-                      <AppPhoneIcon />
+                    <Stack> <AppPhoneIcon /> </Stack>
                       <Typography variant="h7">
                         {userData?.company?.phone}
                       </Typography>
                     </Stack>
                     <Stack direction="row" alignItems="center" spacing={1}>
-                      <AppLocationIcon />
+                    <Stack><AppLocationIcon /> </Stack>
                       <Typography variant="h7">
                         {userData?.company?.address}
                       </Typography>
