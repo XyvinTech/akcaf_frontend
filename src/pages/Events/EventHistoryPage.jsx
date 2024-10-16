@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import StyledTable from "../../ui/StyledTable.jsx";
-import { memberColumns, userData } from "../../assets/json/TableData";
+import { eventHistoryColumns, eventList, userData } from "../../assets/json/TableData";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar.jsx";
 import { useListStore } from "../../store/listStore.js";
@@ -77,7 +77,7 @@ export default function EventHistorypage() {
             border={"1px solid rgba(0, 0, 0, 0.12)"}
           >
             <StyledTable
-              columns={memberColumns}
+              columns={eventList}
               data={userData}
               pageNo={pageNo}
               setPageNo={setPageNo}

@@ -5,6 +5,13 @@ export const memberColumns = [
   { title: "Phone Number", field: "phone" },
   { title: "Status", field: "status" },
 ];
+export const eventHistoryColumns = [
+  { title: "Name", field: "fullName", padding: "none" },
+  { title: "College Name", field: "college" },
+  { title: "Batch number", field: "batch" },
+  { title: "Phone Number", field: "phone" },
+  { title: "Status", field: "status" },
+];
 export const groupmemberColumns = [
   { title: "Member ID", field: "memberId", padding: "none" },
   { title: "Name", field: "name", padding: "none" },
