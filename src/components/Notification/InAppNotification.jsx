@@ -10,6 +10,7 @@ import { useNotificationStore } from "../../store/notificationStore";
 import { useDropDownStore } from "../../store/dropDownStore";
 import uploadFileToS3 from "../../utils/s3Upload";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function InAppNotification({}) {
   const {
@@ -24,6 +25,7 @@ export default function InAppNotification({}) {
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     fetchListofUser();
   }, []);
@@ -39,7 +41,14 @@ export default function InAppNotification({}) {
             })),
           ]
       : [];
-
+const handleClear = (event) => {
+  event.preventDefault();
+  reset();
+  setSelectedOptions([]);
+  setImageFile(null);
+  setSelectedOptions([]);
+  navigate(-1)
+}
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -214,7 +223,7 @@ export default function InAppNotification({}) {
           <Grid item xs={6} display={"flex"} justifyContent={"end"}>
             {" "}
             <Stack direction={"row"} spacing={2}>
-              <StyledButton name="Cancel" variant="secondary" />
+              <StyledButton name="Cancel" variant="secondary" onClick={(e) =>handleClear (e)} />
               <StyledButton
                 name={loading ? "Saving..." : "Save"}
                 variant="primary"

@@ -60,6 +60,12 @@ const AddRole = () => {
   const { addRole, getRoleById, singleRole, updateRole } = useRoleStore();
   const location = useLocation();
   const { roleId, isUpdate } = location.state || {};
+  const handleClear = (event) => {
+    event.preventDefault();
+    reset();
+    setPermissions([]);
+    navigate(-1)
+  };
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -244,7 +250,7 @@ const AddRole = () => {
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
-              <StyledButton name="Cancel" variant="secondary" />
+              <StyledButton name="Cancel" variant="secondary"   onClick={(e) => handleClear(e)}/>
               <StyledButton
                 name={loading ? "Saving..." : "Save"}
                 variant="primary"

@@ -61,6 +61,11 @@ const AddCollege = () => {
   const handleChange = () => {
     setIsChange(!isChange);
   };
+  const handleClear = (event) => {
+    event.preventDefault();
+    reset();
+    navigate(-1);
+  }
   const onSubmit = async (data) => {
     try {
       setSubmitting(true);
@@ -310,7 +315,7 @@ const AddCollege = () => {
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
-              <StyledButton name="Cancel" variant="secondary" />
+              <StyledButton name="Cancel" variant="secondary" onClick={(e) => handleClear(e)}/>
               <StyledButton
                 name={submitting ? "Saving..." : "Save"}
                 variant="primary"

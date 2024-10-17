@@ -64,6 +64,7 @@ const AddAdmin = () => {
   const handleClear = (event) => {
     event.preventDefault();
     reset();
+    navigate(-1)
   };
   return (
     <Box

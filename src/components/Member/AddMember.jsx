@@ -124,7 +124,10 @@ const AddMember = () => {
     event.preventDefault();
     reset();
     setImageFile(null);
-    setSelectedCollege(null); // clear selected college
+    setSelectedCollege(null); 
+    setCourseOptions([]);
+    setBatchOptions([]);
+    navigate(-1);
   };
 
   const onSubmit = async (data) => {

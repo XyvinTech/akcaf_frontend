@@ -10,6 +10,7 @@ import { useDropDownStore } from "../../store/dropDownStore";
 import { useNotificationStore } from "../../store/notificationStore";
 import uploadFileToS3 from "../../utils/s3Upload";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function EmailNotification({}) {
   const {
@@ -23,6 +24,7 @@ export default function EmailNotification({}) {
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     fetchListofUser();
   }, []);
@@ -38,6 +40,13 @@ export default function EmailNotification({}) {
             })),
           ]
       : [];
+  const handleClear = (event) => {
+    setSelectedOptions([]);
+    setImageFile(null);
+    event.preventDefault();
+    reset();
+    navigate(-1);
+  };
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -70,7 +79,7 @@ export default function EmailNotification({}) {
       await addNotifications(formData);
       reset();
       setSelectedOptions([]);
-      setImageFile(null); 
+      setImageFile(null);
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -160,8 +169,8 @@ export default function EmailNotification({}) {
               rules={{ required: "Message is required" }}
               render={({ field }) => (
                 <>
-                  <StyledMultilineTextField placeholder={"Enter message"}
-                    
+                  <StyledMultilineTextField
+                    placeholder={"Enter message"}
                     {...field}
                   />
                   {errors.content && (
@@ -208,7 +217,11 @@ export default function EmailNotification({}) {
           <Grid item xs={6} display={"flex"} justifyContent={"end"}>
             {" "}
             <Stack direction={"row"} spacing={2}>
-              <StyledButton name="Cancel" variant="secondary" />
+              <StyledButton
+                name="Cancel"
+                variant="secondary"
+                onClick={(e) => handleClear(e)}
+              />
               <StyledButton
                 name={loading ? "Saving..." : "Save"}
                 variant="primary"

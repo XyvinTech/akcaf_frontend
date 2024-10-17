@@ -51,7 +51,11 @@ const AddGroup = () => {
       setValue("participants", participantOptions);
     }
   }, [singleGroup, isUpdate, setValue]);
-
+const handleClear = (event) => {
+  event.preventDefault();
+  reset();
+  navigate(-1);
+}
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -169,7 +173,7 @@ const AddGroup = () => {
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
-              <StyledButton name="Cancel" variant="secondary" />
+              <StyledButton name="Cancel" variant="secondary" onClick={(e) => handleClear(e)} />
               <StyledButton
                 name={loading ? "Saving..." : "Save"}
                 variant="primary"
