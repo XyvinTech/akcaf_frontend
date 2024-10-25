@@ -476,7 +476,7 @@ const StyledTable = ({
                   >
                     {" "}
                     <Box
-                      onClick={pageDec}
+                     onClick={pageNo > 1 ? pageDec : null}
                       sx={{
                         display: "flex",
                         alignItems: "center",
@@ -487,7 +487,11 @@ const StyledTable = ({
                       <LeftIcon />{" "}
                     </Box>
                     <Box
-                      onClick={pageInc}
+                       onClick={
+                        pageNo < Math.ceil(totalCount / rowPerSize)
+                          ? pageInc
+                          : null
+                      }
                       sx={{
                         display: "flex",
                         alignItems: "center",

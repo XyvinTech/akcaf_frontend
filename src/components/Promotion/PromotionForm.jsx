@@ -51,7 +51,9 @@ export default function Promotionform({ isUpdate }) {
   }, [id, isUpdate, fetchPromotionById]);
   useEffect(() => {
     if (isUpdate && promotion) {
-      const selectedType = option.find((item) => item?.value === promotion.type);
+      const selectedType = option.find(
+        (item) => item?.value === promotion.type
+      );
       setValue("type", selectedType || "");
       setValue("startDate", promotion.startDate);
       setValue("endDate", promotion.endDate);
@@ -251,10 +253,17 @@ export default function Promotionform({ isUpdate }) {
                 name="description"
                 control={control}
                 defaultValue=""
+                rules={{
+                  validate: (value) =>
+                    value.length <= 500 ||
+                    "Content must be less than 500 characters",
+                }}
                 render={({ field }) => (
                   <>
                     <StyledMultilineTextField
-                      placeholder="Add Description in less than 500 words"
+                      placeholder="Add Description in less than 500 characters"
+                      maxLength={500}
+                      errorMessage="Please enter less than 500 characters."
                       {...field}
                     />
                   </>
