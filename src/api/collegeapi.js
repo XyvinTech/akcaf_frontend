@@ -51,7 +51,7 @@ export const editCollege = async (id, data) => {
     toast.success(response.data.message);
     return response.data;
   } catch (error) {
-    toast.error(error.response.data.message);
+    throw error.response.data;
   }
 };
 export const getBatch = async (collegeId, courseId,filter) => {

@@ -34,7 +34,7 @@ export const editRole = async (id, data) => {
     toast.success(response.data.message);
     return response.data;
   } catch (error) {
-    console.error(error.response.data.message);
+    throw error.response.data;
   }
 };
 export const deleteRole = async (id) => {
