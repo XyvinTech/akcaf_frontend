@@ -300,7 +300,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               component="img"
               src={previewImageUrl}
               alt="Preview"
-              sx={{ maxWidth: "100%", maxHeight: "300px", mt: 1 }}
+              sx={{ width: "100%", maxHeight: "300px", mt: 1 ,objectFit:"contain"}}
             />
           ) : (
             <Typography color="textSecondary">No image selected</Typography>
