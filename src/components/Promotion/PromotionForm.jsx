@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Grid, Stack } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Grid,
+  Stack,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton.jsx";
 import { Controller, useForm } from "react-hook-form";
 import StyledSelectField from "../../ui/StyledSelectField.jsx";
@@ -11,6 +20,7 @@ import { StyledCalender } from "../../ui/StyledCalender.jsx";
 import uploadFileToS3 from "../../utils/s3Upload.js";
 import { usePromotionStore } from "../../store/promotionstore.js";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 export default function Promotionform({ isUpdate }) {
   const {
@@ -19,6 +29,7 @@ export default function Promotionform({ isUpdate }) {
     reset,
     setValue,
     formState: { errors },
+    getValues,
   } = useForm();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -26,7 +37,9 @@ export default function Promotionform({ isUpdate }) {
   const { value } = location.state || {};
   const [imageFile, setImageFile] = useState(null);
   const [type, setType] = useState();
+  const [previewOpen, setPreviewOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [previewImageUrl, setPreviewImageUrl] = useState("");
   const { addPromotions, fetchPromotionById, updatePromotion, promotion } =
     usePromotionStore();
 
@@ -40,15 +53,27 @@ export default function Promotionform({ isUpdate }) {
     { value: "poster", label: "Poster" },
     { value: "notice", label: "Notice" },
   ];
-  const handleClear = (event) => {
-    event.preventDefault();
-    navigate("/promotions");
-  };
+
   useEffect(() => {
     if (isUpdate && id) {
       fetchPromotionById(id);
     }
   }, [id, isUpdate, fetchPromotionById]);
+  const handleClear = (event) => {
+    event.preventDefault();
+    setPreviewOpen(true); // Open preview dialog on clicking "Preview"
+  };
+
+  const handleClosePreview = () => {
+    setPreviewOpen(false); // Close preview dialog
+  };
+  const getYouTubeId = (url) => {
+    const regExp =
+      /^.*(?:youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.+&v=)([^&]{11}).*/;
+    const match = url.match(regExp);
+    return match ? match[1] : null;
+  };
+
   useEffect(() => {
     if (isUpdate && promotion) {
       const selectedType = option.find(
@@ -67,14 +92,28 @@ export default function Promotionform({ isUpdate }) {
         setValue("link", promotion.link || "");
       } else if (promotion.type === "banner" || "") {
         setValue("media", promotion.media || "");
+        setPreviewImageUrl(promotion.media);
       } else if (promotion.type === "poster" || "") {
         setValue("media", promotion.media || "");
+        setPreviewImageUrl(promotion.media);
         setValue("link", promotion.link || "");
       }
 
       setType(promotion.type);
     }
   }, [isUpdate, promotion, setValue]);
+  const onImageChange = (file) => {
+    setImageFile(file);
+    setValue("media", file);
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewImageUrl(objectUrl);
+
+      return () => URL.revokeObjectURL(objectUrl);
+    } else {
+      setPreviewImageUrl("");
+    }
+  };
   const onSubmit = async (data) => {
     try {
       setSubmitting(true);
@@ -186,7 +225,7 @@ export default function Promotionform({ isUpdate }) {
                     <StyledEventUpload
                       label="Upload image here"
                       onChange={(file) => {
-                        setImageFile(file);
+                        onImageChange(file);
                         onChange(file);
                       }}
                       value={value}
@@ -371,6 +410,153 @@ export default function Promotionform({ isUpdate }) {
           </Grid>
         </Grid>
       </form>
+      <Dialog
+        open={previewOpen}
+        onClose={handleClosePreview}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle
+          sx={{ backgroundColor: "#f5f5f5", borderBottom: "1px solid #e0e0e0" }}
+        >
+          Promotion Preview
+        </DialogTitle>
+        <DialogContent
+          sx={{ p: 4, backgroundColor: "#fafafa", borderRadius: "12px" }}
+        >
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: "bold",
+              color: "#3f51b5",
+              textAlign: "center",
+              mb: 3,
+              borderBottom: "2px solid #e0e0e0",
+              p: 3,
+            }}
+          >
+            Type: {type}
+          </Typography>
+
+          <Typography
+            variant="subtitle1"
+            color="text.secondary"
+            sx={{ mb: 1, fontSize: "1.1rem" }}
+          >
+            Start Date: {moment(getValues("startDate")).format("MMMM Do YYYY")}
+          </Typography>
+
+          <Typography
+            variant="subtitle1"
+            color="text.secondary"
+            sx={{ mb: 3, fontSize: "1.1rem" }}
+          >
+            End Date: {moment(getValues("endDate")).format("MMMM Do YYYY")}
+          </Typography>
+
+          {type === "notice" && (
+            <>
+              <Typography
+                variant="h6"
+                sx={{
+                  mt: 3,
+                  fontWeight: "bold",
+                  color: "#3f51b5",
+                  textDecoration: "underline",
+                  mb: 1,
+                }}
+              >
+                Title: {getValues("title")}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ mb: 1, lineHeight: "1.6" }}
+              >
+                Description: {getValues("description")}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                color="primary"
+                sx={{ wordBreak: "break-word" }}
+              >
+                Link: {getValues("link")}
+              </Typography>
+            </>
+          )}
+
+          {(type === "banner" || type === "poster") && (
+            <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
+              {previewImageUrl ? (
+                <Box
+                  component="img"
+                  src={previewImageUrl}
+                  alt="Preview"
+                  sx={{
+                    maxWidth: "100%",
+                    maxHeight: "300px",
+                    borderRadius: "12px",
+                    boxShadow: "0 6px 20px rgba(0, 0, 0, 0.15)",
+                    transition: "transform 0.3s",
+                    "&:hover": { transform: "scale(1.05)" },
+                  }}
+                />
+              ) : (
+                <Typography color="textSecondary">No image selected</Typography>
+              )}
+            </Box>
+          )}
+
+          {type === "video" && (
+            <>
+              <Typography
+                variant="h6"
+                sx={{
+                  mt: 4,
+                  fontWeight: "bold",
+                  color: "#3f51b5",
+                  textAlign: "center",
+                  mb: 2,
+                  textDecoration: "underline",
+                }}
+              >
+                Title: {getValues("title")}
+              </Typography>
+
+              <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
+                <iframe
+                  width="100%"
+                  height="315"
+                  src={`https://www.youtube.com/embed/${getYouTubeId(
+                    getValues("link")
+                  )}`}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allowFullScreen
+                  style={{
+                    borderRadius: "12px",
+                    boxShadow: "0 6px 20px rgba(0, 0, 0, 0.15)",
+                    transition: "transform 0.3s",
+                    "&:hover": { transform: "scale(1.05)" },
+                  }}
+                ></iframe>
+              </Box>
+            </>
+          )}
+        </DialogContent>
+
+        <DialogActions sx={{ justifyContent: "flex-end", p: 2 }}>
+          <StyledButton
+            onClick={handleClosePreview}
+            variant="secondary"
+            name={"Close"}
+          >
+            Close
+          </StyledButton>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

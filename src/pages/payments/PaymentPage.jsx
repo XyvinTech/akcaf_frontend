@@ -38,7 +38,7 @@ const MemberPage = () => {
           </Typography>
         </Stack>
         <Stack direction={"row"} spacing={2}>
-          <StyledButton variant={"secondary"} name={"Download"} />
+          {/* <StyledButton variant={"secondary"} name={"Download"} /> */}
         </Stack>
       </Stack>
       <Box padding={"15px"}>

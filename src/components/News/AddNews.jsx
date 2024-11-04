@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Grid, Stack } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Grid,
+  Stack,
+  Dialog,
+  DialogContent,
+} from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import StyledSelectField from "../../ui/StyledSelectField";
@@ -10,7 +17,7 @@ import { StyledButton } from "../../ui/StyledButton";
 import { useNewsStore } from "../../store/newsStore";
 import uploadFileToS3 from "../../utils/s3Upload";
 import { toast } from "react-toastify";
-
+import { ReactComponent as CloseIcon } from "../../assets/icons/CloseIcon.svg";
 export default function AddNews({ isUpdate, setSelectedTab }) {
   const {
     control,
@@ -18,6 +25,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
     reset,
     formState: { errors },
     setValue,
+    getValues,
   } = useForm({
     defaultValues: {
       category: null,
@@ -31,10 +39,8 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
   const { id } = useParams();
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const handleClear = (event) => {
-    event.preventDefault();
-    navigate("/news");
-  };
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImageUrl, setPreviewImageUrl] = useState("");
   const option = [
     { value: "Latest", label: "Latest" },
     { value: "Business", label: "Business" },
@@ -55,9 +61,29 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
       setValue("title", singleNews.title);
       setValue("content", singleNews.content);
       setValue("image", singleNews.media);
+      setPreviewImageUrl(singleNews.media);
     }
   }, [singleNews, isUpdate, setValue]);
+  const handlePreviewOpen = () => {
+    setPreviewOpen(true);
+  };
 
+  const handlePreviewClose = () => {
+    setPreviewOpen(false);
+  };
+
+  const onImageChange = (file) => {
+    setImageFile(file);
+    setValue("image", file);
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewImageUrl(objectUrl);
+
+      return () => URL.revokeObjectURL(objectUrl);
+    } else {
+      setPreviewImageUrl("");
+    }
+  };
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -90,8 +116,6 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
         setSelectedTab(0);
       }
       navigate(`/news`);
-
-     
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -176,7 +200,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
                   <StyledEventUpload
                     label="Upload image here"
                     onChange={(file) => {
-                      setImageFile(file);
+                      onImageChange(file);
                       onChange(file);
                     }}
                     value={value}
@@ -221,7 +245,10 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               <StyledButton
                 name="Preview"
                 variant="secondary"
-                onClick={(event) => handleClear(event)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  handlePreviewOpen();
+                }}
               />
               <StyledButton
                 name={loading ? "Publishing" : "Publish"}
@@ -232,6 +259,54 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
           </Grid>
         </Grid>
       </form>
+      <Dialog
+        open={previewOpen}
+        onClose={handlePreviewClose}
+        maxWidth="sm"
+        fullWidth
+      >
+        {" "}
+        <Stack direction={"row"} justifyContent={"end"} padding={2}>
+          <Typography
+            onClick={handlePreviewClose}
+            color="#E71D36"
+            style={{ cursor: "pointer" }}
+          >
+            <CloseIcon />
+          </Typography>
+        </Stack>
+        <DialogContent>
+          <Typography variant="h6" fontWeight="bold">
+            Category:
+          </Typography>
+          <Typography>{getValues("category")?.label || "N/A"}</Typography>
+
+          <Typography variant="h6" fontWeight="bold" mt={2}>
+            Title:
+          </Typography>
+          <Typography>{getValues("title") || "N/A"}</Typography>
+
+          <Typography variant="h6" fontWeight="bold" mt={2}>
+            Content:
+          </Typography>
+          <Typography>{getValues("content") || "N/A"}</Typography>
+
+          <Typography variant="h6" fontWeight="bold" mt={2}>
+            Image:
+          </Typography>
+
+          {previewImageUrl ? (
+            <Box
+              component="img"
+              src={previewImageUrl}
+              alt="Preview"
+              sx={{ maxWidth: "100%", maxHeight: "300px", mt: 1 }}
+            />
+          ) : (
+            <Typography color="textSecondary">No image selected</Typography>
+          )}
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 }

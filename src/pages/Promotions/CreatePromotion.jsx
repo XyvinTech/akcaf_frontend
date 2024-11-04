@@ -20,7 +20,7 @@ const Createpromotion = () => {
         </Stack>
       </Stack>
 
-      <Grid container padding={'15px'}>
+      <Grid container padding={"15px"}>
         <Grid item md={8}>
           <Promotionform />
         </Grid>
