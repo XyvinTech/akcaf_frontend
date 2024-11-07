@@ -15,7 +15,7 @@ const Createpromotion = () => {
       >
         <Stack>
           <Typography variant="h4" color="textSecondary">
-            Createpromotion
+            Create Promotion
           </Typography>
         </Stack>
       </Stack>
