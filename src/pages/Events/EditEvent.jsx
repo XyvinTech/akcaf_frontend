@@ -17,16 +17,12 @@ export default function EditEvent() {
               Events / Edit event
             </Typography>
           </Grid>
-          <Grid item xs={6} container justifyContent="flex-end" spacing={2}>
+          <Grid item xs={6} container justifyContent="flex-end" spacing={2} height={"70px"}>
             <Grid item>
-              <StyledButton name="Cancel" variant="secondary">
-                Download
-              </StyledButton>
+             
             </Grid>
             <Grid item>
-              <StyledButton name="Postpone" variant="primary">
-                Postpone
-              </StyledButton>
+             
             </Grid>
           </Grid>
         </Grid>
