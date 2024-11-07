@@ -188,7 +188,7 @@ export default function EmailNotification({}) {
               variant="h6"
               color="textSecondary"
             >
-              Upload photo or video
+              Upload File
             </Typography>
             <Controller
               name="media"

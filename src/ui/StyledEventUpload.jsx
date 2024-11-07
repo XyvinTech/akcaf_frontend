@@ -38,27 +38,47 @@ const ImagePreview = styled("img")({
   border: "1px solid rgba(0, 0, 0, 0.2)",
   borderRadius: "4px",
 });
-
+const PdfPreview = styled("div")({
+  width: "100px",
+  height: "100px",
+  marginTop: "10px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "1px solid rgba(0, 0, 0, 0.2)",
+  borderRadius: "4px",
+  backgroundColor: "#f0f0f0",
+  fontSize: "12px",
+  fontWeight: "bold",
+  color: "rgba(0, 0, 0, 0.5)",
+});
 export const StyledEventUpload = ({ label, value, onChange }) => {
   const fileInputRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(value || null); // Initialize with the passed value
-
+  const [isPdf, setIsPdf] = useState(false);
   const handleIconClick = () => {
     fileInputRef.current.click();
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {  // Ensure the file is an image
-      const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
+    if (file) {
+      const fileType = file.type;
+      if (fileType.startsWith("image/")) {
+        const imageUrl = URL.createObjectURL(file);
+        setSelectedImage(imageUrl);
+        setIsPdf(false);
+      } else if (fileType === "application/pdf") {
+        setSelectedImage(file.name);
+        setIsPdf(true);
+      }
       onChange(file); // Update form value with the selected file
     }
   };
-
   useEffect(() => {
     if (value && typeof value === "string") {
-      setSelectedImage(value); // Update image preview if value changes
+      setSelectedImage(value);
+      setIsPdf(value.endsWith(".pdf"));
     }
   }, [value]);
 
@@ -83,9 +103,15 @@ export const StyledEventUpload = ({ label, value, onChange }) => {
         ref={fileInputRef}
         onChange={handleFileChange}
         style={{ display: "none" }}
-        accept="image/*"
+        accept="image/*,application/pdf"
       />
-      {selectedImage && <ImagePreview src={selectedImage} alt="Preview" />}
+       {selectedImage && (
+        isPdf ? (
+          <PdfPreview>PDF Preview: {selectedImage}</PdfPreview>
+        ) : (
+          <ImagePreview src={selectedImage} alt="Preview" />
+        )
+      )}
     </>
   );
 };

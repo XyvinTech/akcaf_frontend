@@ -192,7 +192,7 @@ const handleClear = (event) => {
               variant="h6"
               color="textSecondary"
             >
-              Upload photo or video
+              Upload File
             </Typography>
             <Controller
               name="media_url"
