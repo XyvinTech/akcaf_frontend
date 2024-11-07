@@ -58,7 +58,8 @@ const StyledVideoTable = () => {
   };
 
   const userColumns = [
-    { title: "Date", field: "startDate", padding: "none" },
+    { title: "Start Date", field: "startDate", padding: "none" },
+    { title: "End Date", field: "endDate", padding: "none" },
 
     { title: "Title", field: "title" },
   ];
