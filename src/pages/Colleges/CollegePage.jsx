@@ -9,6 +9,8 @@ import RemoveCollege from "../../components/College/RemoveCollege";
 import { useCollgeStore } from "../../store/collegestore";
 import { toast } from "react-toastify";
 import { useListStore } from "../../store/listStore";
+import { generateExcel } from "../../utils/generateExcel";
+import { getCollege } from "../../api/collegeapi";
 
 const CollegePage = () => {
   const navigate = useNavigate();
@@ -58,6 +60,21 @@ const CollegePage = () => {
       }
     }
   };
+  const handleDownload = async () => {
+    try {
+      const data = await getCollege({ fullCollege: true });
+      const csvData = data.data;
+      if (csvData && csvData.headers && csvData.csvData) {
+        generateExcel(csvData.headers, csvData.csvData);
+      } else {
+        console.error(
+          "Error: Missing headers or data in the downloaded content"
+        );
+      }
+    } catch (error) {
+      console.error("Error downloading users:", error);
+    }
+  };
   return (
     <>
       <Stack
@@ -74,7 +91,11 @@ const CollegePage = () => {
           </Typography>
         </Stack>
         <Stack direction={"row"} spacing={2}>
-          <StyledButton variant={"secondary"} name={"Download"} />
+          <StyledButton
+            variant={"secondary"}
+            name={"Download"}
+            onClick={handleDownload}
+          />
           <StyledButton
             variant={"primary"}
             name={"Add College"}

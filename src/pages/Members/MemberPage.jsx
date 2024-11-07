@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import DeleteProfile from "../../components/Member/DeleteProfile";
 import { useMemberStore } from "../../store/Memberstore";
 import { useListStore } from "../../store/listStore";
+import { getMember } from "../../api/memberapi";
+import { generateExcel } from "../../utils/generateExcel";
 
 const MemberPage = () => {
   const navigate = useNavigate();
@@ -17,16 +19,16 @@ const MemberPage = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [memberId, setMemberId] = useState(null);
   const [pageNo, setPageNo] = useState(1);
-  const[row,setRow] = useState(10)
+  const [row, setRow] = useState(10);
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
     if (search) {
-    filter.search = search;
+      filter.search = search;
     }
-    filter.limit = row
+    filter.limit = row;
     fetchMember(filter);
-  }, [isChange, pageNo,search,row]);
+  }, [isChange, pageNo, search, row]);
 
   const handleRowDelete = (id) => {
     setMemberId(id);
@@ -37,6 +39,21 @@ const MemberPage = () => {
   };
   const handleChange = () => {
     setIschange(!isChange);
+  };
+  const handleDownload = async () => {
+    try {
+      const data = await getMember({ fullUser: true });
+      const csvData = data.data;
+      if (csvData && csvData.headers && csvData.csvData) {
+        generateExcel(csvData.headers, csvData.csvData);
+      } else {
+        console.error(
+          "Error: Missing headers or data in the downloaded content"
+        );
+      }
+    } catch (error) {
+      console.error("Error downloading users:", error);
+    }
   };
   return (
     <>
@@ -54,7 +71,11 @@ const MemberPage = () => {
           </Typography>
         </Stack>
         <Stack direction={"row"} spacing={2}>
-          <StyledButton variant={"secondary"} name={"Download"} />
+          <StyledButton
+            variant={"secondary"}
+            name={"Download"}
+            onClick={handleDownload}
+          />
           <StyledButton
             variant={"primary"}
             name={"Add new member"}
@@ -97,7 +118,8 @@ const MemberPage = () => {
               navigate(`/members/member`, {
                 state: { memberId: id, isUpdate: true },
               });
-            }}  rowPerSize={row}
+            }}
+            rowPerSize={row}
             setRowPerSize={setRow}
           />
           <DeleteProfile
