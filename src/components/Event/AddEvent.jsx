@@ -104,7 +104,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
     try {
       setLoadings(true);
       let imageUrl = data?.image || "";
-
+  
       if (imageFile) {
         try {
           imageUrl = await new Promise((resolve, reject) => {
@@ -119,11 +119,16 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
           return;
         }
       }
-
+  
+      // Filter out speakers with all empty fields
+      const filteredSpeakers = data.speakers.filter(
+        (speaker) => speaker.name || speaker.designation || speaker.role || speaker.image
+      );
+  
       const speakersData = await Promise.all(
-        data.speakers.map(async (speaker, index) => {
+        filteredSpeakers.map(async (speaker, index) => {
           let speakerImageUrl = speakers[index]?.image || "";
-
+  
           if (speaker?.image && typeof speaker.image === "object") {
             try {
               speakerImageUrl = await new Promise((resolve, reject) => {
@@ -137,7 +142,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
               console.error(`Failed to upload image for speaker:`, error);
             }
           }
-
+  
           return {
             name: speaker?.name,
             designation: speaker?.designation,
@@ -146,7 +151,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
           };
         })
       );
-
+  
       const formData = {
         type: data?.type?.value,
         eventName: data?.eventName,
@@ -159,14 +164,14 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
         description: data?.description,
         organiserName: data?.organiserName,
       };
-
+  
       if (type === "Online") {
         formData.platform = data?.platform.value;
         formData.link = data?.link;
       } else {
         formData.venue = data?.venue;
       }
-
+  
       if (isUpdate && id) {
         await updateEvent(id, formData);
         navigate("/events/list");
@@ -174,7 +179,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
         await addEvent(formData);
         setSelectedTab(0);
       }
-
+  
       reset();
     } catch (error) {
       toast.error(error.message);
@@ -182,6 +187,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       setLoadings(false);
     }
   };
+  
 
   const addSpeaker = () => {
     setSpeakers([
@@ -198,6 +204,8 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
   const removeSpeaker = (index) => {
     const newSpeakers = speakers.filter((_, i) => i !== index);
     setSpeakers(newSpeakers);
+    console.log("arrayspeaker", newSpeakers);
+    setValue("speakers", newSpeakers);
   };
 
   return (
@@ -571,18 +579,12 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                         name={`speakers[${index}].name`}
                         control={control}
                         defaultValue={speaker?.name || ""}
-                        rules={{ required: "Name is required" }}
                         render={({ field }) => (
                           <>
                             <StyledInput
                               placeholder="Enter speaker name"
                               {...field}
                             />
-                            {errors?.speakers?.[index]?.name && (
-                              <span style={{ color: "red" }}>
-                                {errors?.speakers?.[index]?.name?.message}
-                              </span>
-                            )}
                           </>
                         )}
                       />
@@ -592,21 +594,12 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                         name={`speakers[${index}].designation`}
                         control={control}
                         defaultValue={speaker?.designation || ""}
-                        rules={{ required: "Designation is required" }}
                         render={({ field }) => (
                           <>
                             <StyledInput
                               placeholder="Enter speaker designation"
                               {...field}
                             />
-                            {errors?.speakers?.[index]?.designation && (
-                              <span style={{ color: "red" }}>
-                                {
-                                  errors?.speakers?.[index]?.designation
-                                    ?.message
-                                }
-                              </span>
-                            )}
                           </>
                         )}
                       />
@@ -616,18 +609,12 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                         name={`speakers[${index}].role`}
                         control={control}
                         defaultValue={speaker?.role || ""}
-                        rules={{ required: "Role is required" }}
                         render={({ field }) => (
                           <>
                             <StyledInput
                               placeholder="Enter speaker role"
                               {...field}
                             />
-                            {errors?.speakers?.[index]?.role && (
-                              <span style={{ color: "red" }}>
-                                {errors?.speakers?.[index]?.role?.message}
-                              </span>
-                            )}
                           </>
                         )}
                       />
@@ -649,11 +636,6 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                               }}
                               value={field.value}
                             />
-                            {errors?.speakers?.[index]?.image && (
-                              <span style={{ color: "red" }}>
-                                {errors?.speakers?.[index]?.image?.message}
-                              </span>
-                            )}
                           </>
                         )}
                       />
