@@ -23,13 +23,16 @@ jobs:
           npm ci
           npm run build
 
+      - name: Rename dist to akcaf-frontend
+        run: mv ./dist ./akcaf-frontend
+
       - name: Copy Files to Lightsail
         uses: appleboy/scp-action@v0.1.3
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_KEY }}
-          source: ./dist/
+          source: ./akcaf-frontend/
           target: ~/deploy-temp/
 
       - name: Move Files to Target Directory
