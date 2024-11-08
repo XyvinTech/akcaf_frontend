@@ -124,7 +124,7 @@ const AddMember = () => {
     event.preventDefault();
     reset();
     setImageFile(null);
-    setSelectedCollege(null); 
+    setSelectedCollege(null);
     setCourseOptions([]);
     setBatchOptions([]);
     navigate(-1);
@@ -324,7 +324,6 @@ const AddMember = () => {
                   name="course"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "Course Name is required" }}
                   render={({ field }) => (
                     <>
                       <StyledSelectField
@@ -332,11 +331,6 @@ const AddMember = () => {
                         options={courseOptions}
                         {...field}
                       />
-                      {errors.course && (
-                        <span style={{ color: "red" }}>
-                          {errors.course.message}
-                        </span>
-                      )}
                     </>
                   )}
                 />
@@ -502,15 +496,9 @@ const AddMember = () => {
                   name="bio"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "Bio is required" }}
                   render={({ field }) => (
                     <>
                       <StyledMultilineTextField placeholder="Bio" {...field} />
-                      {errors.bio && (
-                        <span style={{ color: "red" }}>
-                          {errors.bio.message}
-                        </span>
-                      )}
                     </>
                   )}
                 />
