@@ -43,9 +43,13 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
   const [previewImageUrl, setPreviewImageUrl] = useState("");
   const option = [
     { value: "Latest", label: "Latest" },
-    { value: "Business", label: "Business" },
+    { value: "Current Affairs", label: "Current Affairs" },
+    { value: "Trending", label: "Trending" },
     { value: "Entertainment", label: "Entertainment" },
-    { value: "Economy", label: "Economy" },
+    { value: "History", label: "History" },
+    { value: "Volunteering", label: "Volunteering" },
+    { value: "Events/ Programmes", label: "Events/ Programmes" },
+
   ];
   useEffect(() => {
     if (isUpdate && id) {

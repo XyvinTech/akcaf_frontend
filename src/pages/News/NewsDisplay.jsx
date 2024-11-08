@@ -99,7 +99,7 @@ console.log("anjana",search);
         paddingBottom={"15px"}
         alignItems={"center"}
       >
-        <Stack direction={"row"} spacing={2}>
+        <Stack direction={"row"} spacing={1}>
           <StyledButton
             name="All"
             variant={selectedTab === "All" ? "primary" : "secondary"}
@@ -111,19 +111,34 @@ console.log("anjana",search);
             onClick={() => handleTabChange("Latest")}
           />
           <StyledButton
-            name="Business"
-            variant={selectedTab === "Business" ? "primary" : "secondary"}
-            onClick={() => handleTabChange("Business")}
+            name="Current Affairs"
+            variant={selectedTab === "Current Affairs" ? "primary" : "secondary"}
+            onClick={() => handleTabChange("Current Affairs")}
           />
           <StyledButton
-            name="Market"
-            variant={selectedTab === "Politics" ? "primary" : "secondary"}
-            onClick={() => handleTabChange("Politics")}
+            name="Trending"
+            variant={selectedTab === "Trending" ? "primary" : "secondary"}
+            onClick={() => handleTabChange("Trending")}
           />
           <StyledButton
-            name="Economy"
+            name="History"
+            variant={selectedTab === "History" ? "primary" : "secondary"}
+            onClick={() => handleTabChange("History")}
+          />
+          <StyledButton
+            name="Entertainment"
             variant={selectedTab === "Entertainment" ? "primary" : "secondary"}
             onClick={() => handleTabChange("Entertainment")}
+          />
+          <StyledButton
+            name="Volunteering"
+            variant={selectedTab === "Volunteering" ? "primary" : "secondary"}
+            onClick={() => handleTabChange("Volunteering")}
+          />
+          <StyledButton
+            name="Events/ Programmes"
+            variant={selectedTab === "Events/ Programmes" ? "primary" : "secondary"}
+            onClick={() => handleTabChange("Events/ Programmes")}
           />
         </Stack>
       </Stack>
