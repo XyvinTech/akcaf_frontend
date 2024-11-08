@@ -30,13 +30,15 @@ jobs:
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_KEY }}
           source: ./dist/
-          target: /var/www/html/
+          target: ~/deploy-temp/
 
-      - name: Restart Web Server
+      - name: Move Files to Target Directory
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_KEY }}
           script: |
+            sudo mv ~/deploy-temp/* /var/www/html/
+            sudo rm -rf ~/deploy-temp
             sudo systemctl restart nginx
