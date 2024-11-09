@@ -21,6 +21,7 @@ import uploadFileToS3 from "../../utils/s3Upload.js";
 import { usePromotionStore } from "../../store/promotionstore.js";
 import { toast } from "react-toastify";
 import moment from "moment";
+import StyledCropImage from "../../ui/StyledCropImage.jsx";
 
 export default function Promotionform({ isUpdate }) {
   const {
@@ -232,7 +233,7 @@ export default function Promotionform({ isUpdate }) {
                 defaultValue=""
                 render={({ field: { onChange, value } }) => (
                   <>
-                    <StyledEventUpload
+                    <StyledCropImage
                       label="Upload image here"
                       onChange={(file) => {
                         onImageChange(file);

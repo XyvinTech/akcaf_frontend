@@ -18,6 +18,7 @@ import { useNewsStore } from "../../store/newsStore";
 import uploadFileToS3 from "../../utils/s3Upload";
 import { toast } from "react-toastify";
 import { ReactComponent as CloseIcon } from "../../assets/icons/CloseIcon.svg";
+import StyledCropImage from "../../ui/StyledCropImage";
 export default function AddNews({ isUpdate, setSelectedTab }) {
   const {
     control,
@@ -200,7 +201,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               rules={{ required: "File is required" }}
               render={({ field: { onChange, value } }) => (
                 <>
-                  <StyledEventUpload
+                  <StyledCropImage
                     label="Upload image here"
                     onChange={(file) => {
                       onImageChange(file);
