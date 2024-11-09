@@ -302,7 +302,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                         onChange={(file) => {
                           setImageFile(file);
                           onChange(file);
-                        }}
+                        }}ratio={16 / 9}
                         value={value}
                       />
                       {errors.image && (

@@ -49,7 +49,6 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
     { value: "History", label: "History" },
     { value: "Volunteering", label: "Volunteering" },
     { value: "Events/ Programmes", label: "Events/ Programmes" },
-
   ];
   useEffect(() => {
     if (isUpdate && id) {
@@ -207,6 +206,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
                       onImageChange(file);
                       onChange(file);
                     }}
+                    ratio={16 / 9}
                     value={value}
                   />
                   {errors.image && (
@@ -304,7 +304,12 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               component="img"
               src={previewImageUrl}
               alt="Preview"
-              sx={{ width: "100%", maxHeight: "300px", mt: 1 ,objectFit:"contain"}}
+              sx={{
+                width: "100%",
+                maxHeight: "300px",
+                mt: 1,
+                objectFit: "contain",
+              }}
             />
           ) : (
             <Typography color="textSecondary">No image selected</Typography>

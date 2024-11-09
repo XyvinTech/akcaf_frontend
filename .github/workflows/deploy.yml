@@ -26,6 +26,13 @@ jobs:
       - name: Rename dist to akcaf-frontend
         run: mv ./dist ./akcaf-frontend
 
+      - name: Create .env File
+        run: |
+          echo "VITE_APP_AWS_S3_BUCKET=${{ secrets.VITE_APP_AWS_S3_BUCKET }}" >> ./akcaf-frontend/.env
+          echo "VITE_APP_AWS_REGION=${{ secrets.VITE_APP_AWS_REGION }}" >> ./akcaf-frontend/.env
+          echo "VITE_APP_AWS_ACCESS_KEY_ID=${{ secrets.VITE_APP_AWS_ACCESS_KEY_ID }}" >> ./akcaf-frontend/.env
+          echo "VITE_APP_AWS_SECRET_ACCESS_KEY=${{ secrets.VITE_APP_AWS_SECRET_ACCESS_KEY }}" >> ./akcaf-frontend/.env
+
       - name: Copy Files to Lightsail
         uses: appleboy/scp-action@v0.1.3
         with:

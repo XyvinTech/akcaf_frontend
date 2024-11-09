@@ -53,6 +53,16 @@ export default function Promotionform({ isUpdate }) {
     { value: "poster", label: "Poster" },
     { value: "notice", label: "Notice" },
   ];
+  const getAspectRatio = () => {
+    switch (type) {
+      case "banner":
+        return 2 / 1;
+      case "poster":
+        return 19 / 20;
+      default:
+        return 1;
+    }
+  };
 
   useEffect(() => {
     if (isUpdate && id) {
@@ -228,6 +238,7 @@ export default function Promotionform({ isUpdate }) {
                         onImageChange(file);
                         onChange(file);
                       }}
+                      ratio={getAspectRatio()}
                       value={value}
                     />
                   </>
