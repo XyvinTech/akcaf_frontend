@@ -8,6 +8,7 @@ import Cropper from "react-easy-crop";
 import Modal from "@mui/material/Modal";
 import Slider from "@mui/material/Slider";
 import { getCroppedImg } from "../utils/image"; // Ensure this is correctly imported
+import { Button } from "@mui/material";
 
 // Custom TextField styling
 const CustomTextField = styled(TextField)(({ theme }) => ({
@@ -33,7 +34,14 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
     opacity: 1,
   },
 }));
-
+const SaveButton = styled(Button)(({ theme }) => ({
+    marginTop: '10px',
+    backgroundColor:  '#e30613', // Change to the desired color
+    color: '#fff',
+    fontWeight: '400',
+    padding: '8px 16px',
+    borderRadius: '4px',
+  }));
 const ImagePreview = styled("img")({
   width: "100px",
   height: "100px",
@@ -176,7 +184,7 @@ export const StyledCropImage = ({ label, value, onChange,ratio }) => {
             max={3}
             step={0.1}
             onChange={(e, newZoom) => setZoom(newZoom)}
-            style={{ marginTop: "10px" }}
+            style={{ marginTop: "10px" ,color:" #e30613"}}
           />
           <div
             style={{
@@ -186,7 +194,7 @@ export const StyledCropImage = ({ label, value, onChange,ratio }) => {
               transform: "translateX(-50%)",
             }}
           >
-            <button onClick={handleCropSave}>Save</button>
+            <SaveButton onClick={handleCropSave}>Save</SaveButton>
           </div>
         </div>
       </Modal>
