@@ -35,13 +35,13 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 const SaveButton = styled(Button)(({ theme }) => ({
-    marginTop: '10px',
-    backgroundColor:  '#e30613', // Change to the desired color
-    color: '#fff',
-    fontWeight: '400',
-    padding: '8px 16px',
-    borderRadius: '4px',
-  }));
+  marginTop: "10px",
+  backgroundColor: "#e30613", // Change to the desired color
+  color: "#fff",
+  fontWeight: "400",
+  padding: "8px 16px",
+  borderRadius: "4px",
+}));
 const ImagePreview = styled("img")({
   width: "100px",
   height: "100px",
@@ -67,7 +67,7 @@ const PdfPreview = styled("div")({
 });
 
 // StyledEventUpload Component
-export const StyledCropImage = ({ label, value, onChange,ratio }) => {
+export const StyledCropImage = ({ label, value, onChange, ratio }) => {
   const fileInputRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(value || null);
   const [isPdf, setIsPdf] = useState(false);
@@ -113,7 +113,8 @@ export const StyledCropImage = ({ label, value, onChange,ratio }) => {
         setCropModalOpen(false);
         const response = await fetch(croppedImage);
         const blob = await response.blob();
-        const file = new File([blob], "cropped_image.png", { type: blob.type });
+        const uniqueName = `cropped_image_${Date.now()}.png`;
+        const file = new File([blob], uniqueName, { type: blob.type });
         onChange(file);
       } catch (error) {
         console.error("Error cropping image:", error);
@@ -184,7 +185,7 @@ export const StyledCropImage = ({ label, value, onChange,ratio }) => {
             max={3}
             step={0.1}
             onChange={(e, newZoom) => setZoom(newZoom)}
-            style={{ marginTop: "10px" ,color:" #e30613"}}
+            style={{ marginTop: "10px", color: " #e30613" }}
           />
           <div
             style={{
