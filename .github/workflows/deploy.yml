@@ -26,46 +26,53 @@ jobs:
           npm ci
           npm run build
 
-      # Step 4: Rename the `dist` directory (or verify output path)
+      # Step 4: Rename the `dist` directory to `akcaf-frontend`
       - name: Rename dist to akcaf-frontend
         run: mv ./dist ./akcaf-frontend
 
-      # Step 5: Debug Build Output
-      - name: Debug Build Output
-        run: |
-          ls -la
-          ls -la ./akcaf-frontend
-
-      # Step 6: Set up Environment Variables
+      # Step 5: Set up Environment Variables in `.env`
       - name: Set up Environment Variables
         run: |
-          echo "VITE_APP_AWS_S3_BUCKET=${{ secrets.VITE_APP_AWS_S3_BUCKET }}" >> .env
-          echo "VITE_APP_AWS_REGION=${{ secrets.VITE_APP_AWS_REGION }}" >> .env
-          echo "VITE_APP_AWS_ACCESS_KEY_ID=${{ secrets.VITE_APP_AWS_ACCESS_KEY_ID }}" >> .env
-          echo "VITE_APP_AWS_SECRET_ACCESS_KEY=${{ secrets.VITE_APP_AWS_SECRET_ACCESS_KEY }}" >> .env
+          echo "VITE_APP_AWS_S3_BUCKET=${{ secrets.VITE_APP_AWS_S3_BUCKET }}" >> ./akcaf-frontend/.env
+          echo "VITE_APP_AWS_REGION=${{ secrets.VITE_APP_AWS_REGION }}" >> ./akcaf-frontend/.env
+          echo "VITE_APP_AWS_ACCESS_KEY_ID=${{ secrets.VITE_APP_AWS_ACCESS_KEY_ID }}" >> ./akcaf-frontend/.env
+          echo "VITE_APP_AWS_SECRET_ACCESS_KEY=${{ secrets.VITE_APP_AWS_SECRET_ACCESS_KEY }}" >> ./akcaf-frontend/.env
 
-      # Step 7: Copy Files to Lightsail
-      - name: Copy Files to Lightsail
+      # Step 6: Debug - Verify directory structure and files
+      - name: Debug Build Output
+        run: |
+          ls -la ./akcaf-frontend
+          cat ./akcaf-frontend/.env
+
+      # Step 7: Archive files for deployment
+      - name: Archive Files for Deployment
+        run: tar -czf deployment.tar.gz ./akcaf-frontend
+
+      # Step 8: Copy Archive to Lightsail
+      - name: Copy Archive to Lightsail
         uses: appleboy/scp-action@v0.1.3
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_KEY }}
-          source: |
-            ./akcaf-frontend/
-            ./.env
+          source: deployment.tar.gz
           target: ~/deploy-temp/
 
-      # Step 8: Deploy the application on Lightsail
-      - name: Clean Old Deployment and Move Files
+      # Step 9: Deploy the application on Lightsail
+      - name: Deploy Application
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_KEY }}
           script: |
+            # Extract the uploaded archive
+            tar -xzf ~/deploy-temp/deployment.tar.gz -C ~/deploy-temp/
+            # Remove the old deployment
             sudo rm -rf /var/www/html/akcaf-frontend
-            sudo mv ~/deploy-temp/* /var/www/html/
-            sudo mv /var/www/html/.env /var/www/html/akcaf-frontend/.env
+            # Move the new deployment to the appropriate directory
+            sudo mv ~/deploy-temp/akcaf-frontend /var/www/html/
+            # Clean up temporary files
             sudo rm -rf ~/deploy-temp
+            # Restart Nginx to reflect changes
             sudo systemctl restart nginx
