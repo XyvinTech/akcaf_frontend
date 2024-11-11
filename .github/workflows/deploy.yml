@@ -26,11 +26,17 @@ jobs:
           npm ci
           npm run build
 
-      # Step 4: Rename the `dist` directory
+      # Step 4: Rename the `dist` directory (or verify output path)
       - name: Rename dist to akcaf-frontend
         run: mv ./dist ./akcaf-frontend
 
-      # Step 5: Generate the `.env` file dynamically using GitHub Secrets
+      # Step 5: Debug Build Output
+      - name: Debug Build Output
+        run: |
+          ls -la
+          ls -la ./akcaf-frontend
+
+      # Step 6: Set up Environment Variables
       - name: Set up Environment Variables
         run: |
           echo "VITE_APP_AWS_S3_BUCKET=${{ secrets.VITE_APP_AWS_S3_BUCKET }}" >> .env
@@ -38,7 +44,7 @@ jobs:
           echo "VITE_APP_AWS_ACCESS_KEY_ID=${{ secrets.VITE_APP_AWS_ACCESS_KEY_ID }}" >> .env
           echo "VITE_APP_AWS_SECRET_ACCESS_KEY=${{ secrets.VITE_APP_AWS_SECRET_ACCESS_KEY }}" >> .env
 
-      # Step 6: Copy the built app and `.env` file to Lightsail
+      # Step 7: Copy Files to Lightsail
       - name: Copy Files to Lightsail
         uses: appleboy/scp-action@v0.1.3
         with:
@@ -50,7 +56,7 @@ jobs:
             ./.env
           target: ~/deploy-temp/
 
-      # Step 7: Deploy the application on Lightsail
+      # Step 8: Deploy the application on Lightsail
       - name: Clean Old Deployment and Move Files
         uses: appleboy/ssh-action@v0.1.6
         with:
@@ -58,13 +64,8 @@ jobs:
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_KEY }}
           script: |
-            # Remove the old deployment
             sudo rm -rf /var/www/html/akcaf-frontend
-            # Move new files to the deployment directory
             sudo mv ~/deploy-temp/* /var/www/html/
-            # Ensure `.env` is correctly placed in the app folder
             sudo mv /var/www/html/.env /var/www/html/akcaf-frontend/.env
-            # Remove temporary files
             sudo rm -rf ~/deploy-temp
-            # Restart Nginx to reflect changes
             sudo systemctl restart nginx
