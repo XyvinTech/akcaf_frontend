@@ -51,7 +51,9 @@ jobs:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_KEY }}
-          source: ./akcaf-frontend/
+          source: |
+            ./akcaf-frontend/
+            ./.env
           target: ~/deploy-temp/
 
       # Step 8: Deploy the application on Lightsail
