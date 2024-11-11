@@ -10,31 +10,47 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      # Step 2: Set up Node.js environment
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
 
+      # Step 3: Install dependencies and build the project
       - name: Install Dependencies
         run: |
           npm ci
           npm run build
 
+      # Step 4: Rename the `dist` directory
       - name: Rename dist to akcaf-frontend
         run: mv ./dist ./akcaf-frontend
 
+      # Step 5: Generate the `.env` file dynamically using GitHub Secrets
+      - name: Set up Environment Variables
+        run: |
+          echo "VITE_APP_AWS_S3_BUCKET=${{ secrets.VITE_APP_AWS_S3_BUCKET }}" >> .env
+          echo "VITE_APP_AWS_REGION=${{ secrets.VITE_APP_AWS_REGION }}" >> .env
+          echo "VITE_APP_AWS_ACCESS_KEY_ID=${{ secrets.VITE_APP_AWS_ACCESS_KEY_ID }}" >> .env
+          echo "VITE_APP_AWS_SECRET_ACCESS_KEY=${{ secrets.VITE_APP_AWS_SECRET_ACCESS_KEY }}" >> .env
+
+      # Step 6: Copy the built app and `.env` file to Lightsail
       - name: Copy Files to Lightsail
         uses: appleboy/scp-action@v0.1.3
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_KEY }}
-          source: ./akcaf-frontend/
+          source: |
+            ./akcaf-frontend/
+            ./.env
           target: ~/deploy-temp/
 
+      # Step 7: Deploy the application on Lightsail
       - name: Clean Old Deployment and Move Files
         uses: appleboy/ssh-action@v0.1.6
         with:
@@ -42,7 +58,13 @@ jobs:
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: ${{ secrets.LIGHTSAIL_KEY }}
           script: |
+            # Remove the old deployment
             sudo rm -rf /var/www/html/akcaf-frontend
+            # Move new files to the deployment directory
             sudo mv ~/deploy-temp/* /var/www/html/
+            # Ensure `.env` is correctly placed in the app folder
+            sudo mv /var/www/html/.env /var/www/html/akcaf-frontend/.env
+            # Remove temporary files
             sudo rm -rf ~/deploy-temp
+            # Restart Nginx to reflect changes
             sudo systemctl restart nginx
