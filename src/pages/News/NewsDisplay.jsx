@@ -56,6 +56,7 @@ export default function NewsDisplay() {
     filter.pageNo = pageNo;
     if (search) {
       filter.search = search;
+      setPageNo(1);
     }
     filter.limit = row;
     if (selectedTab) {

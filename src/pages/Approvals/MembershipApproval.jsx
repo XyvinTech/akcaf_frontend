@@ -27,6 +27,7 @@ const MembershipApproval = () => {
     filter.limit = row
     if (search) {
       filter.search = search;
+      setPageNo(1);
     }
     fetchApproval(filter);
   }, [isChange, pageNo, search,row]);

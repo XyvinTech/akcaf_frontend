@@ -20,6 +20,7 @@ export default function EventHistorypage() {
     let filter = {};
     if (search) {
       filter.search = search;
+      setPageNo(1);
     }
     filter.status = "completed";
     filter.pageNo = pageNo;

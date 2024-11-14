@@ -18,6 +18,7 @@ const MemberPage = () => {
     filter.limit = row;
     if (search) {
       filter.search = search;
+      setPageNo(1);
     }
     fetchPayment(filter);
   }, [pageNo,search,row]);

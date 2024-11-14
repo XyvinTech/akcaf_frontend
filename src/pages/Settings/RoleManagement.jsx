@@ -61,6 +61,7 @@ export default function RoleManagement() {
     filter.limit = row;
     if (search) {
       filter.search = search;
+      setPageNo(1);
     }
     getRoles(filter);
   }, [isChange, pageNo, search, row]);

@@ -17,6 +17,7 @@ const ReportPage = () => {
     filter.limit = row;
     if (search) {
       filter.search = search;
+      setPageNo(1);
     }
     fetchReport(filter);
   }, [pageNo,search,row]);

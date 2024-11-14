@@ -23,6 +23,7 @@ const FeedList = () => {
     filter.limit = row;
     if (search) {
       filter.search = search;
+      setPageNo(1);
     }
     fetchFeed(filter);
   }, [isChange, pageNo, search,row]);

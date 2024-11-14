@@ -31,6 +31,7 @@ const CollegePage = () => {
     filter.pageNo = pageNo;
     if (search) {
       filter.search = search;
+      setPageNo(1);
     }
     filter.limit = row;
     fetchColleges(filter);

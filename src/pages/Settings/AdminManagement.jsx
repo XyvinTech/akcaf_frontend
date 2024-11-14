@@ -33,6 +33,7 @@ export default function AdminManagement() {
     filter.limit = row
     if (search) {
       filter.search = search;
+      setPageNo(1);
     }
     getAdmins(filter);
   }, [isChange, pageNo,search,row]);
