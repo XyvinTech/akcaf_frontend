@@ -171,7 +171,7 @@ function LoginPage() {
               {/* Error Message */}
               {loginError && (
                 <Typography color="error" variant="body2">
-                  Username or OTP is incorrect
+               Email or Password is Incorrect
                 </Typography>
               )}
 
