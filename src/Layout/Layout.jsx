@@ -36,8 +36,8 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import ApprovalOutlinedIcon from "@mui/icons-material/ApprovalOutlined";
 import logo from "../assets/images/logo.png";
-import FlagIcon from '@mui/icons-material/Flag';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import FlagIcon from "@mui/icons-material/Flag";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { LogoutOutlined, PaymentOutlined } from "@mui/icons-material";
 import { useAdminStore } from "../store/adminStore";
 const drawerWidth = 250;
@@ -75,7 +75,7 @@ const subNavigation = [
   {
     name: "Reports",
     to: "/reports",
-    icon: < FlagIcon />,
+    icon: <FlagIcon />,
   },
   {
     name: "Notifications",
@@ -120,7 +120,7 @@ const SimpleDialog = ({ open, onClose }) => {
       <Stack spacing={2} borderRadius={3} padding="10px" paddingTop={"20px"}>
         <Stack alignItems="center">
           <Typography variant="h7" color="#292D32" paddingBottom={1}>
-          {singleAdmin?.name}
+            {singleAdmin?.name}
           </Typography>
           <Typography variant="h7" color="rgba(41, 45, 50, 0.44)">
             Admin
@@ -152,7 +152,7 @@ const Layout = (props) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-const {singleAdmin}=useAdminStore()
+  const { singleAdmin } = useAdminStore();
   const location = useLocation();
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -200,7 +200,7 @@ const {singleAdmin}=useAdminStore()
       </Toolbar>
       <List
         sx={{
-          height: "600px",
+          height: "500px",
           overflowY: "auto",
           display: "flex",
           flexDirection: "column",
@@ -331,14 +331,6 @@ const {singleAdmin}=useAdminStore()
           )
         )}
       </List>
-      <List
-        style={{
-          position: "absolute",
-          bottom: 0,
-          width: "100%",
-          textAlign: "left",
-        }}
-      ></List>
     </div>
   );
 
@@ -402,7 +394,7 @@ const {singleAdmin}=useAdminStore()
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ marginLeft: "10px" }}>
                   <Typography variant="h7" color={"#292D32"} display="block">
-                  {singleAdmin?.name}
+                    {singleAdmin?.name}
                   </Typography>
                   <Typography
                     variant="h7"
