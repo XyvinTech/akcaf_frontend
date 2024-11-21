@@ -79,7 +79,7 @@ export const approvalColumns = [
   { title: "Batch number", field: "batch" },
 ];
 export const adminColumns = [
-  { title: "Name", field: "name", padding: "none" },
+  { title: "Name", field: "fullName", padding: "none" },
 
   { title: "Member ID", field: "email" },
   { title: "College Name", field: "contact" },
