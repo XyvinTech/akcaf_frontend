@@ -88,7 +88,6 @@ const subNavigation = [
     to: "/settings",
     icon: <SettingsOutlinedIcon />,
   },
-  { name: "Logout", to: "/logout", icon: <LogoutOutlined /> },
 ];
 const SimpleDialog = ({ open, onClose }) => {
   const navigate = useNavigate();
