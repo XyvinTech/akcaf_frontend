@@ -81,10 +81,9 @@ export const approvalColumns = [
 export const adminColumns = [
   { title: "Name", field: "fullName", padding: "none" },
 
-  { title: "Member ID", field: "email" },
-  { title: "College Name", field: "contact" },
-  { title: "Batch number", field: "designation" },
-  { title: "Batch number", field: "experience" },
+  { title: "Email", field: "email" },
+  { title: "Phone Number", field: "phone" },
+  { title: "College", field: "collegeName" },
   { title: "Status", field: "status" },
 ];
 export const roleColumns = [

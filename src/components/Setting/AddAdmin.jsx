@@ -6,7 +6,7 @@ import StyledSelectField from "../../ui/StyledSelectField";
 import { StyledButton } from "../../ui/StyledButton";
 import { useDropDownStore } from "../../store/dropDownStore";
 import { useAdminStore } from "../../store/adminStore";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const AddAdmin = () => {
@@ -21,7 +21,9 @@ const AddAdmin = () => {
   const { college, fetchListofCollege, fetchListofRole, role } =
     useDropDownStore();
   const [loading, setLoading] = useState(false);
-  const { addAdmins } = useAdminStore();
+  const { addAdmins, fetchSingleAdmin, single ,updateAdmin} = useAdminStore();
+  const location = useLocation();
+  const { adminId, isUpdate } = location.state || {};
 
   const onSubmit = async (data) => {
     try {
@@ -32,9 +34,13 @@ const AddAdmin = () => {
         college: data?.college.value,
         role: data?.role.value,
         phone: data?.phone,
-        password: "admin@akcaf",
       };
-      await addAdmins(formData);
+      if (isUpdate) {
+        await updateAdmin(adminId, formData);
+      } else {
+        formData.password = "admin@akcaf";
+        await addAdmins(formData);
+      }
       reset();
       navigate("/settings");
     } catch (error) {
@@ -47,6 +53,11 @@ const AddAdmin = () => {
     fetchListofCollege();
     fetchListofRole();
   }, [fetchListofCollege, fetchListofRole]);
+  useEffect(() => {
+    if (isUpdate && adminId) {
+      fetchSingleAdmin(adminId);
+    }
+  }, [adminId, isUpdate]);
   const collegeList =
     college && Array.isArray(college)
       ? college?.map((item) => ({
@@ -61,10 +72,25 @@ const AddAdmin = () => {
           label: item.roleName,
         }))
       : [];
+  useEffect(() => {
+    if (single && isUpdate) {
+      setValue("name", single.name);
+      const selectedRole = roleList.find(
+        (role) => role.value === single.role?._id
+      );
+      const selectedCollege = collegeList.find(
+        (college) => college.value === single?.college
+      );
+      setValue("college", selectedCollege);
+      setValue("role", selectedRole);
+      setValue("email", single.email);
+      setValue("phone", single.phone);
+    }
+  }, [single, isUpdate, setValue]);
   const handleClear = (event) => {
     event.preventDefault();
     reset();
-    navigate(-1)
+    navigate(-1);
   };
   return (
     <Box

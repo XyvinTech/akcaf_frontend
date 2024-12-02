@@ -7,10 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import Cropper from "react-easy-crop";
 import Modal from "@mui/material/Modal";
 import Slider from "@mui/material/Slider";
-import { getCroppedImg } from "../utils/image"; // Ensure this is correctly imported
+import { getCroppedImg } from "../utils/image";
 import { Button } from "@mui/material";
-
-// Custom TextField styling
 const CustomTextField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
@@ -66,7 +64,6 @@ const PdfPreview = styled("div")({
   color: "rgba(0, 0, 0, 0.5)",
 });
 
-// StyledEventUpload Component
 export const StyledCropImage = ({ label, value, onChange, ratio }) => {
   const fileInputRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(value || null);
@@ -174,7 +171,7 @@ export const StyledCropImage = ({ label, value, onChange, ratio }) => {
             image={imageForCrop}
             crop={crop}
             zoom={zoom}
-            aspect={ratio} // Adjust the aspect ratio as needed
+            aspect={ratio} 
             onCropChange={setCrop}
             onZoomChange={setZoom}
             onCropComplete={onCropComplete}
