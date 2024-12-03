@@ -29,7 +29,7 @@ export const paymentColumns = [
   { title: "Member name", field: "fullName", padding: "none" },
   { title: "Date", field: "createdAt" },
   { title: "Time", field: "updatedAt" },
-  { title: "Transaction ID", field: "razorpayId", padding: "none" },
+  { title: "Transaction ID", field: "receipt", padding: "none" },
   { title: "Amount", field: "amount" },
   { title: "Status", field: "status" },
 ];
