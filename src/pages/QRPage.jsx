@@ -14,6 +14,7 @@ import { ReactComponent as AppInstagramIcon } from "../assets/icons/AppInstagram
 import { ReactComponent as AppPhoneIcon } from "../assets/icons/AppPhoneIcon.svg";
 import { ReactComponent as AppEmailIcon } from "../assets/icons/AppEmailIcon.svg";
 import { ReactComponent as AppLocationIcon } from "../assets/icons/AppLocationIcon.svg";
+import { ReactComponent as AppContactIcon } from "../assets/icons/AppContactIcon.svg";
 import { ReactComponent as AppLinkedInIcon } from "../assets/icons/AppLinkedInIcon.svg";
 import { ReactComponent as AppWebsiteIcon } from "../assets/icons/AppWebsiteIcon.svg";
 import { ReactComponent as AppTwitterIcon } from "../assets/icons/AppTwitterIcon.svg";
@@ -108,7 +109,15 @@ END:VCARD
   return (
     <>
       {loading ? (
-        <LinearProgress />
+       <LinearProgress 
+       sx={{
+         '& .MuiLinearProgress-bar': {
+           backgroundColor: '#e30613',
+         },
+         backgroundColor: '#ffcccc', 
+       }} 
+     />
+     
       ) : (
         <Grid
           container
@@ -328,7 +337,7 @@ END:VCARD
                         }}
                         name={
                           <>
-                            <AppLocationIcon style={{ marginRight: "8px" }} />{" "}
+                           <WhatsappIcon style={{ marginRight: "8px" }} />
                             SAY HAI
                           </>
                         }
@@ -337,7 +346,7 @@ END:VCARD
                         variant={"primary"}
                         name={
                           <>
-                            <AppLocationIcon style={{ marginRight: "8px" }} />{" "}
+                            <AppContactIcon style={{ marginRight: "8px" }} />{" "}
                             SAVE CONTACT
                           </>
                         }
@@ -380,7 +389,12 @@ END:VCARD
                     </a>
                     <StyledButton
                       variant={"secondary"}
-                      name={"SAVE CONTACT"}
+                      name={
+                        <>
+                          <AppContactIcon style={{ marginRight: "8px" }} />{" "}
+                          SAVE CONTACT
+                        </>
+                      }
                       onClick={handleSaveContact}
                     />
                   </Stack>
@@ -467,7 +481,7 @@ END:VCARD
                                       color: "#6D6D6D",
                                     }}
                                   >
-                                    {media?.link}
+                                    {media?.name}
                                   </a>
                                 </Typography>
                               </Box>
@@ -491,7 +505,7 @@ END:VCARD
                       <Grid container spacing={3}>
                         {" "}
                         {userData?.websites?.map((website, index) => (
-                          <Grid item xs={12} sm={6} key={index}>
+                          <Grid item xs={12} sm={12} key={index}>
                             {" "}
                             <Box
                               display="flex"
