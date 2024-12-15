@@ -21,11 +21,10 @@ import { ReactComponent as AppTwitterIcon } from "../assets/icons/AppTwitterIcon
 import { ReactComponent as AppFacebookIcon } from "../assets/icons/AppFacebookIcon.svg";
 import { ReactComponent as AppBioIcon } from "../assets/icons/AppBioIcon.svg";
 import { ReactComponent as WhatsappIcon } from "../assets/icons/WhatsappIcon.svg";
-import AwardCard from "../ui/AwardCard";
 import image from "../assets/images/image.png";
 import bg from "../assets/images/bg.png";
-import bgImg from "../assets/images/bgImg.png";
 import companylogo from "../assets/images/companylogo.png";
+import main from "../assets/images/main.png";
 import { StyledButton } from "../ui/StyledButton";
 import { getSingleUser } from "../api/memberapi";
 import { useParams } from "react-router-dom";
@@ -109,15 +108,14 @@ END:VCARD
   return (
     <>
       {loading ? (
-       <LinearProgress 
-       sx={{
-         '& .MuiLinearProgress-bar': {
-           backgroundColor: '#e30613',
-         },
-         backgroundColor: '#ffcccc', 
-       }} 
-     />
-     
+        <LinearProgress
+          sx={{
+            "& .MuiLinearProgress-bar": {
+              backgroundColor: "#e30613",
+            },
+            backgroundColor: "#ffcccc",
+          }}
+        />
       ) : (
         <Grid
           container
@@ -133,15 +131,15 @@ END:VCARD
                   backgroundPosition: "center",
                 }
           }
-          bgcolor={isMobile ? "#F2F2F2" : "#FFF"}
+          bgcolor={isMobile ? "#FFF" : "#FFF"}
         >
           <Grid item xs={12} sm={12} md={6} lg={7}>
             <Box
               sx={{
                 borderRadius: isMobile ? 0 : 5,
                 boxShadow: isMobile ? "none" : 2,
-                m: 2,
-                p: 2,
+                m: isMobile ? 0 : 2,
+                p: isMobile ? 0 : 2,
               }}
               bgcolor={!isMobile && "#fff"}
             >
@@ -156,17 +154,18 @@ END:VCARD
                     justifyContent={isMobile ? "center" : "start"}
                     alignItems={isMobile ? "center" : "flex-start"}
                     bgcolor={!isMobile && "#fff"}
-                    // bgcolor={"red"}
+                    pt={isMobile ? 10 : 0}
                     spacing={isMobile ? 0 : 2}
-                    // sx={
-                    //   isMobile
-                    //     ? {
-                    //         backgroundImage: `url(${bgImg})`,
-                    //         backgroundSize: "100% 100%",
-                    //         backgroundPosition: "top center", 
-                    //       }
-                    //     : {}
-                    // }
+                    sx={
+                      isMobile
+                        ? {
+                            backgroundImage: `url(${main})`,
+                            backgroundSize: "contain",
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "top center",
+                          }
+                        : {}
+                    }
                   >
                     <Stack>
                       <img
@@ -183,6 +182,7 @@ END:VCARD
                     <Stack
                       direction={"column"}
                       alignItems={isMobile && "center"}
+                      p={isMobile && 2}
                     >
                       <Typography
                         variant="h3"
@@ -192,71 +192,41 @@ END:VCARD
                       >
                         {userData?.name?.first} {userData?.name?.last}
                       </Typography>
-                      {userData?.company?.name && (
-                        <Stack
-                          mt={2}
-                          direction={"row"}
-                          alignItems={"center"}
-                          spacing={1}
-                        >
-                          <Stack>
-                            <img
-                              src={userData?.company?.logo || companylogo}
-                              alt="image"
-                              width={"36px"}
-                              height={"36px"}
-                              style={{
-                                borderRadius: "50%",
-                                objectFit: "cover",
-                              }}
-                            />
-                          </Stack>
-                          <Stack>
-                            <Typography variant="h6">
-                              {userData?.company?.name}
-                            </Typography>
-                            <Typography variant="h8">
-                              {userData?.company?.designation}
-                            </Typography>
-                          </Stack>
-                        </Stack>
+                      {userData?.college?.collegeName && (
+                        <>
+                          {" "}
+                          <Typography
+                            variant="h8"
+                            color="textTertiary"
+                            mt={1}
+                            mb={1}
+                          >
+                            {userData?.college?.collegeName}
+                           
+                          </Typography>
+                          <Typography
+                            variant="h8"
+                            color="textTertiary"
+                            mt={1}
+                            mb={1}
+                          >
+                            {userData?.batch}{" "}
+                            Alumni
+                          </Typography>
+                        </>
                       )}
                     </Stack>
-                    {isMobile && (
-                      <Box
-                        padding={2}
-                        mt={4}
-                        border={"1px solid rgba(0, 0, 0, 0.12)"}
-                        borderRadius={"12px"}
-                      >
-                        <Typography
-                          variant="h8"
-                          color="textTertiary"
-                          mt={1}
-                          mb={1}
-                        >
-                          {userData?.college?.collegeName}, {userData?.batch}{" "}
-                          Alumni
-                        </Typography>
-                      </Box>
-                    )}
-                    <Typography
-                      variant="h8"
-                      color="textTertiary"
-                      mt={1}
-                      mb={1}
-                      fontWeight={600}
-                    ></Typography>
                   </Stack>
                   <Typography
                     variant="h5"
                     color="textTertiary"
                     mt={isMobile ? 1 : 4}
                     mb={1}
+                    p={isMobile && 2}pb={isMobile && 0}
                   >
                     Personal
                   </Typography>
-                  <Stack spacing={2} mb={4} mt={4}>
+                  <Stack spacing={2} mb={4} mt={4} p={isMobile && 2}pt={isMobile && 0}>
                     <Stack direction="row" alignItems="center" spacing={1}>
                       <Stack>
                         {" "}
@@ -284,8 +254,8 @@ END:VCARD
                   </Stack>
                   {userData?.bio && (
                     <>
-                      <AppBioIcon />
-                      <Stack>
+                     <Stack p={isMobile && 2}>   <AppBioIcon  />
+                    
                         <Typography variant="h7" color="#626262" mt={1} mb={1}>
                           {userData?.bio}
                         </Typography>
@@ -299,10 +269,11 @@ END:VCARD
                         color="textTertiary"
                         mt={4}
                         mb={2}
+                        p={isMobile && 2}pb={isMobile && 0}
                       >
                         Company
                       </Typography>
-                      <Stack spacing={2} mb={4} mt={4}>
+                      <Stack spacing={2} mb={4} mt={4} p={isMobile && 2}pt={isMobile && 0}>
                         <Stack direction="row" alignItems="center" spacing={1}>
                           <Stack>
                             {" "}
@@ -337,7 +308,7 @@ END:VCARD
                         }}
                         name={
                           <>
-                           <WhatsappIcon style={{ marginRight: "8px" }} />
+                            <WhatsappIcon style={{ marginRight: "8px" }} />
                             SAY HAI
                           </>
                         }
@@ -371,28 +342,29 @@ END:VCARD
                       boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)",
                     }}
                   >
-                    <a
-                      href={`https://wa.me/${userData?.phone}`}
-                      target="_blank"
-                      style={{ textDecoration: "none" }}
-                      rel="noopener noreferrer"
-                    >
-                      <StyledButton
-                        variant={"primary"}
-                        name={
-                          <>
-                            <WhatsappIcon style={{ marginRight: "8px" }} /> SAY
-                            HAI
-                          </>
-                        }
-                      />
-                    </a>
                     <StyledButton
-                      variant={"secondary"}
+                      variant={"preview"}
+                      onClick={() => {
+                        const whatsappUrl = `https://wa.me/${userData?.phone}`;
+                        window.open(
+                          whatsappUrl,
+                          "_blank",
+                          "noopener,noreferrer"
+                        );
+                      }}
                       name={
                         <>
-                          <AppContactIcon style={{ marginRight: "8px" }} />{" "}
-                          SAVE CONTACT
+                          <WhatsappIcon style={{ marginRight: "8px" }} />
+                          SAY HAI
+                        </>
+                      }
+                    />
+                    <StyledButton
+                      variant={"primary"}
+                      name={
+                        <>
+                          <AppContactIcon style={{ marginRight: "8px" }} /> SAVE
+                          CONTACT
                         </>
                       }
                       onClick={handleSaveContact}
@@ -442,10 +414,11 @@ END:VCARD
                         color="textTertiary"
                         mt={1}
                         mb={2}
+                        p={isMobile && 2}pb={isMobile && 0}
                       >
                         Social Media
                       </Typography>
-                      <Stack>
+                      <Stack p={isMobile && 2}pt={isMobile && 0}>
                         <Grid container spacing={isMobile ? 0 : 2}>
                           {" "}
                           {userData?.social?.map((media, index) => (
@@ -499,10 +472,11 @@ END:VCARD
                         mt={2}
                         mb={1}
                         pt={2}
+                        p={isMobile && 2}pb={isMobile && 0}
                       >
                         Websites & links
                       </Typography>{" "}
-                      <Grid container spacing={3}>
+                      <Grid container spacing={3} p={isMobile && 2}>
                         {" "}
                         {userData?.websites?.map((website, index) => (
                           <Grid item xs={12} sm={12} key={index}>
@@ -547,31 +521,34 @@ END:VCARD
                       mt={2}
                       mb={2}
                       pt={2}
+                      p={isMobile && 2}pb={isMobile && 0}
                     >
                       Video title
                     </Typography>
                   )}
-                  {userData?.videos?.length > 0 && (
-                    <Carousel
-                      responsive={responsive}
-                      infinite={true}
-                      swipeable={true}
-                      draggable={true}
-                      autoPlay={true}
-                      autoPlaySpeed={2000}
-                      keyBoardControl={true}
-                      showDots={false}
-                    >
-                      {userData?.videos?.map(
-                        (videoItem, index) =>
-                          videoItem?.link && (
-                            <div key={index}>
-                              <QRVideoCard url={videoItem.link} />
-                            </div>
-                          )
-                      )}
-                    </Carousel>
-                  )}
+                  <Stack p={isMobile && 2}>
+                    {userData?.videos?.length > 0 && (
+                      <Carousel
+                        responsive={responsive}
+                        infinite={true}
+                        swipeable={true}
+                        draggable={true}
+                        autoPlay={true}
+                        autoPlaySpeed={2000}
+                        keyBoardControl={true}
+                        showDots={false}
+                      >
+                        {userData?.videos?.map(
+                          (videoItem, index) =>
+                            videoItem?.link && (
+                              <div key={index} p={isMobile && 2}>
+                                <QRVideoCard url={videoItem.link} />
+                              </div>
+                            )
+                        )}
+                      </Carousel>
+                    )}
+                  </Stack>
                   {userData?.certificates &&
                     userData?.certificates?.length > 0 && (
                       <>
@@ -581,10 +558,11 @@ END:VCARD
                           mt={5}
                           mb={2}
                           pt={2}
+                          p={isMobile && 2}pb={isMobile && 0}
                         >
                           Certificates
                         </Typography>
-                        <Grid container spacing={2}>
+                        <Grid container spacing={2} p={isMobile && 2}>
                           {userData?.certificates?.map((certificate, index) => (
                             <Grid item xs={12} lg={6} key={index}>
                               <QRCertificateCard
@@ -604,10 +582,17 @@ END:VCARD
                         mt={1}
                         mb={1}
                         pt={2}
+                        p={isMobile && 2}pb={isMobile && 0}
                       >
                         Awards
                       </Typography>
-                      <Grid container spacing={2} mt={2} mb={10}>
+                      <Grid
+                        container
+                        spacing={2}
+                        mt={2}
+                        mb={10}
+                        p={isMobile && 2}pt={isMobile && 0}
+                      >
                         {userData?.awards?.map((award, index) => (
                           <>
                             {" "}
