@@ -7,36 +7,56 @@ import StyledTable from "../../ui/StyledTable.jsx";
 import { adminColumns, userData } from "../../assets/json/TableData";
 import { useAdminStore } from "../../store/adminStore.js";
 import { useListStore } from "../../store/listStore.js";
+import { toast } from "react-toastify";
 export default function AdminManagement() {
   const navigate = useNavigate();
   const [selectedRows, setSelectedRows] = useState([]);
-  const [filterOpen, setFilterOpen] = useState(false);
-  const [isChange, setIsChange] = useState(false);
   const { getAdmins } = useListStore();
   const [pageNo, setPageNo] = useState(1);
-  const[row, setRow] = useState(10)
+  const [row, setRow] = useState(10);
+  const [isChange, setIsChange] = useState(false);
   const [search, setSearch] = useState("");
-  const handleOpenFilter = () => {
-    setFilterOpen(true);
-  };
+  const { deleteAdmins } = useAdminStore();
 
-  const handleCloseFilter = () => {
-    setFilterOpen(false);
-  };
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
-    console.log("Selected items:", newSelectedIds);
+  };
+  const handleDelete = async () => {
+    if (selectedRows.length > 0) {
+      try {
+        await Promise.all(selectedRows?.map((id) => deleteAdmins(id)));
+        toast.success("Deleted successfully");
+        setIsChange(!isChange);
+        setSelectedRows([]);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+  const handleRowDelete = async (id) => {
+    try {
+      await deleteAdmins(id);
+      toast.success("Deleted successfully");
+      setIsChange(!isChange);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleEdit = (id) => {
+    navigate(`/settings/add-admin`, {
+      state: { adminId: id, isUpdate: true },
+    });
   };
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
-    filter.limit = row
+    filter.limit = row;
     if (search) {
       filter.search = search;
       setPageNo(1);
     }
     getAdmins(filter);
-  }, [isChange, pageNo,search,row]);
+  }, [isChange, pageNo, search, row]);
   return (
     <>
       {" "}
@@ -53,7 +73,10 @@ export default function AdminManagement() {
             spacing={2}
           >
             <Grid item>
-              <StyledSearchbar placeholder={"Search"} onchange={(e) => setSearch(e.target.value)} />
+              <StyledSearchbar
+                placeholder={"Search"}
+                onchange={(e) => setSearch(e.target.value)}
+              />
             </Grid>
             <Grid item></Grid>
             <Grid item>
@@ -80,7 +103,10 @@ export default function AdminManagement() {
               pageNo={pageNo}
               setPageNo={setPageNo}
               rowPerSize={row}
+              onModify={handleEdit}
               setRowPerSize={setRow}
+              onDelete={handleDelete}
+              onDeleteRow={handleRowDelete}
               onSelectionChange={handleSelectionChange}
             />{" "}
           </Box>

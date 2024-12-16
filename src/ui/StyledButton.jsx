@@ -12,7 +12,18 @@ const buttonVariants = css`
       background-color: #e30613;
       radius: 200px;
     `}
-
+  ${(props) =>
+    props.variant === "preview" &&
+    css`
+      font-family: Inter;
+      border: none;
+      font-size: 16px;
+      font-weight: 500;
+      color: #e30613;
+      background-color: #fff;
+      border: 1px solid #e30613;
+  
+    `}
   ${(props) =>
     props.variant === "secondary" &&
     css`

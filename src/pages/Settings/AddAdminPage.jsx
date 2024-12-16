@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { StyledButton } from "../../ui/StyledButton";
 import { Box, Divider, Grid, Tab, Tabs, Typography } from "@mui/material";
-import AddCollege from "../../components/College/AddCollege";
 import BulkAddForm from "../../components/College/BulkAddForm";
 import AddAdmin from "../../components/Setting/AddAdmin";
 
