@@ -91,7 +91,7 @@ export const adminColumns = [
 
   { title: "Email", field: "email" },
   { title: "Phone Number", field: "phone" },
-  { title: "College", field: "collegeName" },
+  { title: "College", field: "college" },
   { title: "Status", field: "status" },
 ];
 export const roleColumns = [

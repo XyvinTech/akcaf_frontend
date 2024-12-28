@@ -40,8 +40,9 @@ const DashboardPage = () => {
   };
   const totalRevenue = {
     title: "Total Revenue",
-    value: `₹ ${dashboardData?.totalRevenue ? dashboardData?.totalRevenue : 0}`,
+    value: `AED ${dashboardData?.totalRevenue ? dashboardData?.totalRevenue : 0}`,
   };
+  
   const activeUsers = {
     title: "Active",
     value: dashboardData?.activeUsers ? dashboardData?.activeUsers : 0,
