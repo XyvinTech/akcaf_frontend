@@ -81,7 +81,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
     }
   }, [event, isUpdate, setValue]);
 
-  console.log(speakers);
+  // console.log(speakers);
   const [imageFile, setImageFile] = useState(null);
 
   const handleClear = (event) => {
@@ -93,7 +93,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
 
     reset();
   };
-  console.log(setSelectedTab);
+  // console.log(setSelectedTab);
   const option = [{ value: "Zoom", label: "Zoom" }];
 
   const types = [
@@ -205,7 +205,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
   const removeSpeaker = (index) => {
     const newSpeakers = speakers.filter((_, i) => i !== index);
     setSpeakers(newSpeakers);
-    console.log("arrayspeaker", newSpeakers);
+    // console.log("arrayspeaker", newSpeakers);
     setValue("speakers", newSpeakers);
   };
 

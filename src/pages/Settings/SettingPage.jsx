@@ -15,7 +15,6 @@ const SettingsPage= () => {
 
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
-    console.log("Selected items:", newSelectedIds);
   };
 
   

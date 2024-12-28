@@ -21,7 +21,7 @@ const DashboardPage = () => {
     const dashboardData = async () => {
       try {
         const response = await getDashboard({ type: type });
-        console.log("Dashboard Data:", response.data);
+        // console.log("Dashboard Data:", response.data);
 
         setDashboardData(response.data);
       } catch (error) {

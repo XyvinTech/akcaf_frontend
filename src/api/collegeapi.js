@@ -80,7 +80,7 @@ export const getMemberByBatch = async (collegeId, courseId, batchId,filter) => {
 };
 export const addCollegeBulk = async (data) => {
   try {
-    console.log(data);
+    // console.log(data);
 
     const response = await axiosInstance.post(
       "/college/bulk",

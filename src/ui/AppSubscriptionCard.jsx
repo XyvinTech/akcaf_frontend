@@ -17,7 +17,6 @@ export default function AppSubscriptionCard() {
       fetchSubscriptionById(id);
     }
   }, [id, fetchSubscriptionById]);
-  console.log("subscriprion",subscription);
   
   return (
     <Grid

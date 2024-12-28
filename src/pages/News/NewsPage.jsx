@@ -9,7 +9,6 @@ const Newspage = () => {
 
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
-    console.log("Selected items:", newSelectedIds);
   };
 
   const handleChange = (event, newValue) => {

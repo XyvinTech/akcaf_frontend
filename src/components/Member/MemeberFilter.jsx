@@ -73,7 +73,7 @@ const MemberFilter = ({ open, onClose, onApply }) => {
   const handleStatusChange = (selectedOption) => {
     setStatus(selectedOption);
   };
-console.log("memberStatus",memberStatus);
+// console.log("memberStatus",memberStatus);
 
   return (
     <Dialog
