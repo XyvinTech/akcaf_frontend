@@ -192,8 +192,6 @@ const DashboardPage = () => {
           <Stack spacing={2} direction={"row"}>
           <Box
               width={"100%"}
-              sx={{ cursor: "pointer" }}
-              onClick={() =>navigate("/approvals")}
             >
             <DashboardCard data={notifications} /></Box>
             <Box
