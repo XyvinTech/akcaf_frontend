@@ -118,12 +118,12 @@ console.log("memberStatus",memberStatus);
             value={membershipId}
             onChange={(e) => setMembershipId(e.target.value)}
           />
-          <Typography>Designation</Typography>
+          {/* <Typography>Designation</Typography>
           <StyledInput
             placeholder={"Enter Designation"}
             value={designation}
             onChange={(e) => setDesignation(e.target.value)}
-          />
+          /> */}
           <Typography>Company Name</Typography>
           <StyledInput
             placeholder={"Enter Company Name"}

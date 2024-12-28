@@ -67,7 +67,7 @@ const UserCard = ({ user }) => {
             {user?.role}
           </Typography>
           <Typography variant="h5" color={"textPrimary"}>
-            {user?.name?.first} {user?.name?.middle} {user?.name?.last}
+            {user?.fullName}
           </Typography>
           <Typography variant="h7" color={"textPrimary"}>
             {user?.college?.collegeName}

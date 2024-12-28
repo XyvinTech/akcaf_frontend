@@ -74,18 +74,17 @@ const QRPage = () => {
     const vCardData = `
 BEGIN:VCARD
 VERSION:3.0
-FN:${userData?.name?.first} ${userData?.name?.last}
+FN:${userData?.fullName}
 ORG:${userData?.company?.name}
 TEL:${userData?.phone}
 EMAIL:${userData?.email}
-ADR:${userData?.address}
 END:VCARD
     `;
 
     const blob = new Blob([vCardData], { type: "text/vcard" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `${userData?.name?.first}_${userData?.name?.last}.vcf`;
+    link.download = `${userData?.fullName}.vcf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -190,7 +189,7 @@ END:VCARD
                         mt={1}
                         mb={1}
                       >
-                        {userData?.name?.first} {userData?.name?.last}
+                        {userData?.fullName}
                       </Typography>
                       {userData?.college?.collegeName && (
                         <>
@@ -202,7 +201,6 @@ END:VCARD
                             mb={1}
                           >
                             {userData?.college?.collegeName}
-                           
                           </Typography>
                           <Typography
                             variant="h8"
@@ -210,8 +208,7 @@ END:VCARD
                             mt={1}
                             mb={1}
                           >
-                            {userData?.batch}{" "}
-                            Alumni
+                            {userData?.batch} Alumni
                           </Typography>
                         </>
                       )}
@@ -222,11 +219,18 @@ END:VCARD
                     color="textTertiary"
                     mt={isMobile ? 1 : 4}
                     mb={1}
-                    p={isMobile && 2}pb={isMobile && 0}
+                    p={isMobile && 2}
+                    pb={isMobile && 0}
                   >
                     Personal
                   </Typography>
-                  <Stack spacing={2} mb={4} mt={4} p={isMobile && 2}pt={isMobile && 0}>
+                  <Stack
+                    spacing={2}
+                    mb={4}
+                    mt={4}
+                    p={isMobile && 2}
+                    pt={isMobile && 0}
+                  >
                     <Stack direction="row" alignItems="center" spacing={1}>
                       <Stack>
                         {" "}
@@ -254,8 +258,9 @@ END:VCARD
                   </Stack>
                   {userData?.bio && (
                     <>
-                     <Stack p={isMobile && 2}>   <AppBioIcon  />
-                    
+                      <Stack p={isMobile && 2}>
+                        {" "}
+                        <AppBioIcon />
                         <Typography variant="h7" color="#626262" mt={1} mb={1}>
                           {userData?.bio}
                         </Typography>
@@ -269,11 +274,18 @@ END:VCARD
                         color="textTertiary"
                         mt={4}
                         mb={2}
-                        p={isMobile && 2}pb={isMobile && 0}
+                        p={isMobile && 2}
+                        pb={isMobile && 0}
                       >
                         Company
                       </Typography>
-                      <Stack spacing={2} mb={4} mt={4} p={isMobile && 2}pt={isMobile && 0}>
+                      <Stack
+                        spacing={2}
+                        mb={4}
+                        mt={4}
+                        p={isMobile && 2}
+                        pt={isMobile && 0}
+                      >
                         <Stack direction="row" alignItems="center" spacing={1}>
                           <Stack>
                             {" "}
@@ -414,11 +426,12 @@ END:VCARD
                         color="textTertiary"
                         mt={1}
                         mb={2}
-                        p={isMobile && 2}pb={isMobile && 0}
+                        p={isMobile && 2}
+                        pb={isMobile && 0}
                       >
                         Social Media
                       </Typography>
-                      <Stack p={isMobile && 2}pt={isMobile && 0}>
+                      <Stack p={isMobile && 2} pt={isMobile && 0}>
                         <Grid container spacing={isMobile ? 0 : 2}>
                           {" "}
                           {userData?.social?.map((media, index) => (
@@ -472,7 +485,8 @@ END:VCARD
                         mt={2}
                         mb={1}
                         pt={2}
-                        p={isMobile && 2}pb={isMobile && 0}
+                        p={isMobile && 2}
+                        pb={isMobile && 0}
                       >
                         Websites & links
                       </Typography>{" "}
@@ -521,7 +535,8 @@ END:VCARD
                       mt={2}
                       mb={2}
                       pt={2}
-                      p={isMobile && 2}pb={isMobile && 0}
+                      p={isMobile && 2}
+                      pb={isMobile && 0}
                     >
                       Video title
                     </Typography>
@@ -558,7 +573,8 @@ END:VCARD
                           mt={5}
                           mb={2}
                           pt={2}
-                          p={isMobile && 2}pb={isMobile && 0}
+                          p={isMobile && 2}
+                          pb={isMobile && 0}
                         >
                           Certificates
                         </Typography>
@@ -582,7 +598,8 @@ END:VCARD
                         mt={1}
                         mb={1}
                         pt={2}
-                        p={isMobile && 2}pb={isMobile && 0}
+                        p={isMobile && 2}
+                        pb={isMobile && 0}
                       >
                         Awards
                       </Typography>
@@ -591,7 +608,8 @@ END:VCARD
                         spacing={2}
                         mt={2}
                         mb={10}
-                        p={isMobile && 2}pt={isMobile && 0}
+                        p={isMobile && 2}
+                        pt={isMobile && 0}
                       >
                         {userData?.awards?.map((award, index) => (
                           <>

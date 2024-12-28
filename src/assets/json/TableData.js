@@ -65,7 +65,7 @@ export const collegeColumns = [
 ];
 export const feedColumns = [
   { title: "Date", field: "createdAt", padding: "none" },
-  { title: "Member name", field: "fullName" },
+  { title: "Member name", field: "authorName" },
   { title: "Type", field: "type" },
   { title: "Content", field: "content" },
   { title: "Image", field: "media" },
