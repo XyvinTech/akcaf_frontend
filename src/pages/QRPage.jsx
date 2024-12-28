@@ -71,22 +71,22 @@ const QRPage = () => {
     fetchData();
   }, []);
   const handleSaveContact = () => {
-    const vCardData = `
-BEGIN:VCARD
-VERSION:3.0
-FN:${userData?.fullName}
-TEL:${userData?.phone}
-EMAIL:${userData?.email}
-END:VCARD
-    `;
-
-    const blob = new Blob([vCardData], { type: "text/vcard" });
+    const vCardContent = `BEGIN:VCARD
+    VERSION:3.0
+    N:${userData?.fullName}
+    FN:${userData?.fullName}
+    TEL;TYPE=CELL:${userData?.phone}
+    EMAIL:${userData?.email}
+    END:VCARD`;
+    const blob = new Blob([vCardContent], { type: "text/vcard;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
+    link.href = url;
     link.download = `${userData?.fullName}.vcf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
   const renderSocialIcon = (platform) => {
     switch (platform) {
