@@ -75,7 +75,6 @@ const QRPage = () => {
 BEGIN:VCARD
 VERSION:3.0
 FN:${userData?.fullName}
-ORG:${userData?.company?.name}
 TEL:${userData?.phone}
 EMAIL:${userData?.email}
 END:VCARD
