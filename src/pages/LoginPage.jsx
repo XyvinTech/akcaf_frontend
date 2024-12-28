@@ -37,7 +37,7 @@ function LoginPage() {
       };
       const user = await getLogin(formData);
       localStorage.setItem("4ZbQwXtY8uVrN5mP7kL3JhF6", user.data);
-      navigate("/members");
+      navigate("/dashboard");
     } catch (error) {
       setLoginError(true);
       console.error("Login error", error);
@@ -171,7 +171,7 @@ function LoginPage() {
               {/* Error Message */}
               {loginError && (
                 <Typography color="error" variant="body2">
-               Email or Password is Incorrect
+                  Email or Password is Incorrect
                 </Typography>
               )}
 
