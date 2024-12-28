@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import StyledTable from "../../ui/StyledTable";
-import { Box,  Stack, Typography } from "@mui/material";
-import { StyledButton } from "../../ui/StyledButton";
+import { Box, Stack, Typography } from "@mui/material";
 import StyledSearchbar from "../../ui/StyledSearchbar";
-import { usePaymentStore } from "../../store/paymentstore";
 import { paymentColumns } from "../../assets/json/TableData";
 import { useListStore } from "../../store/listStore";
+import { StyledButton } from "../../ui/StyledButton";
+import { useNavigate } from "react-router-dom";
 
 const MemberPage = () => {
   const { fetchPayment } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [search, setSearch] = useState("");
-  const[row, setRow] = useState(10)
+  const [row, setRow] = useState(10);
+  const navigate = useNavigate();
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
@@ -21,7 +22,7 @@ const MemberPage = () => {
       setPageNo(1);
     }
     fetchPayment(filter);
-  }, [pageNo,search,row]);
+  }, [pageNo, search, row]);
 
   return (
     <>
@@ -39,7 +40,13 @@ const MemberPage = () => {
           </Typography>
         </Stack>
         <Stack direction={"row"} spacing={2}>
-          {/* <StyledButton variant={"secondary"} name={"Download"} /> */}
+          <StyledButton
+            variant={"primary"}
+            name={"Add Payment"}
+            onClick={() => {
+              navigate("/payments/add");
+            }}
+          />
         </Stack>
       </Stack>
       <Box padding={"15px"}>
@@ -50,7 +57,12 @@ const MemberPage = () => {
           alignItems={"center"}
         >
           <Stack direction={"row"} spacing={2}>
-            <StyledSearchbar placeholder={"Search"} onchange={(e) => {setSearch(e.target.value)}} />
+            <StyledSearchbar
+              placeholder={"Search"}
+              onchange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
           </Stack>
         </Stack>
         <Box

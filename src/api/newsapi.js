@@ -1,9 +1,10 @@
 import { toast } from "react-toastify";
 import axiosInstance from "./axiosintercepter";
+import { th } from "date-fns/locale";
 
 export const getNews = async (filter) => {
   try {
-    const response = await axiosInstance.get("/news/list",{
+    const response = await axiosInstance.get("/news/list", {
       params: filter,
     });
     return response.data;
@@ -44,6 +45,6 @@ export const deleteNews = async (id) => {
 
     return response.data;
   } catch (error) {
-    console.error(error.response.data.message);
+    throw error.response.data;
   }
 };

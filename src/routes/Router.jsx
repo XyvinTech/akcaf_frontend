@@ -31,6 +31,8 @@ import PaymentPage from "../pages/payments/PaymentPage";
 import QRPage from "../pages/QRPage";
 import { PrivateRoute } from "./PrivateRouter";
 import ReportPage from "../pages/Reports/ReportPage";
+import BookingPage from "../pages/booking/BookingPage";
+import AddPaymentPage from "../pages/payments/AddPaymentPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -202,6 +204,16 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/hall-booking",
+    element: (
+      <PrivateRoute>
+        <Layout>
+          <BookingPage />
+        </Layout>
+      </PrivateRoute>
+    ),
+  },
+  {
     path: "/promotions",
     element: (
       <PrivateRoute>
@@ -237,6 +249,16 @@ const router = createBrowserRouter([
       <PrivateRoute>
         <Layout>
           <PaymentPage />
+        </Layout>
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/payments/add",
+    element: (
+      <PrivateRoute>
+        <Layout>
+          <AddPaymentPage />
         </Layout>
       </PrivateRoute>
     ),

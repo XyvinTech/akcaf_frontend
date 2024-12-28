@@ -1,7 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import axiosInstance from "./axiosintercepter";
-const baseURL = "https://akcafconnect.com/api/v1/";
+const baseURLs = import.meta.env.VITE_APP_BASE_URL;
+const baseURL = `${baseURLs}`;
 export const getLogin = async (datas) => {
   try {
     const response = await axios.post(`${baseURL}admin/login`, datas);
@@ -15,6 +16,16 @@ export const getLogin = async (datas) => {
 export const getAdminById = async () => {
   try {
     const response = await axiosInstance.get(`/admin`);
+    return response.data;
+  } catch (error) {
+    console.error(error.response.data.message);
+  }
+};
+export const getDashboard = async (filter) => {
+  try {
+    const response = await axiosInstance.get(`/admin/dashboard`,{
+      params: filter,
+    });
     return response.data;
   } catch (error) {
     console.error(error.response.data.message);
@@ -62,6 +73,6 @@ export const deleteAdmin = async (id) => {
     const response = await axiosInstance.delete(`/admin/single/${id}`);
     return response.data;
   } catch (error) {
-    console.error(error.response.data.message);
+    throw error.response.data;
   }
 };

@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { Box, Divider, Grid, Tab, Tabs, Typography } from "@mui/material";
 import AddCollege from "../../components/College/AddCollege";
 import BulkAddForm from "../../components/College/BulkAddForm";
+import { useLocation } from "react-router-dom";
 
 const AddCollegePage = () => {
+  const location = useLocation();
+  const { isUpdate } = location.state || {};
   const [selectedTab, setSelectedTab] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -22,7 +25,7 @@ const AddCollegePage = () => {
         <Grid container alignItems="center">
           <Grid item xs={6}>
             <Typography variant="h4" color={"textSecondary"}>
-              Add College
+              {isUpdate ? "Edit College" : "Add College"}
             </Typography>
           </Grid>
         </Grid>
@@ -56,7 +59,7 @@ const AddCollegePage = () => {
           }}
         >
           <Tab label="Single Add" />
-          <Tab label="Bulk Add" />
+          {!isUpdate && <Tab label="Bulk Add" />}
         </Tabs>
         <Divider />
         <Box padding="15px" marginBottom={4}>

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import StyledTable from "../../ui/StyledTable";
-import { Box, Stack, Typography } from "@mui/material";
+import { Badge, Box, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import { memberColumns, userData } from "../../assets/json/TableData";
 import { useNavigate } from "react-router-dom";
 import DeleteProfile from "../../components/Member/DeleteProfile";
-import { useMemberStore } from "../../store/Memberstore";
+import { ReactComponent as FilterIcon } from "../../assets/icons/FilterIcon.svg";
 import { useListStore } from "../../store/listStore";
 import { getMember } from "../../api/memberapi";
 import { generateExcel } from "../../utils/generateExcel";
+import MemberFilter from "../../components/Member/MemeberFilter";
 
 const MemberPage = () => {
   const navigate = useNavigate();
@@ -20,6 +21,18 @@ const MemberPage = () => {
   const [memberId, setMemberId] = useState(null);
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    name: "",
+    membershipId: "",
+    designation: "",
+    companyName: "",
+    status: "",
+    subscription: "",
+  });
+  const handleApplyFilter = (newFilters) => {
+    setFilters(newFilters);
+  };
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
@@ -27,9 +40,10 @@ const MemberPage = () => {
       filter.search = search;
       setPageNo(1);
     }
+    if (filters.status) filter.status = filters.status;
     filter.limit = row;
     fetchMember(filter);
-  }, [isChange, pageNo, search, row]);
+  }, [isChange, pageNo, search, row, filters]);
 
   const handleRowDelete = (id) => {
     setMemberId(id);
@@ -98,6 +112,48 @@ const MemberPage = () => {
               placeholder={"Search"}
               onchange={(e) => setSearch(e.target.value)}
             />
+            <Badge
+              color="error"
+              variant="dot"
+              invisible={
+                !(
+                  filters.name ||
+                  filters.membershipId ||
+                  filters.designation ||
+                  filters.companyName ||
+                  filters.status ||
+                  filters.subscription
+                )
+              }
+              sx={{
+                "& .MuiBadge-dot": {
+                  width: "15px",
+                  height: "15px",
+                  borderRadius: "50%",
+                },
+              }}
+              overlap="circular"
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+            >
+              <Box
+                bgcolor={"#FFFFFF"}
+                borderRadius={"50%"}
+                width={"48px"}
+                height={"48px"}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                border="1px solid rgba(0, 0, 0, 0.12)"
+                onClick={() => setFilterOpen(true)}
+                style={{ cursor: "pointer" }}
+              >
+                {" "}
+                <FilterIcon />
+              </Box>
+            </Badge>
           </Stack>
         </Stack>
         <Box
@@ -128,6 +184,11 @@ const MemberPage = () => {
             onClose={handleCloseDelete}
             onChange={handleChange}
             id={memberId}
+          />
+          <MemberFilter
+            open={filterOpen}
+            onClose={() => setFilterOpen(false)}
+            onApply={handleApplyFilter}
           />
         </Box>
       </Box>

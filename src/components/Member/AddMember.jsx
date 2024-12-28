@@ -56,13 +56,12 @@ const AddMember = () => {
       );
       setSelectedCollege(selectedCollege);
       setValue("college", selectedCollege || "");
-      setValue("first", member?.name?.first || "");
-      setValue("middle", member?.name?.middle || "");
-      setValue("last", member?.name?.last || "");
+      setValue("fullName", member?.fullName || "");
       setValue("email", member?.email || "");
       setValue("phone", member?.phone || "");
       setValue("bio", member?.bio || "");
       setValue("image", member?.image || "");
+      setValue("emiratesID", member?.emiratesID || "");
       if (selectedCollege) {
         handleCollegeChange(selectedCollege);
         setValue(
@@ -150,21 +149,22 @@ const AddMember = () => {
         }
       }
       const formData = {
-        name: {
-          first: data?.first,
-          ...(data?.middle && { middle: data?.middle }),
-          last: data?.last,
-        },
+        fullName: data?.fullName,
+        emiratesID: data?.emiratesID,
         email: data?.email,
         phone: data?.phone,
         college: data?.college.value,
-        course: data?.course.value,
+        // course: data?.course.value,
         batch: data?.batch.value,
         role: data?.role.value,
         status: data?.status.value,
-        bio: data?.bio,
-        image: imageUrl,
       };
+      if (imageUrl) {
+        formData.image = imageUrl;
+      }
+      if (data?.bio) {
+        formData.bio = data?.bio;
+      }
       if (isUpdate) {
         await updateMember(memberId, formData);
       } else {
@@ -198,86 +198,53 @@ const AddMember = () => {
                   variant="h6"
                   color="textSecondary"
                 >
-                  First Name
+                  Name
                 </Typography>
                 <Controller
-                  name="first"
+                  name="fullName"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "First Name is required" }}
+                  rules={{ required: " Name is required" }}
                   render={({ field }) => (
                     <>
-                      <StyledInput
-                        placeholder="Enter the First name"
-                        {...field}
-                      />
-                      {errors.first && (
+                      <StyledInput placeholder="Enter the name" {...field} />
+                      {errors.fullName && (
                         <span style={{ color: "red" }}>
-                          {errors.first.message}
+                          {errors.fullName.message}
                         </span>
                       )}
                     </>
                   )}
                 />
               </Grid>
-
               <Grid item xs={12}>
                 <Typography
                   sx={{ marginBottom: 1 }}
                   variant="h6"
                   color="textSecondary"
                 >
-                  Middle Name
+                  Emirates ID
                 </Typography>
                 <Controller
-                  name="middle"
+                  name="emiratesID"
                   control={control}
                   defaultValue=""
+                  rules={{ required: "emiratesID is required" }}
                   render={({ field }) => (
                     <>
                       <StyledInput
-                        placeholder="Enter the Middle Name"
+                        placeholder="Enter the emirates ID"
                         {...field}
                       />
-                      {errors.middle && (
+                      {errors.emiratesID && (
                         <span style={{ color: "red" }}>
-                          {errors.middle.message}
+                          {errors.emiratesID.message}
                         </span>
                       )}
                     </>
                   )}
                 />
               </Grid>
-
-              <Grid item xs={12}>
-                <Typography
-                  sx={{ marginBottom: 1 }}
-                  variant="h6"
-                  color="textSecondary"
-                >
-                  Last Name
-                </Typography>
-                <Controller
-                  name="last"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: "Last Name is required" }}
-                  render={({ field }) => (
-                    <>
-                      <StyledInput
-                        placeholder="Enter the Last Name"
-                        {...field}
-                      />
-                      {errors.last && (
-                        <span style={{ color: "red" }}>
-                          {errors.last.message}
-                        </span>
-                      )}
-                    </>
-                  )}
-                />
-              </Grid>
-
               <Grid item xs={12}>
                 <Typography
                   sx={{ marginBottom: 1 }}
@@ -312,7 +279,7 @@ const AddMember = () => {
                   )}
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Typography
                   sx={{ marginBottom: 1 }}
                   variant="h6"
@@ -334,7 +301,7 @@ const AddMember = () => {
                     </>
                   )}
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <Typography
                   sx={{ marginBottom: 1 }}
@@ -347,7 +314,6 @@ const AddMember = () => {
                   name="batch"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "Batch is required" }}
                   render={({ field }) => (
                     <>
                       <StyledSelectField
@@ -355,11 +321,6 @@ const AddMember = () => {
                         options={batchOptions}
                         {...field}
                       />
-                      {errors.batch && (
-                        <span style={{ color: "red" }}>
-                          {errors.batch.message}
-                        </span>
-                      )}
                     </>
                   )}
                 />
@@ -377,7 +338,6 @@ const AddMember = () => {
                   name="role"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "Role is required" }}
                   render={({ field }) => (
                     <>
                       <StyledSelectField
@@ -385,11 +345,6 @@ const AddMember = () => {
                         options={roleOptions}
                         {...field}
                       />
-                      {errors.role && (
-                        <span style={{ color: "red" }}>
-                          {errors.role.message}
-                        </span>
-                      )}
                     </>
                   )}
                 />
@@ -406,7 +361,6 @@ const AddMember = () => {
                   name="image"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "Photo is required" }}
                   render={({ field: { onChange, value } }) => (
                     <>
                       <StyledEventUpload
@@ -417,11 +371,6 @@ const AddMember = () => {
                         }}
                         value={value}
                       />
-                      {errors.image && (
-                        <span style={{ color: "red" }}>
-                          {errors.image.message}
-                        </span>
-                      )}
                     </>
                   )}
                 />
@@ -515,7 +464,6 @@ const AddMember = () => {
                   name="status"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "Status is required" }}
                   render={({ field }) => (
                     <>
                       <StyledSelectField
@@ -523,11 +471,6 @@ const AddMember = () => {
                         options={statusOptions}
                         {...field}
                       />
-                      {errors.status && (
-                        <span style={{ color: "red" }}>
-                          {errors.status.message}
-                        </span>
-                      )}
                     </>
                   )}
                 />

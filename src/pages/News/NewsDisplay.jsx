@@ -40,16 +40,24 @@ export default function NewsDisplay() {
   };
   const handleDelete = async () => {
     if (selectedRows.length > 0) {
-      await Promise.all(selectedRows?.map((id) => deleteNews(id)));
-      toast.success("Deleted successfully");
-      setIsChange(!isChange);
-      setSelectedRows([]);
+      try {
+        await Promise.all(selectedRows?.map((id) => deleteNews(id)));
+        toast.success("Deleted successfully");
+        setIsChange(!isChange);
+        setSelectedRows([]);
+      } catch (err) {
+        toast.error(err.message);
+      }
     }
   };
   const handleRowDelete = async (id) => {
-    await deleteNews(id);
-    toast.success("Deleted successfully");
-    setIsChange(!isChange);
+    try {
+      await deleteNews(id);
+      toast.success("Deleted successfully");
+      setIsChange(!isChange);
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
   useEffect(() => {
     let filter = {};
@@ -63,7 +71,7 @@ export default function NewsDisplay() {
       filter.category = selectedTab;
     }
     fetchNews(filter);
-  }, [isChange, pageNo, search,selectedTab,row]);
+  }, [isChange, pageNo, search, selectedTab, row]);
   const handleEdit = (id) => {
     navigate(`/news/edit/${id}`);
   };
@@ -78,7 +86,7 @@ export default function NewsDisplay() {
   const handleChange = () => {
     setIsChange(!isChange);
   };
-console.log("anjana",search);
+  console.log("anjana", search);
 
   return (
     <>
@@ -90,7 +98,10 @@ console.log("anjana",search);
         marginRight={2}
       >
         <Stack direction={"row"} spacing={2}>
-        <StyledSearchbar placeholder={"Search"} onchange={(e) => setSearch(e.target.value)} />
+          <StyledSearchbar
+            placeholder={"Search"}
+            onchange={(e) => setSearch(e.target.value)}
+          />
         </Stack>
       </Stack>
 
@@ -113,7 +124,9 @@ console.log("anjana",search);
           />
           <StyledButton
             name="Current Affairs"
-            variant={selectedTab === "Current Affairs" ? "primary" : "secondary"}
+            variant={
+              selectedTab === "Current Affairs" ? "primary" : "secondary"
+            }
             onClick={() => handleTabChange("Current Affairs")}
           />
           <StyledButton
@@ -138,7 +151,9 @@ console.log("anjana",search);
           />
           <StyledButton
             name="Events/ Programmes"
-            variant={selectedTab === "Events/ Programmes" ? "primary" : "secondary"}
+            variant={
+              selectedTab === "Events/ Programmes" ? "primary" : "secondary"
+            }
             onClick={() => handleTabChange("Events/ Programmes")}
           />
         </Stack>

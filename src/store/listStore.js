@@ -11,6 +11,7 @@ import { getNews } from "../api/newsapi";
 import { getMember } from "../api/memberapi";
 import { getGroup, getGroupById } from "../api/groupapi";
 import { getReport } from "../api/reportapi";
+import { getBookings } from "../api/hallBooking";
 
 const useListStore = create((set, get) => ({
   lists: [],
@@ -86,6 +87,13 @@ const useListStore = create((set, get) => ({
   fetchApproval: async (filter) => {
     set({ loading: true });
     const allData = await getApproval(filter);
+    set({ lists: allData?.data || [] });
+    set({ totalCount: allData?.totalCount || 0 });
+    set({ loading: false });
+  },
+  fetchBookings: async (filter) => {
+    set({ loading: true });
+    const allData = await getBookings(filter);
     set({ lists: allData?.data || [] });
     set({ totalCount: allData?.totalCount || 0 });
     set({ loading: false });

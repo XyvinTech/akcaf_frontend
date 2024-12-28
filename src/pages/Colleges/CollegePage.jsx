@@ -4,7 +4,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import { collegeColumns } from "../../assets/json/TableData";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import RemoveCollege from "../../components/College/RemoveCollege";
 import { useCollgeStore } from "../../store/collegestore";
 import { toast } from "react-toastify";
@@ -23,6 +23,7 @@ const CollegePage = () => {
   const { fetchColleges } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
+
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
   };
@@ -130,7 +131,6 @@ const CollegePage = () => {
             columns={collegeColumns}
             onSelectionChange={handleSelectionChange}
             onDeleteRow={handleRemove}
-            college
             onModify={(id) => {
               navigate("/college/add", {
                 state: { collegeId: id, isUpdate: true },
@@ -139,7 +139,6 @@ const CollegePage = () => {
             pageNo={pageNo}
             setPageNo={setPageNo}
             onDelete={handleDelete}
-            onAction={handleMember}
             rowPerSize={row}
             setRowPerSize={setRow}
           />

@@ -21,7 +21,6 @@ const StyledNoticeTable = () => {
     filter.pageNo = pageNo;
     filter.limit = row;
     fetchPromotion(filter);
-
   }, [isChange, pageNo, row]);
   const handleOpenFilter = () => {
     setFilterOpen(true);
@@ -41,7 +40,7 @@ const StyledNoticeTable = () => {
         setIsChange(!isChange);
         setSelectedRows([]);
       } catch (error) {
-        console.log(error);
+        toast.error(error.message);
       }
     }
   };
@@ -54,7 +53,7 @@ const StyledNoticeTable = () => {
       toast.success("Deleted successfully");
       setIsChange(!isChange);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -62,6 +61,7 @@ const StyledNoticeTable = () => {
     { title: "Title", field: "title" },
     { title: "Start Date", field: "startDate", padding: "none" },
     { title: "End Date", field: "endDate", padding: "none" },
+    { title: "Status", field: "status" },
   ];
   return (
     <>
@@ -70,9 +70,7 @@ const StyledNoticeTable = () => {
         justifyContent={"end"}
         paddingBottom={"15px"}
         alignItems={"center"}
-      >
-       
-      </Stack>{" "}
+      ></Stack>{" "}
       <Box
         borderRadius={"16px"}
         bgcolor={"white"}
@@ -86,7 +84,6 @@ const StyledNoticeTable = () => {
           onDeleteRow={handleRowDelete}
           onModify={handleEdit}
           pageNo={pageNo}
-
           setPageNo={setPageNo}
           rowPerSize={row}
           setRowPerSize={setRow}

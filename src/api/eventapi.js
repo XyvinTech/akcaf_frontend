@@ -3,7 +3,7 @@ import axiosInstance from "./axiosintercepter";
 
 export const getEvents = async (filter) => {
   try {
-    const response = await axiosInstance.get("/event/admin/list",{
+    const response = await axiosInstance.get("/event/admin/list", {
       params: filter,
     });
     return response.data;
@@ -37,7 +37,7 @@ export const deleteEventById = async (id) => {
 
     return response.data;
   } catch (error) {
-    console.error("Error caught:", error);
+    throw error.response.data;
   }
 };
 

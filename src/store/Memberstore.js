@@ -5,6 +5,7 @@ import {
   editMember,
   getMember,
   getMemberById,
+  getSubscription,
   userBlock,
   userUnBlock,
 } from "../api/memberapi";
@@ -12,9 +13,13 @@ import {
 const useMemberStore = create((set) => ({
   members: [],
   member: [],
+  subscription: [],
   loading: false,
   refreshMember: false,
-
+  memberStatus: "",
+  memberSub: "",
+  setMemStatus: (newStatus) => set({ memberStatus: newStatus }),
+  setMemSub: (newSub) => set({ memberSub: newSub }),
   fetchMember: async (filter) => {
     const allData = await getMember(filter);
     set({ members: allData?.data || [] });
@@ -30,6 +35,10 @@ const useMemberStore = create((set) => ({
     const allData = await getMemberById(id);
     set({ member: allData?.data || [] });
     set({ loading: false });
+  },
+  fetchSubscriptionById: async (id) => {
+    const allData = await getSubscription(id);
+    set({ subscription: allData?.data || [] });
   },
   updateMember: async (id, data) => {
     await editMember(id, data);

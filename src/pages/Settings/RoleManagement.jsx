@@ -37,7 +37,7 @@ export default function RoleManagement() {
         setIsChange(!isChange);
         setSelectedRows([]);
       } catch (error) {
-        console.log(error);
+        toast.error(error.message);
       }
     }
   };
@@ -47,7 +47,7 @@ export default function RoleManagement() {
       toast.success("Deleted successfully");
       setIsChange(!isChange);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
   const handleEdit = (id) => {
@@ -82,7 +82,8 @@ export default function RoleManagement() {
           >
             <Grid item>
               <StyledSearchbar
-                placeholder="Search " onchange={(e) => setSearch(e.target.value)}
+                placeholder="Search "
+                onchange={(e) => setSearch(e.target.value)}
               />
             </Grid>
             <Grid item></Grid>

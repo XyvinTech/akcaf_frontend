@@ -40,7 +40,7 @@ const StyledPosterTable = () => {
         setIsChange(!isChange);
         setSelectedRows([]);
       } catch (error) {
-        console.log(error);
+       toast.error(error.message);
       }
     }
   };
@@ -53,7 +53,7 @@ const StyledPosterTable = () => {
       toast.success("Deleted successfully");
       setIsChange(!isChange);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -62,6 +62,7 @@ const StyledPosterTable = () => {
     { title: "End Date", field: "endDate", padding: "none" },
 
     { title: "Media", field: "media" },
+    { title: "Status", field: "status" },
   ];
   return (
     <>

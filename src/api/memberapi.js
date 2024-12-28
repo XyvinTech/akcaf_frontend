@@ -19,6 +19,14 @@ export const getSingleUser = async (id) => {
     throw error;
   }
 };
+export const getSubscription = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/user/subscription/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const addMember = async (data) => {
   try {
     const response = await axiosInstance.post("/user/admin", data);

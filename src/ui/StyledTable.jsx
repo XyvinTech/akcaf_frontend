@@ -157,18 +157,25 @@ const StyledTable = ({
         return "#FFC107";
       case "live":
         return "#03A9F4";
+      case "inactive":
+        return "#795548";
+      case "expired":
+        return "#E91E63";
+      case "approved": // New status added
+        return "#8BC34A"; // Color for approved status
       default:
         return "#607D8B";
     }
+    
   };
   const formatIndianDate = (date) => {
     return moment.utc(date).format("DD-MM-YYYY");
   };
-  
+
   const formatTime = (time) => {
-    return moment(time).format("h:mm A"); 
+    return moment(time).format("h:mm A");
   };
-  
+
   const pageInc = () => {
     setPageNo((prev) => prev + 1);
   };
@@ -476,7 +483,7 @@ const StyledTable = ({
                   >
                     {" "}
                     <Box
-                     onClick={pageNo > 1 ? pageDec : null}
+                      onClick={pageNo > 1 ? pageDec : null}
                       sx={{
                         display: "flex",
                         alignItems: "center",
@@ -487,7 +494,7 @@ const StyledTable = ({
                       <LeftIcon />{" "}
                     </Box>
                     <Box
-                       onClick={
+                      onClick={
                         pageNo < Math.ceil(totalCount / rowPerSize)
                           ? pageInc
                           : null

@@ -1,19 +1,19 @@
 import { toast } from "react-toastify";
 import axiosInstance from "./axiosintercepter";
 
-export const getPayment = async (filter) => {
+export const getBookings = async (filter) => {
   try {
-    const response = await axiosInstance.get("/payment/list", {
+    const response = await axiosInstance.get("/booking/list", {
       params: filter,
     });
     return response.data;
   } catch (error) {
-    return null;
+    console.error("Error caught:", error);
   }
 };
-export const createPayment = async (data) => {
+export const updateHallById = async (id, data) => {
   try {
-    const response = await axiosInstance.post("/payment/create", data);
+    const response = await axiosInstance.put(`/booking/edit/${id}`, data);
     toast.success(response.data.message);
     return response.data;
   } catch (error) {

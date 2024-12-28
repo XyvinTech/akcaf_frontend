@@ -5,6 +5,14 @@ export const memberColumns = [
   { title: "Phone Number", field: "phone" },
   { title: "Status", field: "status" },
 ];
+export const hallColumns = [
+  { title: "Hall", field: "hall", padding: "none" },
+  { title: "User", field: "user", padding: "none" },
+  { title: "Date", field: "date" },
+  { title: "Event Name", field: "eventName" },
+  { title: "Description", field: "description" },
+  { title: "Status", field: "status" },
+];
 export const eventHistoryColumns = [
   { title: "Name", field: "fullName", padding: "none" },
   { title: "College Name", field: "college" },
@@ -36,7 +44,7 @@ export const paymentColumns = [
 export const reportColumns = [
   { title: "Report By", field: "reportBy", padding: "none" },
   { title: "Report Type", field: "reportType" },
-  { title: "Content", field: "content" }
+  { title: "Content", field: "content" },
 ];
 export const member = [
   { title: "Name", field: "fullName", padding: "none" },
@@ -72,10 +80,10 @@ export const postColumns = [
 ];
 export const approvalColumns = [
   { title: "Date", field: "createdAt", padding: "none" },
+  { title: "Emirates ID", field: "emiratesID" },
   { title: "Name", field: "fullName" },
   { title: "Phone Number", field: "phone" },
   { title: "Email", field: "email" },
-  { title: "Course", field: "course" },
   { title: "Batch number", field: "batch" },
 ];
 export const adminColumns = [
@@ -100,7 +108,6 @@ export const eventList = [
   { title: "Organiser name", field: "organiserName" },
   { title: "Status", field: "status" },
   { title: "Type", field: "type" },
- 
 ];
 export const newsColumns = [
   { title: "Category", field: "category", padding: "none" },

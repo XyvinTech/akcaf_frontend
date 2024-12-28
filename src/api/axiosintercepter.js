@@ -1,7 +1,7 @@
 import axios from "axios";
-
+const baseURL = import.meta.env.VITE_APP_BASE_URL;
 const axiosInstance = axios.create({
-  baseURL: "https://akcafconnect.com/api/v1/",
+  baseURL:`${baseURL}`, 
 });
 axiosInstance.interceptors.request.use(
   (config) => {

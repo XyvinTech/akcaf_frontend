@@ -1,21 +1,24 @@
 import { Box, Stack } from "@mui/material";
-import React, { useEffect, useState } from "react";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import StyledTable from "../../ui/StyledTable";
-import { feedColumns } from "../../assets/json/TableData";
-import FeedApproval from "../../components/Approve/FeedApproval";
-import FeedReject from "../../components/Approve/FeedReject";
+import { useEffect, useState } from "react";
 import { useListStore } from "../../store/listStore";
+import { hallColumns } from "../../assets/json/TableData";
+import RejectBooking from "../../components/Hall/RejectBooking";
+import ApproveBooking from "../../components/Hall/ApproveBooking";
 
-const FeedList = () => {
-  const [rejectOpen, setRejectOpen] = useState(false);
-  const [approveOpen, setApproveOpen] = useState(false);
-  const [isChange, setIsChange] = useState(false);
-  const { fetchFeed } = useListStore();
+const BookingList = () => {
   const [search, setSearch] = useState("");
   const [pageNo, setPageNo] = useState(1);
-  const [row, setRow] = useState(10);
+  const [isChange, setIsChange] = useState(false);
+  const { fetchBookings } = useListStore();
   const [approvalId, setApprovalId] = useState(null);
+  const [rejectOpen, setRejectOpen] = useState(false);
+  const [approveOpen, setApproveOpen] = useState(false);
+  const [row, setRow] = useState(10);
+  const handleChange = () => {
+    setIsChange((prev) => !prev);
+  };
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
@@ -24,22 +27,15 @@ const FeedList = () => {
       filter.search = search;
       setPageNo(1);
     }
-    fetchFeed(filter);
+    fetchBookings(filter);
   }, [isChange, pageNo, search, row]);
-
-  const handleReject = (id) => {
-    setApprovalId(id);
-    setRejectOpen(true);
-  };
-  const handleCloseReject = () => {
-    setRejectOpen(false);
-  };
   const handleApprove = (id) => {
     setApprovalId(id);
     setApproveOpen(true);
   };
-  const handleCloseApprove = () => {
-    setApproveOpen(false);
+  const handleReject = (id) => {
+    setApprovalId(id);
+    setRejectOpen(true);
   };
   return (
     <>
@@ -64,7 +60,7 @@ const FeedList = () => {
         border={"1px solid rgba(0, 0, 0, 0.12)"}
       >
         <StyledTable
-          columns={feedColumns}
+          columns={hallColumns}
           pageNo={pageNo}
           setPageNo={setPageNo}
           payment
@@ -73,21 +69,21 @@ const FeedList = () => {
           rowPerSize={row}
           setRowPerSize={setRow}
         />
-        <FeedReject
-          open={rejectOpen}
-          onClose={handleCloseReject}
-          id={approvalId}
-          setIsChange={setIsChange}
-        />
-        <FeedApproval
+        <ApproveBooking
           open={approveOpen}
-          onClose={handleCloseApprove}
+          onClose={() => setApproveOpen(false)}
           id={approvalId}
-          setIsChange={setIsChange}
+          setIsChange={handleChange}
+        />
+        <RejectBooking
+          open={rejectOpen}
+          onClose={() => setRejectOpen(false)}
+          id={approvalId}
+          setIsChange={handleChange}
         />
       </Box>
     </>
   );
 };
 
-export default FeedList;
+export default BookingList;

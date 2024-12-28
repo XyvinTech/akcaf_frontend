@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { editApproval, getApproval } from "../api/approvalapi";
+import { updateHallById } from "../api/hallBooking";
 
 const useApprovalStore = create((set) => ({
   approvals: [],
@@ -9,6 +10,9 @@ const useApprovalStore = create((set) => ({
   },
   updateApproval: async (id, data) => {
     await editApproval(id, data);
+  },
+  updateHall: async (id, data) => {
+    await updateHallById(id, data);
   },
 }));
 

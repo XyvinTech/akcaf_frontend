@@ -21,7 +21,7 @@ const AddAdmin = () => {
   const { college, fetchListofCollege, fetchListofRole, role } =
     useDropDownStore();
   const [loading, setLoading] = useState(false);
-  const { addAdmins, fetchSingleAdmin, single ,updateAdmin} = useAdminStore();
+  const { addAdmins, fetchSingleAdmin, single, updateAdmin } = useAdminStore();
   const location = useLocation();
   const { adminId, isUpdate } = location.state || {};
 
@@ -38,7 +38,6 @@ const AddAdmin = () => {
       if (isUpdate) {
         await updateAdmin(adminId, formData);
       } else {
-        formData.password = "admin@akcaf";
         await addAdmins(formData);
       }
       reset();

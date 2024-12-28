@@ -37,15 +37,16 @@ import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import ApprovalOutlinedIcon from "@mui/icons-material/ApprovalOutlined";
 import logo from "../assets/images/logo.png";
 import FlagIcon from "@mui/icons-material/Flag";
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import { LogoutOutlined, PaymentOutlined } from "@mui/icons-material";
+import { GridViewOutlined, LogoutOutlined, PaymentOutlined, PaymentsOutlined } from "@mui/icons-material";
 import { useAdminStore } from "../store/adminStore";
 const drawerWidth = 250;
 const subNavigation = [
-  // { name: "Dashboard", to: "/dashboard", icon: <GridViewIcon /> },
+  { name: "Dashboard", to: "/dashboard", icon: <GridViewOutlined/> },
   { name: "Members", to: "/members", icon: <PeopleAltOutlinedIcon /> },
   { name: "Colleges", to: "/colleges", icon: <SchoolOutlinedIcon /> },
-  { name: "Groups", to: "/groups", icon: <GroupsOutlinedIcon /> },
+  // { name: "Groups", to: "/groups", icon: <GroupsOutlinedIcon /> },
   {
     name: "Events",
     icon: <EventNoteOutlinedIcon />,
@@ -62,6 +63,12 @@ const subNavigation = [
   },
 
   { name: "Approvals", to: "/approvals", icon: <ApprovalOutlinedIcon /> },
+  { name: "Payments", to: "/payments", icon: <PaymentsOutlined /> },
+  {
+    name: "Hall Bookings",
+    to: "/hall-booking",
+    icon: <EventAvailableIcon />,
+  },
   {
     name: "Promotions",
     to: "/promotions",

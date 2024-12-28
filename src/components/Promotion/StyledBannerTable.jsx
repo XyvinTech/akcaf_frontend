@@ -21,7 +21,7 @@ const StyledBannerTable = () => {
     filter.pageNo = pageNo;
     filter.limit = row;
     fetchPromotion(filter);
-  }, [isChange, pageNo,row]);
+  }, [isChange, pageNo, row]);
   const handleOpenFilter = () => {
     setFilterOpen(true);
   };
@@ -40,7 +40,7 @@ const StyledBannerTable = () => {
         setIsChange(!isChange);
         setSelectedRows([]);
       } catch (error) {
-        console.log(error);
+        toast.error(error.message);
       }
     }
   };
@@ -53,7 +53,7 @@ const StyledBannerTable = () => {
       toast.success("Deleted successfully");
       setIsChange(!isChange);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -62,6 +62,7 @@ const StyledBannerTable = () => {
     { title: "End Date", field: "endDate", padding: "none" },
 
     { title: "Media", field: "media" },
+    { title: "Status", field: "status" },
   ];
   return (
     <>
@@ -70,9 +71,7 @@ const StyledBannerTable = () => {
         justifyContent={"end"}
         paddingBottom={"15px"}
         alignItems={"center"}
-      >
-       
-      </Stack>{" "}
+      ></Stack>{" "}
       <Box
         borderRadius={"16px"}
         paddingTop={"15px"}
