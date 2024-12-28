@@ -70,24 +70,31 @@ const QRPage = () => {
 
     fetchData();
   }, []);
-  const handleSaveContact = () => {
-    const vCardContent = `BEGIN:VCARD
-    VERSION:3.0
-    N:${userData?.fullName}
-    FN:${userData?.fullName}
-    TEL;TYPE=CELL:${userData?.phone}
-    EMAIL:${userData?.email}
-    END:VCARD`;
-    const blob = new Blob([vCardContent], { type: "text/vcard;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${userData?.fullName}.vcf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+  const handleSaveContact = async () => {
+    try {
+      if (!userData || !userData.fullName || !userData.phone || !userData.email) {
+        throw new Error("Incomplete user data. Please provide fullName, phone, and email.");
+      }
+  
+      const vCardContent = `BEGIN:VCARD\r\nVERSION:3.0\r\nN:${userData.fullName.split(" ").reverse().join(";")}\r\nFN:${userData.fullName}\r\nTEL;TYPE=CELL:${userData.phone}\r\nEMAIL:${userData.email}\r\nEND:VCARD`;
+  
+      const blob = new Blob([vCardContent], { type: "text/vcard;charset=utf-8" });
+  
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${userData.fullName.replace(/ /g, "_")}.vcf`;
+  
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error creating vCard:", error);
+    }
   };
+  
+  
   const renderSocialIcon = (platform) => {
     switch (platform) {
       case "instagram":
