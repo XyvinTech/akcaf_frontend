@@ -25,6 +25,7 @@ const useRoleStore = create((set) => ({
   updateRole: async (id, data) => {
     await editRole(id, data);
   },
+  
   deleteRoles: async (id) => {
     await deleteRole(id);
   },
