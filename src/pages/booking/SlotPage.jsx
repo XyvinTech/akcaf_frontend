@@ -9,6 +9,7 @@ import {
 import { StyledButton } from "../../ui/StyledButton";
 import { StyledTime } from "../../ui/StyledTime";
 import { createTime, getTimes } from "../../api/timeapi";
+import { toast } from "react-toastify";
 
 const days = [
   "Sunday",
@@ -23,6 +24,7 @@ const days = [
 const SlotPage = () => {
   const [availability, setAvailability] = useState([]);
   const [isChange, setIsChange] = useState(false);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchTimes = async () => {
       try {
@@ -57,21 +59,27 @@ const SlotPage = () => {
   };
 
   const handleSave = async () => {
-    const mappedAvailability = availability.map((item) => {
-      if (item.checked) {
-        return {
-          day: item.day,
-          ...(item.start && { start: item.start }),
-          ...(item.end && { end: item.end }),
-        };
-      } else {
-        return { day: item.day };
-      }
-    });
+    try {
+      setLoading(true);
+      const mappedAvailability = availability.map((item) => {
+        if (item.checked) {
+          return {
+            day: item.day,
+            ...(item.start && { start: item.start }),
+            ...(item.end && { end: item.end }),
+          };
+        } else {
+          return { day: item.day };
+        }
+      });
 
-    await createTime({ addTimeSchema: mappedAvailability });
-    setIsChange(!isChange);
-    console.log("Mapped Availability Data:", mappedAvailability);
+      await createTime({ addTimeSchema: mappedAvailability });
+      setLoading(false);
+      toast.success("Saved successfully");
+      setIsChange(!isChange);
+    } catch (error) {
+      console.error("Error saving times:", error);
+    }
   };
 
   return (
@@ -121,7 +129,7 @@ const SlotPage = () => {
         ))}
       </Stack>
       <Stack direction="row" justifyContent="flex-end" spacing={2} mt={4}>
-        <StyledButton name="Save" variant={"primary"} onClick={handleSave} />
+        <StyledButton name={loading ? "Saving..." : "Save"} variant={"primary"} onClick={handleSave} />
       </Stack>
     </Box>
   );
