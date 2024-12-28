@@ -161,11 +161,14 @@ const StyledTable = ({
         return "#795548";
       case "expired":
         return "#E91E63";
-      case "approved": // New status added
-        return "#8BC34A"; // Color for approved status
+      case "approved":
+        return "#8BC34A";
+      case "completed": // New status added
+        return "#00BCD4"; // Color for completed status
       default:
         return "#607D8B";
     }
+    
     
   };
   const formatIndianDate = (date) => {
