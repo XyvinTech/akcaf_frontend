@@ -43,7 +43,7 @@ const MemberView = () => {
         alignItems={"center"}
       >
         <Typography variant="h4" color={"textSecondary"}>
-          Members list
+          Member
         </Typography>
       </Box>{" "}
       <Divider />
