@@ -7,7 +7,7 @@ export const memberColumns = [
 ];
 export const hallColumns = [
   { title: "Hall", field: "hall", padding: "none" },
-  { title: "User", field: "user", padding: "none" },
+  { title: "User", field: "userName", padding: "none" },
   { title: "Date", field: "date" },
   { title: "Event Name", field: "eventName" },
   { title: "Description", field: "description" },
