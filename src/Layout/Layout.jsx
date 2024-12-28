@@ -63,7 +63,7 @@ const subNavigation = [
   },
 
   { name: "Approvals", to: "/approvals", icon: <ApprovalOutlinedIcon /> },
-  { name: "Payments", to: "/payments", icon: <PaymentsOutlined /> },
+  // { name: "Payments", to: "/payments", icon: <PaymentsOutlined /> },
   {
     name: "Hall Bookings",
     to: "/hall-booking",
