@@ -14,7 +14,7 @@ const QRAwardCard = ({ award, ismobile }) => {
     >
       <Box
         component="img"
-        src={award?.url}
+        src={award?.image}
         sx={{
           borderTopLeftRadius: "12px",
           objectFit: "cover",
@@ -39,7 +39,7 @@ const QRAwardCard = ({ award, ismobile }) => {
           textAlign={"start"}
           sx={{ marginBottom: "10px" }}
         >
-          {award?.authority_name}
+          {award?.authority}
         </Typography>
       </Box>
     </Box>

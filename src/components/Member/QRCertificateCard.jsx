@@ -14,7 +14,7 @@ const QRCertificateCard = ({ certificate,isMobile }) => {
     >
       <Box
         component="img"
-        src={certificate?.url}
+        src={certificate?.link}
         sx={{
           borderTopLeftRadius: "12px",
           borderTopRightRadius: "12px",
