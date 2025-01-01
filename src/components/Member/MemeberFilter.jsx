@@ -93,7 +93,7 @@ const MemberFilter = ({ open, onClose, onApply }) => {
       <DialogTitle sx={{ height: "auto", padding: 3 }}>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h3" color={"#4F4F4F"}>
-            Filter
+            Filter 
           </Typography>
           <Typography
             onClick={onClose}
