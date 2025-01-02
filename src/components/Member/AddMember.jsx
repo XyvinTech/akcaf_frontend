@@ -84,7 +84,7 @@ const AddMember = () => {
       );
       setValue("status", selectedStatus || "");
     }
-  }, [member, isUpdate, setValue]);
+  }, [member, isUpdate, setValue,collegeList]);
 
   const handleCollegeChange = (selectedCollegeId) => {
     const selectedCollege = college?.find(
