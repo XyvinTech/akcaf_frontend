@@ -27,7 +27,7 @@ const AddMember = () => {
   const { addMembers, fetchMemberById, member, updateMember, loading } =
     useMemberStore();
 
-  const [selectedCollege, setSelectedCollege] = useState(null); // initially selected college
+  const [selectedCollege, setSelectedCollege] = useState(null); 
   const [courseOptions, setCourseOptions] = useState([]);
   const [batchOptions, setBatchOptions] = useState([]);
   const [loadings, setLoadings] = useState(false);
@@ -48,14 +48,14 @@ const AddMember = () => {
           value: item._id,
           label: item.collegeName,
         }))
-      : [];
+      : [id];
   useEffect(() => {
     if (isUpdate && member) {
-      const selectedCollege = collegeList?.find(
+      const selectedColleges = collegeList?.find(
         (item) => item?.value === member?.college?._id
       );
-      setSelectedCollege(selectedCollege);
-      setValue("college", selectedCollege || "");
+      setValue("college", selectedColleges || "");
+      setSelectedCollege(selectedColleges);
       setValue("fullName", member?.fullName || "");
       setValue("email", member?.email || "");
       setValue("phone", member?.phone || "");
