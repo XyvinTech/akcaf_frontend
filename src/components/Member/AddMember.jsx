@@ -83,8 +83,10 @@ const AddMember = () => {
         (item) => item?.value === member?.status
       );
       setValue("status", selectedStatus || "");
+      console.log("status", selectedStatus);
+      
     }
-  }, [member, isUpdate, setValue,collegeList]);
+  }, [member, isUpdate, setValue]);
 
   const handleCollegeChange = (selectedCollegeId) => {
     const selectedCollege = college?.find(
