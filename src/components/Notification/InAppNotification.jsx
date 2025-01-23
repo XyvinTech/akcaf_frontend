@@ -20,14 +20,17 @@ export default function InAppNotification({}) {
     formState: { errors },
   } = useForm();
 
-  const { user, fetchListofUser } = useDropDownStore();
+  const { user, fetchListofUser, college, fetchListofCollege } = useDropDownStore();
   const { addNotifications } = useNotificationStore();
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [type, setType] = useState();
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedCollege, setSelectedCollege] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     fetchListofUser();
+    fetchListofCollege();
   }, []);
   const option =
     user && Array.isArray(user)
@@ -41,14 +44,26 @@ export default function InAppNotification({}) {
             })),
           ]
       : [];
-const handleClear = (event) => {
-  event.preventDefault();
-  reset();
-  setSelectedOptions([]);
-  setImageFile(null);
-  setSelectedOptions([]);
-  navigate(-1)
-}
+  const colleges =
+    college && Array.isArray(college)
+      ? selectedCollege.some((opt) => opt?.value === "*")
+        ? [{ value: "*", label: "All" }]
+        : [
+            { value: "*", label: "All" },
+            ...college.map((i) => ({
+              value: i._id,
+              label: i.collegeName,
+            })),
+          ]
+      : [];
+  const handleClear = (event) => {
+    event.preventDefault();
+    reset();
+    setSelectedOptions([]);
+    setSelectedCollege([]);
+    setImageFile(null);
+    navigate(-1);
+  };
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -71,26 +86,42 @@ const handleClear = (event) => {
       const users = data?.to?.map((user) => ({
         user: user?.value,
       }));
+      const collegeOptions = data?.college?.map((user) => ({
+        user: user?.value,
+      }));
       const formData = {
         content: data?.content,
         subject: data?.subject,
-        users: users,
         media: imageUrl,
       };
+      if (type === "user") {
+        formData.sendTo = "user";
+        formData.users = users;
+      }
+      if (type === "college") {
+        formData.sendTo = "college";
+        formData.users = collegeOptions;
+      }
       formData.type = "in-app";
       await addNotifications(formData);
 
       reset();
       setImageFile(null);
       setSelectedOptions([]);
-
+      setSelectedCollege([]);
     } catch (error) {
       toast.error(error.message);
     } finally {
       setLoading(false);
     }
   };
-
+  const Type = [
+    { value: "user", label: "User" },
+    { value: "college", label: "College" },
+  ];
+  const handleTypeChange = (selectedOption) => {
+    setType(selectedOption.value);
+  };
   return (
     <Box
       sx={{ padding: 3 }}
@@ -109,29 +140,73 @@ const handleClear = (event) => {
               Send to
             </Typography>
             <Controller
-              name="to"
+              name="type"
               control={control}
-              defaultValue={[]}
-              rules={{ required: "Member is required" }}
+              defaultValue=""
+              rules={{ required: "Type is required" }}
               render={({ field }) => (
                 <>
                   <StyledSelectField
-                    placeholder="Select member"
-                    options={option}
-                    isMulti
+                    placeholder="Select the type"
+                    options={Type}
                     {...field}
-                    value={selectedOptions}
-                    onChange={(selected) => {
-                      setSelectedOptions(selected);
-                      field.onChange(selected);
+                    onChange={(e) => {
+                      field.onChange(e);
+                      handleTypeChange(e);
                     }}
                   />
-                  {errors.to && (
-                    <span style={{ color: "red" }}>{errors.to.message}</span>
+                  {errors.type && (
+                    <span style={{ color: "red" }}>{errors.type.message}</span>
                   )}
                 </>
               )}
             />
+          </Grid>
+          <Grid item xs={12}>
+            {type === "user" && (
+              <Controller
+                name="to"
+                control={control}
+                defaultValue={[]}
+                render={({ field }) => (
+                  <>
+                    <StyledSelectField
+                      placeholder="Select member"
+                      options={option}
+                      isMulti
+                      {...field}
+                      value={selectedOptions}
+                      onChange={(selected) => {
+                        setSelectedOptions(selected);
+                        field.onChange(selected);
+                      }}
+                    />
+                  </>
+                )}
+              />
+            )}
+            {type === "college" && (
+              <Controller
+                name="college"
+                control={control}
+                defaultValue={[]}
+                render={({ field }) => (
+                  <>
+                    <StyledSelectField
+                      placeholder="Select college"
+                      options={colleges}
+                      isMulti
+                      {...field}
+                      value={selectedCollege}
+                      onChange={(selected) => {
+                        setSelectedCollege(selected);
+                        field.onChange(selected);
+                      }}
+                    />
+                  </>
+                )}
+              />
+            )}
           </Grid>
           <Grid item xs={12}>
             <Typography
@@ -223,7 +298,11 @@ const handleClear = (event) => {
           <Grid item xs={6} display={"flex"} justifyContent={"end"}>
             {" "}
             <Stack direction={"row"} spacing={2}>
-              <StyledButton name="Cancel" variant="secondary" onClick={(e) =>handleClear (e)} />
+              <StyledButton
+                name="Cancel"
+                variant="secondary"
+                onClick={(e) => handleClear(e)}
+              />
               <StyledButton
                 name={loading ? "Saving..." : "Save"}
                 variant="primary"

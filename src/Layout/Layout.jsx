@@ -37,13 +37,18 @@ import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import ApprovalOutlinedIcon from "@mui/icons-material/ApprovalOutlined";
 import logo from "../assets/images/logo.png";
 import FlagIcon from "@mui/icons-material/Flag";
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import { GridViewOutlined, LogoutOutlined, PaymentOutlined, PaymentsOutlined } from "@mui/icons-material";
+import {
+  GridViewOutlined,
+  LogoutOutlined,
+  PaymentOutlined,
+  PaymentsOutlined,
+} from "@mui/icons-material";
 import { useAdminStore } from "../store/adminStore";
 const drawerWidth = 250;
 const subNavigation = [
-  { name: "Dashboard", to: "/dashboard", icon: <GridViewOutlined/> },
+  { name: "Dashboard", to: "/dashboard", icon: <GridViewOutlined /> },
   { name: "Members", to: "/members", icon: <PeopleAltOutlinedIcon /> },
   { name: "Colleges", to: "/colleges", icon: <SchoolOutlinedIcon /> },
   // { name: "Groups", to: "/groups", icon: <GroupsOutlinedIcon /> },
@@ -191,7 +196,28 @@ const Layout = (props) => {
     navigate("/");
   };
   const drawer = (
-    <div style={{ position: "relative", height: "100%" }}>
+    <div style={{ position: "relative", height: "100%", overflowY: "auto" }}><style>
+    {`
+      /* WebKit Scrollbar Customization */
+      div::-webkit-scrollbar {
+        width: 8px; /* Width of the scrollbar */
+      }
+      
+      div::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Background of the scrollbar track */
+        border-radius: 4px;
+      }
+      
+      div::-webkit-scrollbar-thumb {
+        background-color: #888; /* Color of the draggable scrollbar thumb */
+        border-radius: 4px;
+      }
+      
+      div::-webkit-scrollbar-thumb:hover {
+        background-color: #555; /* Color on hover */
+      }
+    `}
+  </style>
       <Toolbar
         sx={{
           height: "148px",
@@ -204,30 +230,7 @@ const Layout = (props) => {
           </Typography>
         </Stack>
       </Toolbar>
-      <List
-        sx={{
-          height: "500px",
-          overflowY: "auto",
-          display: "flex",
-          flexDirection: "column",
-          gap: "5px",
-          padding: 0,
-          "&::-webkit-scrollbar": {
-            width: "0px",
-          },
-          "&::-webkit-scrollbar-track": {
-            backgroundColor: "#f1f1f1",
-            borderRadius: "10px",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#c1c1c1",
-            borderRadius: "10px",
-            "&:hover": {
-              backgroundColor: "#a1a1a1",
-            },
-          },
-        }}
-      >
+      <List>
         {subNavigation.map((item) =>
           item.name === "Events" ? (
             <div key={item.name}>

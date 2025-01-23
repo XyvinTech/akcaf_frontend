@@ -168,8 +168,6 @@ const StyledTable = ({
       default:
         return "#607D8B";
     }
-    
-    
   };
   const formatIndianDate = (date) => {
     return moment.utc(date).format("DD-MM-YYYY");
@@ -347,17 +345,15 @@ const StyledTable = ({
                           <ViewIcon />
                         </IconButton>
                       )}{" "}
-                      {!menu &&
-                        row.status !== "rejected" &&
-                        row.status !== "approved" && (
-                          <IconButton
-                            aria-controls="simple-menu"
-                            aria-haspopup="true"
-                            onClick={(event) => handleMenuOpen(event, row._id)}
-                          >
-                            <MoreVertIcon />
-                          </IconButton>
-                        )}
+                      {!menu && row.status !== "cancelled" && (
+                        <IconButton
+                          aria-controls="simple-menu"
+                          aria-haspopup="true"
+                          onClick={(event) => handleMenuOpen(event, row._id)}
+                        >
+                          <MoreVertIcon />
+                        </IconButton>
+                      )}
                       <Menu
                         id="row-menu"
                         anchorEl={anchorEl}
@@ -394,12 +390,16 @@ const StyledTable = ({
                           : payment
                           ? [
                               <>
-                                <MenuItem onClick={handleModify}>
-                                  Approve
-                                </MenuItem>
-                                <MenuItem onClick={handleAction}>
-                                  Reject
-                                </MenuItem>
+                                {row.status !== "approved" && (
+                                  <MenuItem onClick={handleModify}>
+                                    Approve
+                                  </MenuItem>
+                                )}
+                                {row.status !== "rejected" && (
+                                  <MenuItem onClick={handleAction}>
+                                    Reject
+                                  </MenuItem>
+                                )}
                               </>,
                             ]
                           : college
