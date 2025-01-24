@@ -39,6 +39,8 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const [imageFile, setImageFile] = useState(null);
+  const [pdfFile, setPdfFile] = useState(null);
+  const [pdfPreview, setPdfPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImageUrl, setPreviewImageUrl] = useState("");
@@ -66,6 +68,12 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
       setValue("content", singleNews.content);
       setValue("image", singleNews.media);
       setPreviewImageUrl(singleNews.media);
+      setValue("pdf", singleNews.pdf);
+      if (singleNews.pdf) {
+        setPdfPreview(singleNews.pdf);
+      } else {
+        setPdfPreview(null);
+      }
     }
   }, [singleNews, isUpdate, setValue]);
   const handlePreviewOpen = () => {
@@ -88,10 +96,20 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
       setPreviewImageUrl("");
     }
   };
+  const handlePDFChange = (selectedFile) => {
+    setPdfFile(selectedFile);
+    setValue("pdf", selectedFile);
+    if (selectedFile) {
+      const previewURL = URL.createObjectURL(selectedFile);
+      setPdfPreview(previewURL);
+    }
+  };
+
   const onSubmit = async (data) => {
     try {
       setLoading(true);
       let imageUrl = data?.image || "";
+      let pdfUrl = data?.pdf || "";
 
       if (imageFile) {
         try {
@@ -107,11 +125,27 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
           return;
         }
       }
+
+      if (pdfFile) {
+        try {
+          pdfUrl = await new Promise((resolve, reject) => {
+            uploadFileToS3(
+              pdfFile,
+              (location) => resolve(location),
+              (error) => reject(error)
+            );
+          });
+        } catch (error) {
+          console.error("Failed to upload pdf:", error);
+          return;
+        }
+      }
       const formData = {
         category: data.category.value,
         title: data.title,
         media: imageUrl ? imageUrl : "",
         content: data.content,
+        pdf: pdfUrl ? pdfUrl : "",
       };
       if (isUpdate && id) {
         await updateNews(id, formData);
@@ -221,6 +255,37 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
             <Typography
               sx={{ marginBottom: 1 }}
               variant="h6"
+              fontWeight={500}
+              color={"#333333"}
+            >
+              Upload Document
+            </Typography>
+            <Controller
+              name="pdf"
+              control={control}
+              defaultValue=""
+              rules={{ required: "File is required" }}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  <StyledCropImage
+                    label="Upload PDF here"
+                    onChange={(selectedFile) => {
+                      handlePDFChange(selectedFile);
+                      onChange(selectedFile); // Pass file to react-hook-form
+                    }}
+                    value={value}
+                  />
+                  {errors.pdf && (
+                    <span style={{ color: "red" }}>{errors.pdf.message}</span>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
               color="textSecondary"
             >
               Add content
@@ -314,6 +379,25 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
             />
           ) : (
             <Typography color="textSecondary">No image selected</Typography>
+          )}
+          <Typography variant="h6" fontWeight="bold" mt={2}>
+            PDF File:
+          </Typography>
+          {pdfPreview ? (
+            <Box sx={{ mt: 1 }}>
+              <iframe
+                src={`https://docs.google.com/gview?url=${encodeURIComponent(
+                  pdfPreview
+                )}&embedded=true`}
+                title="PDF Preview"
+                width="100%"
+                height="500px"
+                style={{ borderRadius: "8px", border: "1px solid #ccc" }}
+              />
+              ;
+            </Box>
+          ) : (
+            <Typography>No PDF uploaded</Typography>
           )}
         </DialogContent>
       </Dialog>
