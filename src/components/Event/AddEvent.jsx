@@ -14,6 +14,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField.jsx";
 import StyledCropImage from "../../ui/StyledCropImage.jsx";
+import moment from "moment";
 
 export default function AddEvent({ setSelectedTab, isUpdate }) {
   const {
@@ -21,6 +22,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
     handleSubmit,
     reset,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm();
   const { id } = useParams();
@@ -105,7 +107,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
     try {
       setLoadings(true);
       let imageUrl = data?.image || "";
-  
+
       if (imageFile) {
         try {
           imageUrl = await new Promise((resolve, reject) => {
@@ -120,16 +122,17 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
           return;
         }
       }
-  
+
       // Filter out speakers with all empty fields
       const filteredSpeakers = data.speakers.filter(
-        (speaker) => speaker.name || speaker.designation || speaker.role || speaker.image
+        (speaker) =>
+          speaker.name || speaker.designation || speaker.role || speaker.image
       );
-  
+
       const speakersData = await Promise.all(
         filteredSpeakers.map(async (speaker, index) => {
           let speakerImageUrl = speakers[index]?.image || "";
-  
+
           if (speaker?.image && typeof speaker.image === "object") {
             try {
               speakerImageUrl = await new Promise((resolve, reject) => {
@@ -143,7 +146,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
               console.error(`Failed to upload image for speaker:`, error);
             }
           }
-  
+
           return {
             name: speaker?.name,
             designation: speaker?.designation,
@@ -152,7 +155,18 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
           };
         })
       );
-  
+      const currentDate = moment().startOf("day");
+      const startDate = moment(data?.startDate).startOf("day");
+      const endDate = moment(data?.endDate).startOf("day");
+
+      let status;
+      if (currentDate.isAfter(endDate)) {
+        status = "pending";
+      } else if (currentDate.isSameOrAfter(startDate)) {
+        status = "live";
+      } else {
+        status = "pending";
+      }
       const formData = {
         type: data?.type?.value,
         eventName: data?.eventName,
@@ -165,22 +179,23 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
         description: data?.description,
         organiserName: data?.organiserName,
       };
-  
+
       if (type === "Online") {
         formData.platform = data?.platform.value;
         formData.link = data?.link;
       } else {
         formData.venue = data?.venue;
       }
-  
+
       if (isUpdate && id) {
+        formData.status = status;
         await updateEvent(id, formData);
         navigate("/events/list");
       } else {
         await addEvent(formData);
         setSelectedTab(0);
       }
-  
+
       reset();
     } catch (error) {
       toast.error(error.message);
@@ -188,7 +203,6 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       setLoadings(false);
     }
   };
-  
 
   const addSpeaker = () => {
     setSpeakers([
@@ -303,7 +317,8 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                         onChange={(file) => {
                           setImageFile(file);
                           onChange(file);
-                        }}ratio={16 / 9}
+                        }}
+                        ratio={16 / 9}
                         value={value}
                       />
                       {errors.image && (
@@ -463,7 +478,20 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   name="endDate"
                   control={control}
                   defaultValue={null}
-                  rules={{ required: "End Date is required" }}
+                  rules={{
+                    required: "End Date is required",
+                    validate: (value) => {
+                      const startDate = moment(
+                        getValues("startDate"),
+                        "YYYY-MM-DD"
+                      );
+                      const endDate = moment(value, "YYYY-MM-DD");
+                      if (endDate.isBefore(startDate)) {
+                        return "End Date cannot be before Start Date";
+                      }
+                      return true;
+                    },
+                  }}
                   render={({ field }) => (
                     <>
                       <StyledCalender {...field} />
