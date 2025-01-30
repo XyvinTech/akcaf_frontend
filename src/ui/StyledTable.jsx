@@ -68,6 +68,7 @@ const StyledTable = ({
   menu,
   news,
   pageNo,
+  report,
   setPageNo,
   onDeleteRow,
   member,
@@ -186,6 +187,22 @@ const StyledTable = ({
   const handleChangeRowsPerPage = (event) => {
     setRowPerSize(parseInt(event.target.value, 10));
     setPageNo(1);
+  };
+  const hasMenuOptions = (row) => {
+    if (menu) return false;
+    if (row.status === "cancelled") return false;
+
+    if (report) {
+      return row.status !== "approved" && row.status !== "rejected";
+    }
+
+    return (
+      news ||
+      member ||
+      payment ||
+      college ||
+      (!news && !member && !payment && !college)
+    );
   };
   return (
     <Box bgcolor={"white"} borderRadius={"16px"}>
@@ -345,7 +362,7 @@ const StyledTable = ({
                           <ViewIcon />
                         </IconButton>
                       )}{" "}
-                      {!menu && row.status !== "cancelled" && (
+                      {hasMenuOptions(row) && (
                         <IconButton
                           aria-controls="simple-menu"
                           aria-haspopup="true"
@@ -400,6 +417,22 @@ const StyledTable = ({
                                     Reject
                                   </MenuItem>
                                 )}
+                              </>,
+                            ]
+                          : report
+                          ? [
+                              <>
+                                {row.status !== "approved" &&
+                                  row.status !== "rejected" && (
+                                    <>
+                                      <MenuItem onClick={handleModify}>
+                                        Approve
+                                      </MenuItem>
+                                      <MenuItem onClick={handleAction}>
+                                        Reject
+                                      </MenuItem>
+                                    </>
+                                  )}
                               </>,
                             ]
                           : college

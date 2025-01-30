@@ -45,6 +45,7 @@ export const reportColumns = [
   { title: "Report By", field: "reportBy", padding: "none" },
   { title: "Report Type", field: "reportType" },
   { title: "Content", field: "content" },
+  { title: "Status", field: "status" },
 ];
 export const member = [
   { title: "Name", field: "fullName", padding: "none" },

@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
 import StyledTable from "../../ui/StyledTable";
-import { Box,  Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import { paymentColumns, reportColumns } from "../../assets/json/TableData";
 import { useListStore } from "../../store/listStore";
+import { useReportStore } from "../../store/reportStore";
+import ReportPreview from "./ReportPreview";
+import { toast } from "react-toastify";
 
 const ReportPage = () => {
   const { fetchReport } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [search, setSearch] = useState("");
-  const[row, setRow] = useState(10)
+  const [view, setView] = useState(false);
+  const [row, setRow] = useState(10);
+  const [isChange, setIsChange] = useState(false);
+  const { getReports, reports, updateReport } = useReportStore();
+
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
@@ -20,8 +27,19 @@ const ReportPage = () => {
       setPageNo(1);
     }
     fetchReport(filter);
-  }, [pageNo,search,row]);
-
+  }, [pageNo, search, row, isChange]);
+  const handleModify = async (id) => {
+    await getReports(id);
+    setView(true);
+  };
+  const handleReject = async (id) => {
+    try {
+      await updateReport(id, { status: "rejected" });
+      setIsChange(!isChange);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   return (
     <>
       <Stack
@@ -49,7 +67,10 @@ const ReportPage = () => {
           alignItems={"center"}
         >
           <Stack direction={"row"} spacing={2}>
-            <StyledSearchbar placeholder={"Search"} onchange={(e) => setSearch(e.target.value)} />
+            <StyledSearchbar
+              placeholder={"Search"}
+              onchange={(e) => setSearch(e.target.value)}
+            />
           </Stack>
         </Stack>
         <Box
@@ -60,13 +81,21 @@ const ReportPage = () => {
         >
           <StyledTable
             columns={reportColumns}
-            menu
+            report
             pageNo={pageNo}
             setPageNo={setPageNo}
             rowPerSize={row}
+            onModify={handleModify}
+            onAction={handleReject}
             setRowPerSize={setRow}
           />
         </Box>
+        <ReportPreview
+          open={view}
+          onClose={() => setView(false)}
+          data={reports}
+          onChange={() => setIsChange(!isChange)}
+        />
       </Box>
     </>
   );
