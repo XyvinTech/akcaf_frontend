@@ -15,6 +15,7 @@ import moment from "moment";
 import { StyledButton } from "../../ui/StyledButton";
 import { useReportStore } from "../../store/reportStore";
 import { toast } from "react-toastify";
+import image from "../../assets/images/image.png"
 const ReportPreview = ({ open, onClose, onChange, data }) => {
   const { updateReport } = useReportStore();
   const handleClear = (event) => {
@@ -83,6 +84,15 @@ const ReportPreview = ({ open, onClose, onChange, data }) => {
                       alignItems={"center"}
                       justifyContent={"center"}
                     >
+                         <img
+                        src={data?.content?.image || image}
+                        alt="profile"
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "50%",
+                        }}
+                      />
                       <Typography
                         variant="h4"
                         fontWeight={600}
@@ -169,6 +179,7 @@ const ReportPreview = ({ open, onClose, onChange, data }) => {
                   <Typography sx={{ width: "60%", textAlign: "left" }}>
                     Reported By:
                   </Typography>
+                 
                   <Typography
                     variant="h6"
                     sx={{ width: "40%", textAlign: "left" }}
@@ -225,7 +236,7 @@ const ReportPreview = ({ open, onClose, onChange, data }) => {
                     variant="h6"
                     sx={{ width: "40%", textAlign: "left" }}
                   >
-                    {data?.description || "-"}
+                    {data?.description || "N/P"}
                   </Typography>
                 </Stack>
               </Grid>
