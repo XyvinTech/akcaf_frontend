@@ -8,6 +8,7 @@ import { useDropDownStore } from "../../store/dropDownStore";
 import { useCollgeStore } from "../../store/collegestore";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddCourse from "./AddCourse";
+
 import { toast } from "react-toastify";
 
 const AddCollege = () => {
