@@ -72,19 +72,33 @@ const QRPage = () => {
   }, []);
   const handleSaveContact = async () => {
     try {
-      if (!userData || !userData.fullName || !userData.phone || !userData.email) {
-        throw new Error("Incomplete user data. Please provide fullName, phone, and email.");
+      if (
+        !userData ||
+        !userData.fullName ||
+        !userData.phone ||
+        !userData.email
+      ) {
+        throw new Error(
+          "Incomplete user data. Please provide fullName, phone, and email."
+        );
       }
-  
-      const vCardContent = `BEGIN:VCARD\r\nVERSION:3.0\r\nN:${userData.fullName.split(" ").reverse().join(";")}\r\nFN:${userData.fullName}\r\nTEL;TYPE=CELL:${userData.phone}\r\nEMAIL:${userData.email}\r\nEND:VCARD`;
-  
-      const blob = new Blob([vCardContent], { type: "text/vcard;charset=utf-8" });
-  
+
+      const vCardContent = `BEGIN:VCARD\r\nVERSION:3.0\r\nN:${userData.fullName
+        .split(" ")
+        .reverse()
+        .join(";")}\r\nFN:${userData.fullName}\r\nTEL;TYPE=CELL:${
+        userData.phone
+      }\r\nEMAIL:${userData.email}\r\nEND:VCARD`;
+
+      const blob = new Blob([vCardContent], {
+        type: "text/vcard;charset=utf-8",
+      });
+
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
       link.download = `${userData.fullName.replace(/ /g, "_")}.vcf`;
-  
+
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -93,8 +107,7 @@ const QRPage = () => {
       console.error("Error creating vCard:", error);
     }
   };
-  
-  
+
   const renderSocialIcon = (platform) => {
     switch (platform) {
       case "instagram":
@@ -196,6 +209,14 @@ const QRPage = () => {
                         mb={1}
                       >
                         {userData?.fullName}
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        color="textTertiary"
+                        mt={1}
+                        mb={1}
+                      >
+                        Emirates ID: {userData?.emiratesID}
                       </Typography>
                       {userData?.college?.collegeName && (
                         <>
@@ -465,11 +486,11 @@ const QRPage = () => {
                                   ml={1}
                                 >
                                   <a
-                                  href={
-                                    media?.link?.startsWith("http")
-                                      ? media.link
-                                      : `http://${media.link}`
-                                  }
+                                    href={
+                                      media?.link?.startsWith("http")
+                                        ? media.link
+                                        : `http://${media.link}`
+                                    }
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     style={{
