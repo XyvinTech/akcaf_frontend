@@ -163,18 +163,22 @@ export default function Promotionform({ isUpdate }) {
         formData.type = "notice";
         formData.title = data?.title;
         formData.description = data?.description;
-        formData.link = data?.link;
+        if (data?.link) {
+          formData.link = data?.link;
+        }
       } else if (type === "poster") {
         formData.type = "poster";
         formData.media = imageUrl;
-        formData.link = data?.link;
+        if (data?.link) {
+          formData.link = data?.link;
+        }
       }
       if (isUpdate && id) {
         await updatePromotion(id, formData);
       } else {
         await addPromotions(formData);
       }
-      navigate("/promotions");
+      navigate("/promotions", { state: { type: type } });
     } catch (error) {
       toast.error(error.message);
     } finally {
