@@ -28,7 +28,6 @@ const MemberPage = () => {
     designation: "",
     companyName: "",
     status: "",
-    subscription: "",
   });
   const handleApplyFilter = (newFilters) => {
     setFilters(newFilters);
@@ -41,9 +40,14 @@ const MemberPage = () => {
       setPageNo(1);
     }
     if (filters.status) filter.status = filters.status;
+    if (filters.name) filter.fullName = filters.name;
+    if (filters.membershipId) filter.memberId = filters.membershipId;
+    if (filters.designation) filter.designation = filters.designation;
+    if (filters.companyName) filter.companyName = filters.companyName;
     filter.limit = row;
     fetchMember(filter);
   }, [isChange, pageNo, search, row, filters]);
+console.log("filters",filters);
 
   const handleRowDelete = (id) => {
     setMemberId(id);

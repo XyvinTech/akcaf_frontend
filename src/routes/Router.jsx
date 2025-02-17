@@ -4,7 +4,6 @@ import DashboardPage from "../pages/Dashboard/DashboardPage";
 import MemberPage from "../pages/Members/MemberPage";
 import CollegePage from "../pages/Colleges/CollegePage";
 import GroupPage from "../pages/Groups/GroupPage";
-import EventsListPage from "../pages/Events/EventsListPage";
 import EventHistoryPage from "../pages/Events/EventHistoryPage";
 import ApprovalPage from "../pages/Approvals/ApprovalPage";
 import PromotionPage from "../pages/Promotions/PromotionPage";
@@ -33,6 +32,8 @@ import { PrivateRoute } from "./PrivateRouter";
 import ReportPage from "../pages/Reports/ReportPage";
 import BookingPage from "../pages/booking/BookingPage";
 import AddPaymentPage from "../pages/payments/AddPaymentPage";
+import Eventpage from "../components/Event/EventPage";
+import EventAdd from "../pages/Events/EventAddpage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -157,7 +158,7 @@ const router = createBrowserRouter([
     element: (
       <PrivateRoute>
         <Layout>
-          <EventsListPage />
+          <Eventpage/>
         </Layout>
       </PrivateRoute>
     ),
@@ -178,6 +179,16 @@ const router = createBrowserRouter([
       <PrivateRoute>
         <Layout>
           <EditEvent />
+        </Layout>
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/events/add",
+    element: (
+      <PrivateRoute>
+        <Layout>
+          <EventAdd />
         </Layout>
       </PrivateRoute>
     ),

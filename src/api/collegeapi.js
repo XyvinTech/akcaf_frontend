@@ -54,10 +54,11 @@ export const editCollege = async (id, data) => {
     throw error.response.data;
   }
 };
-export const getBatch = async (collegeId, courseId,filter) => {
+export const getBatch = async (collegeId, courseId, filter) => {
   try {
     const response = await axiosInstance.get(
-      `/college/${collegeId}/course/${courseId}`,{
+      `/college/${collegeId}/course/${courseId}`,
+      {
         params: filter,
       }
     );
@@ -66,10 +67,16 @@ export const getBatch = async (collegeId, courseId,filter) => {
     throw error;
   }
 };
-export const getMemberByBatch = async (collegeId, courseId, batchId,filter) => {
+export const getMemberByBatch = async (
+  collegeId,
+  courseId,
+  batchId,
+  filter
+) => {
   try {
     const response = await axiosInstance.get(
-      `/college/${collegeId}/course/${courseId}/batch/${batchId}`,{
+      `/college/${collegeId}/course/${courseId}/batch/${batchId}`,
+      {
         params: filter,
       }
     );
@@ -82,13 +89,18 @@ export const addCollegeBulk = async (data) => {
   try {
     // console.log(data);
 
-    const response = await axiosInstance.post(
-      "/college/bulk",
-      data
-    );
+    const response = await axiosInstance.post("/college/bulk", data);
     toast.success(response.data.message);
     return response.data;
   } catch (error) {
     throw error.response.data;
+  }
+};
+export const getRole = async (collegeId) => {
+  try {
+    const response = await axiosInstance.get(`/college/pst-check/${collegeId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
   }
 };

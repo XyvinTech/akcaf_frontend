@@ -11,6 +11,7 @@ import uploadFileToS3 from "../../utils/s3Upload";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMemberStore } from "../../store/Memberstore";
+import { getRole } from "../../api/collegeapi";
 
 const AddMember = () => {
   const {
@@ -27,11 +28,20 @@ const AddMember = () => {
   const { addMembers, fetchMemberById, member, updateMember, loading } =
     useMemberStore();
 
-  const [selectedCollege, setSelectedCollege] = useState(null); 
+  const [selectedCollege, setSelectedCollege] = useState(null);
   const [courseOptions, setCourseOptions] = useState([]);
   const [batchOptions, setBatchOptions] = useState([]);
   const [loadings, setLoadings] = useState(false);
   const [imageFile, setImageFile] = useState(null);
+  const defaultRoleOptions = [
+    { value: "president", label: "President" },
+    { value: "secretary", label: "Secretary" },
+    { value: "treasurer", label: "Treasurer" },
+    { value: "rep", label: "Rep" },
+    { value: "member", label: "Member" },
+  ];
+
+  const [roleOptions, setRoleOptions] = useState(defaultRoleOptions);
 
   useEffect(() => {
     fetchListofCollege();
@@ -75,7 +85,7 @@ const AddMember = () => {
           member?.batch ? { value: member?.batch, label: member?.batch } : ""
         );
       }
-      const selectedRole = roleOptions?.find(
+      const selectedRole = defaultRoleOptions?.find(
         (item) => item?.value === member?.role
       );
       setValue("role", selectedRole || "");
@@ -84,11 +94,30 @@ const AddMember = () => {
       );
       setValue("status", selectedStatus || "");
       console.log("status", selectedStatus);
-      
     }
   }, [member, isUpdate, setValue]);
 
-  const handleCollegeChange = (selectedCollegeId) => {
+  const handleCollegeChange = async (selectedCollegeId) => {
+    try {
+      const res = await getRole(selectedCollegeId.value);
+
+      const roleData = res?.data;
+
+      if (roleData?.length > 0) {
+        // Extract unique roles from API response
+        const excludedRoles = [...new Set(roleData.map((item) => item.role))];
+
+        // Filter out the excluded roles from roleOptions
+        const filteredRoles = defaultRoleOptions.filter(
+          (role) => !excludedRoles.includes(role.value)
+        );
+
+        setRoleOptions(filteredRoles);
+      }
+    } catch (error) {
+      console.error("Error fetching role data:", error);
+    }
+
     const selectedCollege = college?.find(
       (item) => item?._id === selectedCollegeId?.value
     );
@@ -107,14 +136,7 @@ const AddMember = () => {
       setValue("batch", "");
     }
   };
-
-  const roleOptions = [
-    { value: "president", label: "President" },
-    { value: "secretary", label: "Secretary" },
-    { value: "treasurer", label: "Treasurer" },
-    { value: "rep", label: "Rep" },
-    { value: "member", label: "Member" },
-  ];
+  console.log("roleOptions", roleOptions);
 
   const statusOptions = [
     { value: "active", label: "Active" },

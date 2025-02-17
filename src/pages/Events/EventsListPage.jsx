@@ -2,6 +2,7 @@ import { Box, Grid, Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
 import EventList from "../../components/Event/EventList";
 import AddEvent from "../../components/Event/AddEvent";
+import EventPage from "../../components/Event/EventPage";
 
 const EventListpage = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -46,7 +47,8 @@ const EventListpage = () => {
       <Box padding="15px" marginBottom={4}>
         {selectedTab === 0 && (
           <Grid spacing={2}>
-            <EventList />
+            {/* <EventList /> */}
+            <EventPage/>
           </Grid>
         )}
         {selectedTab === 1 && (

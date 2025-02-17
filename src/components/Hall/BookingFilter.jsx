@@ -13,64 +13,40 @@ import StyledInput from "../../ui/StyledInput";
 import { useMemberStore } from "../../store/Memberstore";
 import StyledSelectField from "../../ui/StyledSelectField";
 
-const MemberFilter = ({ open, onClose, onApply }) => {
-  const { memberStatus, memberSub,setMemStatus} = useMemberStore();
-  const [membershipId, setMembershipId] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [companyName, setCompanyName] = useState("");
+const BookingFilter = ({ open, onClose, onApply }) => {
+  const [userName, setUserName] = useState("");
+  const [eventName, setEventName] = useState("");
   const [status, setStatus] = useState(null);
-  const [subscription, setSubscription] = useState(null);
-  const [name, setName] = useState("");
+  const [hall, setHall] = useState("");
 
   const handleClear = (event) => {
     event.preventDefault();
-    setName("");
-    setMembershipId("");
-    setDesignation("");
-    setCompanyName("");
-    setMemStatus("");
+    setHall("");
+    setEventName("");
+    setUserName("");
     setStatus(null);
-    setSubscription(null);
     onApply({
-      name: "",
-      membershipId: "",
-      designation: "",
+      hall: "",
+      eventName: "",
+      userName: "",
       status: "",
-      subscription: "",
-      companyName: "",
-
     });
     onClose();
   };
 
-  const handleApply = (appliedStatus = status, appliedSub = subscription) => {
+  const handleApply = () => {
     onApply({
-      name,
-      membershipId,
-      designation,
-      companyName,
-      status: appliedStatus?.value || status?.value || "",
-      subscription: appliedSub?.value || subscription?.value || "",
-     
+      hall,
+      eventName,
+      userName,
+      status: status?.value || "",
     });
     onClose();
   };
-  useEffect(() => {
-    if (memberStatus) {
-      const newStatus = { value: memberStatus, label: memberStatus };
-      setStatus(newStatus);
-      handleApply(newStatus, subscription);
-    }
-    if (memberSub) {
-      const newStatus = { value: memberSub, label: memberSub };
-      setSubscription(newStatus);
-      handleApply(status, newStatus);
-    }
-  }, [memberStatus, memberSub]);
+
   const handleStatusChange = (selectedOption) => {
     setStatus(selectedOption);
   };
-// console.log("memberStatus",memberStatus);
 
   return (
     <Dialog
@@ -90,7 +66,7 @@ const MemberFilter = ({ open, onClose, onApply }) => {
       <DialogTitle sx={{ height: "auto", padding: 3 }}>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h3" color={"#4F4F4F"}>
-            Filter 
+            Filter
           </Typography>
           <Typography
             onClick={onClose}
@@ -103,29 +79,24 @@ const MemberFilter = ({ open, onClose, onApply }) => {
       </DialogTitle>
       <DialogContent sx={{ padding: 0 }}>
         <Stack spacing={2} padding={2} mb={12}>
-          <Typography>Name</Typography>
+          <Typography>Hall</Typography>
           <StyledInput
-            placeholder={"Enter Member Name"}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            placeholder={"Enter hall Name"}
+            value={hall}
+            onChange={(e) => setHall(e.target.value)}
           />
-          <Typography>Membership Id</Typography>
+          <Typography>User Name</Typography>
           <StyledInput
-            placeholder={"Enter Membership Id"}
-            value={membershipId}
-            onChange={(e) => setMembershipId(e.target.value)}
+            placeholder={"Enter User Name"}
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
           />
-          {/* <Typography>Designation</Typography>
+
+          <Typography>Event Name</Typography>
           <StyledInput
-            placeholder={"Enter Designation"}
-            value={designation}
-            onChange={(e) => setDesignation(e.target.value)}
-          /> */}
-          <Typography>Company Name</Typography>
-          <StyledInput
-            placeholder={"Enter Company Name"}
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
+            placeholder={"Enter Event Name"}
+            value={eventName}
+            onChange={(e) => setEventName(e.target.value)}
           />
           <Typography>Status</Typography>
           <StyledSelectField
@@ -140,7 +111,6 @@ const MemberFilter = ({ open, onClose, onApply }) => {
             value={status}
             onChange={handleStatusChange}
           />
-          
         </Stack>
       </DialogContent>
       <Stack direction={"row"} spacing={2} padding={2} justifyContent={"end"}>
@@ -151,4 +121,4 @@ const MemberFilter = ({ open, onClose, onApply }) => {
   );
 };
 
-export default MemberFilter;
+export default BookingFilter;
