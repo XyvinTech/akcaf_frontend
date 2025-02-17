@@ -12,6 +12,7 @@ import { getMember } from "../api/memberapi";
 import { getGroup, getGroupById } from "../api/groupapi";
 import { getReport } from "../api/reportapi";
 import { getBookings } from "../api/hallBooking";
+import { getNotification } from "../api/notificationapi";
 
 const useListStore = create((set, get) => ({
   lists: [],
@@ -66,6 +67,13 @@ const useListStore = create((set, get) => ({
   fetchFeedByUser: async (id, filter) => {
     set({ loading: true });
     const allData = await getFeedByUser(id, filter);
+    set({ lists: allData?.data || [] });
+    set({ totalCount: allData?.totalCount || 0 });
+    set({ loading: false });
+  },
+  fetchNotification: async () => {
+    set({ loading: true });
+    const allData = await getNotification();
     set({ lists: allData?.data || [] });
     set({ totalCount: allData?.totalCount || 0 });
     set({ loading: false });
