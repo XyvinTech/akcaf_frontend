@@ -65,8 +65,8 @@ const AddMember = () => {
       const selectedColleges = collegeList?.find(
         (item) => item?.value === member?.college?._id
       );
-      setValue("college", selectedColleges || "");
-      // console.log("selected College",selectedCollege);
+      setValue("college", selectedColleges || {valud:member?.college?._id,label:member?.college?.collegeName});
+      console.log("selected College",selectedCollege);
       setSelectedCollege(selectedColleges);
       setValue("fullName", member?.fullName || "");
       setValue("email", member?.email || "");
