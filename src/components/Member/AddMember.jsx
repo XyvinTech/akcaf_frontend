@@ -80,9 +80,10 @@ const AddMember = () => {
             ? { value: member?.course?._id, label: member?.course?.courseName }
             : ""
         );
+
         setValue(
           "batch",
-          member?.batch ? { value: member?.batch, label: member?.batch } : ""
+          member?.batch ? { value: member?.batch, label: member?.batch } : {value: "8", label: "8"}
         );
       }
       const selectedRole = defaultRoleOptions?.find(
@@ -93,7 +94,6 @@ const AddMember = () => {
         (item) => item?.value === member?.status
       );
       setValue("status", selectedStatus || "");
-      console.log("status", selectedStatus);
     }
   }, [member, isUpdate, setValue]);
 
@@ -131,12 +131,13 @@ const AddMember = () => {
         value: batch,
         label: batch,
       }));
+
       setBatchOptions(updatedBatches);
+
       setValue("course", "");
-      setValue("batch", "");
+      // setValue("batch", "");
     }
   };
-  console.log("roleOptions", roleOptions);
 
   const statusOptions = [
     { value: "active", label: "Active" },

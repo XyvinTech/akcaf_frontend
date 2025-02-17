@@ -15,7 +15,6 @@ const NotificationView = ({ open, onClose, data }) => {
     event.preventDefault();
     onClose();
   };
-  console.log("data", data);
 
   return (
     <Dialog

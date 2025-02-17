@@ -47,7 +47,7 @@ const MemberPage = () => {
     filter.limit = row;
     fetchMember(filter);
   }, [isChange, pageNo, search, row, filters]);
-console.log("filters",filters);
+
 
   const handleRowDelete = (id) => {
     setMemberId(id);

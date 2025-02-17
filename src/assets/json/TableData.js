@@ -104,8 +104,8 @@ export const roleColumns = [
 ];
 export const eventList = [
   { title: "Event name", field: "eventName", padding: "none" },
-  { title: "Date", field: "startDate" },
-  { title: "Time", field: "startTime" },
+  { title: "Start Date", field: "startDate" },
+  { title: "End Date", field: "endDate" },
   { title: "Organiser name", field: "organiserName" },
   { title: "Status", field: "status" },
   { title: "Type", field: "type" },
