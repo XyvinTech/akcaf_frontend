@@ -65,6 +65,7 @@ const AddMember = () => {
         (item) => item?.value === member?.college?._id
       );
       setValue("college", selectedColleges || "");
+      // console.log("selected College",selectedCollege);
       setSelectedCollege(selectedColleges);
       setValue("fullName", member?.fullName || "");
       setValue("email", member?.email || "");
@@ -80,7 +81,6 @@ const AddMember = () => {
             ? { value: member?.course?._id, label: member?.course?.courseName }
             : ""
         );
-
         setValue(
           "batch",
           member?.batch ? { value: member?.batch, label: member?.batch } : {value: "8", label: "8"}
