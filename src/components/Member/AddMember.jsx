@@ -59,6 +59,48 @@ const AddMember = () => {
           label: item.collegeName,
         }))
       : [id];
+ 
+  useEffect(() => {
+    if (isUpdate && member) {
+      const selectedColleges = collegeList?.find(
+        (item) => item?.value === member?.college?._id
+      );
+      setValue("college", selectedColleges || "");
+      // console.log("selected College",selectedCollege);
+      setSelectedCollege(selectedColleges);
+      setValue("fullName", member?.fullName || "");
+      setValue("email", member?.email || "");
+      setValue("phone", member?.phone || "");
+      setValue("bio", member?.bio || "");
+      setValue("image", member?.image || "");
+      setValue("emiratesID", member?.emiratesID || "");
+      if (selectedCollege) {
+        handleCollegeChange(selectedCollege);
+        // setValue(
+        //   "course",
+        //   member?.course
+        //     ? { value: member?.course?._id, label: member?.course?.courseName }
+        //     : ""
+        // );
+        setValue(
+          "batch",
+          member?.batch ? { value: member?.batch, label: member?.batch } : ""
+        );
+      }
+      setValue(
+        "batch",
+        member?.batch ? { value: member?.batch, label: member?.batch } : ""
+      );
+      const selectedRole = defaultRoleOptions?.find(
+        (item) => item?.value === member?.role
+      );
+      setValue("role", selectedRole || "");
+      const selectedStatus = statusOptions?.find(
+        (item) => item?.value === member?.status
+      );
+      setValue("status", selectedStatus || "");
+    }
+  }, [member, isUpdate, setValue]);
   const handleCollegeChange = async (selectedCollegeId) => {
     try {
       const res = await getRole(selectedCollegeId.value);
@@ -102,48 +144,6 @@ const AddMember = () => {
       // setValue("batch", "");
     }
   };
-  useEffect(() => {
-    if (isUpdate && member) {
-      const selectedColleges = collegeList?.find(
-        (item) => item?.value === member?.college?._id
-      );
-      setValue("college", selectedColleges || "");
-      // console.log("selected College",selectedCollege);
-      setSelectedCollege(selectedColleges);
-      setValue("fullName", member?.fullName || "");
-      setValue("email", member?.email || "");
-      setValue("phone", member?.phone || "");
-      setValue("bio", member?.bio || "");
-      setValue("image", member?.image || "");
-      setValue("emiratesID", member?.emiratesID || "");
-      if (selectedCollege) {
-        handleCollegeChange(selectedCollege);
-        // setValue(
-        //   "course",
-        //   member?.course
-        //     ? { value: member?.course?._id, label: member?.course?.courseName }
-        //     : ""
-        // );
-        setValue(
-          "batch",
-          member?.batch ? { value: member?.batch, label: member?.batch } : ""
-        );
-      }
-      setValue(
-        "batch",
-        member?.batch ? { value: member?.batch, label: member?.batch } : ""
-      );
-      const selectedRole = defaultRoleOptions?.find(
-        (item) => item?.value === member?.role
-      );
-      setValue("role", selectedRole || "");
-      const selectedStatus = statusOptions?.find(
-        (item) => item?.value === member?.status
-      );
-      setValue("status", selectedStatus || "");
-    }
-  }, [member, isUpdate, setValue]);
-
   const statusOptions = [
     { value: "active", label: "Active" },
     { value: "inactive", label: "Inactive" },
