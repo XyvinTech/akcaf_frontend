@@ -6,9 +6,8 @@ import { useNotificationStore } from "../../store/notificationStore";
 import NotificationView from "./NotificationView";
 
 const NotificationLogs = () => {
-  const { fetchNotification } =
-    useListStore();
-    const{ fetchNotificationById, notification } = useNotificationStore();
+  const { fetchNotification } = useListStore();
+  const { fetchNotificationById, notification } = useNotificationStore();
   const [pageNo, setPageNo] = useState(1);
   const [open, setOpen] = useState(false);
   const [row, setRow] = useState(10);
@@ -26,7 +25,7 @@ const NotificationLogs = () => {
   ];
   const handleView = async (id) => {
     try {
-      setOpen(true)
+      setOpen(true);
       await fetchNotificationById(id);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -58,10 +57,10 @@ const NotificationLogs = () => {
           />
         </Box>
         <NotificationView
-        data={notification}
-        onClose={() => setOpen(false)}
-        open={open}
-      />
+          data={notification}
+          onClose={() => setOpen(false)}
+          open={open}
+        />
       </Box>
     </>
   );

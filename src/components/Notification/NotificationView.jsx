@@ -62,10 +62,10 @@ const NotificationView = ({ open, onClose, data }) => {
               <Typography variant="h6" fontWeight="bold">
                 Users:
               </Typography>
-              {data.users.map((userObj) => (
-                <Box key={userObj._id} display="flex" alignItems="center">
+              {data?.users?.map((userObj) => (
+                <Box key={userObj?._id} display="flex" alignItems="center">
                   <Typography variant="body1">
-                    {userObj.user.fullName} {userObj.read ? "(Read)" : "(Unread)"}
+                    {userObj?.user?.fullName} {userObj?.read ? "(Read)" : "(Unread)"}
                   </Typography>
                 </Box>
               ))}
