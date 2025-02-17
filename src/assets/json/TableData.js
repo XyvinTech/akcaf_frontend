@@ -9,6 +9,7 @@ export const hallColumns = [
   { title: "Hall", field: "hall", padding: "none" },
   { title: "User", field: "userName", padding: "none" },
   { title: "Date", field: "date" },
+  { title: "Time", field: "time" },
   { title: "Event Name", field: "eventName" },
   { title: "Description", field: "description" },
   { title: "Status", field: "status" },

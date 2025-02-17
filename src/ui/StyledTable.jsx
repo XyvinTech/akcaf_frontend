@@ -298,13 +298,14 @@ const StyledTable = ({
                         "endDate",
                       ].includes(column.field) ? (
                         formatIndianDate(row[column.field])
-                      ) : [
-                          "startTime",
-                          "endtime",
-                          "time",
-                          "updatedAt",
-                        ].includes(column.field) ? (
+                      ) : ["startTime", "endtime", "updatedAt"].includes(
+                          column.field
+                        ) ? (
                         formatTime(row[column.field])
+                      ) : column.field === "time" &&
+                        row[column.field]?.start &&
+                        row[column.field]?.end ? (
+                        `${row[column.field].start} - ${row[column.field].end}`
                       ) : [
                           "banner_image_url",
                           "image",
@@ -312,13 +313,11 @@ const StyledTable = ({
                           "speaker_image",
                           "media",
                         ].includes(column.field) ? (
-                        <>
-                          <img
-                            src={row[column.field]}
-                            alt={column.title}
-                            style={{ width: "50px", height: "50px" }}
-                          />{" "}
-                        </>
+                        <img
+                          src={row[column.field]}
+                          alt={column.title}
+                          style={{ width: "50px", height: "50px" }}
+                        />
                       ) : column.field === "status" ||
                         column.field === "activate" ? (
                         <Box
