@@ -20,3 +20,12 @@ export const createPayment = async (data) => {
     throw error.response.data;
   }
 };
+export const deletePayment= async (id) => {
+  try {
+    const response = await axiosInstance.delete(`/payment/${id}`);
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
