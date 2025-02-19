@@ -86,7 +86,7 @@ export default function AppSubscriptionCard() {
           </Typography>
           {subscription?.amount && (
             <Typography variant="h6" color="#2C2829">
-              ₹{subscription?.amount}
+             {subscription?.currency==="AED"?"AED ":"₹"}{subscription?.amount}
             </Typography>
           )}
         </Stack>
