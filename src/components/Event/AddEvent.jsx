@@ -105,7 +105,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
     if (isUpdate) {
       navigate("/events/list");
     }
-    setSelectedTab(0);
+    // setSelectedTab(0);
 
     reset();
   };
