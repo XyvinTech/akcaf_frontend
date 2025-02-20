@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { useRoleStore } from "../../store/roleStore";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import StyledSelectField from "../../ui/StyledSelectField";
 
 const CircleButton = styled.span`
   display: inline-block;
@@ -66,12 +67,18 @@ const AddRole = () => {
     setPermissions([]);
     navigate(-1)
   };
+  const statusOptions = [
+    { value: "active", label: "Active" },
+    { value: "inactive", label: "Inactive" },
+  ];
   const onSubmit = async (data) => {
     try {
       setLoading(true);
       const roleData = {
-        ...data,
+        roleName: data?.roleName,
+        description: data?.description,
         permissions,
+        status: data?.status?.value === "inactive" ? false : true,
       };
       if (isUpdate) {
         await updateRole(roleId, roleData);
@@ -98,6 +105,10 @@ const AddRole = () => {
       setValue("roleName", singleRole.roleName);
       setPermissions(singleRole.permissions);
       setValue("description", singleRole.description);
+      const selectedStatus = statusOptions.find(
+        (status) => status.value === (singleRole.status ? "active" : "inactive")
+      );
+      setValue("status", selectedStatus);
     }
   }, [singleRole, isUpdate, setValue]);
 
@@ -246,7 +257,30 @@ const AddRole = () => {
             </Grid>
           </Grid>
 
-          {/* Buttons */}
+          <Grid item xs={6}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              color="textSecondary"
+            >
+              Status
+            </Typography>
+            <Controller
+              name="status"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <>
+                  <StyledSelectField
+                    placeholder="Choose the status"
+                    options={statusOptions}
+                    {...field}
+                  />
+                </>
+              )}
+            />
+          </Grid>
+          <Grid item xs={6}></Grid>
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>

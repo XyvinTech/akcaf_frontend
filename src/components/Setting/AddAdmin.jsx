@@ -24,7 +24,10 @@ const AddAdmin = () => {
   const { addAdmins, fetchSingleAdmin, single, updateAdmin } = useAdminStore();
   const location = useLocation();
   const { adminId, isUpdate } = location.state || {};
-
+  const statusOptions = [
+    { value: "active", label: "Active" },
+    { value: "inactive", label: "Inactive" },
+  ];
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -34,6 +37,7 @@ const AddAdmin = () => {
         college: data?.college.value,
         role: data?.role.value,
         phone: data?.phone,
+        status: data?.status?.value === "inactive" ? false : true,
       };
       if (isUpdate) {
         await updateAdmin(adminId, formData);
@@ -80,6 +84,10 @@ const AddAdmin = () => {
       const selectedCollege = collegeList.find(
         (college) => college.value === single?.college
       );
+      const selectedStatus = statusOptions.find(
+        (status) => status.value === (single.status ? "active" : "inactive")
+      );
+      setValue("status", selectedStatus);
       setValue("college", selectedCollege);
       setValue("role", selectedRole);
       setValue("email", single.email);
@@ -225,6 +233,31 @@ const AddAdmin = () => {
               )}
             />
           </Grid>
+          <Grid item xs={6}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              color="textSecondary"
+            >
+              Status
+            </Typography>
+            <Controller
+              name="status"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <>
+                  <StyledSelectField
+                    placeholder="Choose the status"
+                    options={statusOptions}
+                    {...field}
+                  />
+                </>
+              )}
+            />
+          </Grid>
+          <Grid item xs={6}></Grid>
+
           <Grid item xs={6}></Grid>
           <Grid item xs={6}>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
