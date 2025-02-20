@@ -40,9 +40,11 @@ const DashboardPage = () => {
   };
   const totalRevenue = {
     title: "Total Revenue",
-    value: `AED ${dashboardData?.totalRevenue ? dashboardData?.totalRevenue : 0}`,
+    value: `AED ${
+      dashboardData?.totalRevenue ? dashboardData?.totalRevenue : 0
+    }`,
   };
-  
+
   const activeUsers = {
     title: "Active",
     value: dashboardData?.activeUsers ? dashboardData?.activeUsers : 0,
@@ -98,18 +100,20 @@ const DashboardPage = () => {
       <Grid container padding={"15px"} paddingTop={3} spacing={4}>
         <Grid item xs={6}>
           <Stack spacing={2} direction={"row"}>
-          <Box
-              width={"100%"}
-              sx={{ cursor: "pointer" }}
-              onClick={() =>navigate("/members")}
-            >
-            <DashboardCard data={totalMembers} color={"#E30613"} /></Box>
             <Box
               width={"100%"}
               sx={{ cursor: "pointer" }}
-              onClick={() =>navigate("/colleges")}
+              onClick={() => navigate("/members")}
             >
-            <DashboardCard data={totalColleges} color={"#006591"} /></Box>
+              <DashboardCard data={totalMembers} color={"#E30613"} />
+            </Box>
+            <Box
+              width={"100%"}
+              sx={{ cursor: "pointer" }}
+              onClick={() => navigate("/colleges")}
+            >
+              <DashboardCard data={totalColleges} color={"#006591"} />
+            </Box>
           </Stack>
         </Grid>
         <Grid item xs={6}>
@@ -148,59 +152,69 @@ const DashboardPage = () => {
               sx={{ cursor: "pointer" }}
               onClick={() => fetchUser("inactive")}
             >
-            <DashboardCard data={inactiveUsers} color={"#FFCC00"} /></Box>
+              <DashboardCard data={inactiveUsers} color={"#FFCC00"} />
+            </Box>
             <Box
               width={"100%"}
               sx={{ cursor: "pointer" }}
               onClick={() => fetchUser("suspended")}
             >
-            <DashboardCard data={suspendedUsers} color={"#FF9500"} /></Box>
+              <DashboardCard data={suspendedUsers} color={"#FF9500"} />
+            </Box>
           </Stack>
         </Grid>
         <Grid item xs={6}>
           <Stack spacing={2} direction={"row"}>
-          <Box
-              width={"100%"}
-              sx={{ cursor: "pointer" }}
-              onClick={() =>navigate("/events/list")}
-            >
-            <DashboardCard data={events} /></Box>
             <Box
               width={"100%"}
               sx={{ cursor: "pointer" }}
-              onClick={() =>navigate("/news")}
+              onClick={() => navigate("/events/list")}
             >
-            <DashboardCard data={news} /></Box>
+              <DashboardCard data={events} />
+            </Box>
+            <Box
+              width={"100%"}
+              sx={{ cursor: "pointer" }}
+              onClick={() => navigate("/news")}
+            >
+              <DashboardCard data={news} />
+            </Box>
           </Stack>
         </Grid>
         <Grid item xs={6}>
           <Stack spacing={2} direction={"row"}>
-          <Box
+            <Box
               width={"100%"}
               sx={{ cursor: "pointer" }}
               onClick={() => fetchUser("deleted")}
             >
-            <DashboardCard data={deleted} color={"#E30613"} /></Box>
+              <DashboardCard data={deleted} color={"#E30613"} />
+            </Box>
             <Box
               width={"100%"}
               sx={{ cursor: "pointer" }}
               onClick={() => fetchUser("awaiting_payment")}
             >
-            <DashboardCard data={awaiting} color={"#FF9500"} /></Box>
+              <DashboardCard data={awaiting} color={"#FF9500"} />
+            </Box>
           </Stack>
         </Grid>
         <Grid item xs={6}>
           <Stack spacing={2} direction={"row"}>
-          <Box
+            <Box
+              sx={{ cursor: "pointer" }}
               width={"100%"}
+              onClick={() => navigate("/approvals")}
             >
-            <DashboardCard data={notifications} /></Box>
+              <DashboardCard data={notifications} />
+            </Box>
             <Box
               width={"100%"}
               sx={{ cursor: "pointer" }}
-              onClick={() =>navigate("/promotions")}
+              onClick={() => navigate("/promotions")}
             >
-            <DashboardCard data={payments} /></Box>
+              <DashboardCard data={payments} />
+            </Box>
           </Stack>
         </Grid>
       </Grid>

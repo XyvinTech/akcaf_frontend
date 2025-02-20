@@ -59,14 +59,20 @@ const AddMember = () => {
           label: item.collegeName,
         }))
       : [id];
- 
+
   useEffect(() => {
     if (isUpdate && member) {
       const selectedColleges = collegeList?.find(
         (item) => item?.value === member?.college?._id
       );
-      setValue("college", selectedColleges || {valud:member?.college?._id,label:member?.college?.collegeName});
-      console.log("selected College",selectedCollege);
+      setValue(
+        "college",
+        selectedColleges || {
+          valud: member?.college?._id,
+          label: member?.college?.collegeName,
+        }
+      );
+      console.log("selected College", selectedCollege);
       setSelectedCollege(selectedColleges);
       setValue("fullName", member?.fullName || "");
       setValue("email", member?.email || "");
@@ -127,7 +133,7 @@ const AddMember = () => {
     );
     if (selectedCollege) {
       // console.log("here is selected college", selectedCollege);
-      
+
       // const updatedCourses = selectedCollege?.course?.map((course) => ({
       //   value: course?._id,
       //   label: course?.courseName,
@@ -182,7 +188,7 @@ const AddMember = () => {
         fullName: data?.fullName,
         emiratesID: data?.emiratesID,
         email: data?.email,
-        phone: data?.phone,
+        phone: data?.phone?.startsWith("+") ? data.phone : `+${data.phone}`,
         college: data?.college.value,
         // course: data?.course.value,
         batch: data?.batch.value,
@@ -452,6 +458,7 @@ const AddMember = () => {
                     <>
                       <StyledInput
                         placeholder="Enter the phone number"
+                        type={"mobile"}
                         {...field}
                       />
                       {errors.phone && (

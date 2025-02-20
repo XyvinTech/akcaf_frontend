@@ -8,6 +8,7 @@ import { StyledCalender } from "../../ui/StyledCalender";
 import { usePaymentStore } from "../../store/paymentstore";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import StyledInput from "../../ui/StyledInput";
 
 const AddPaymentPage = () => {
   const {
@@ -36,6 +37,7 @@ const AddPaymentPage = () => {
     const formData = {
       user: data?.user?.value,
       expiryDate: data?.expiryDate,
+      amount:data?.amount
     };
     try {
       setLoadings(true);
@@ -127,6 +129,25 @@ const AddPaymentPage = () => {
                             {errors.expiryDate.message}
                           </span>
                         )}
+                      </>
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography
+                    sx={{ marginBottom: 1 }}
+                    variant="h6"
+                    color="textSecondary"
+                  >
+                    Amount
+                  </Typography>
+                  <Controller
+                    name="amount"
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => (
+                      <>
+                        <StyledInput {...field} placeholder={"Enter Amount"} />
                       </>
                     )}
                   />
