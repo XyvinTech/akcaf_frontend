@@ -145,7 +145,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
         title: data.title,
         media: imageUrl ? imageUrl : "",
         content: data.content,
-        pdf: pdfUrl ? pdfUrl : "",
+        ...(pdfUrl && { pdf: pdfUrl }),
       };
       if (isUpdate && id) {
         await updateNews(id, formData);
@@ -264,20 +264,16 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               name="pdf"
               control={control}
               defaultValue=""
-              rules={{ required: "File is required" }}
               render={({ field: { onChange, value } }) => (
                 <>
                   <StyledCropImage
                     label="Upload PDF here"
                     onChange={(selectedFile) => {
                       handlePDFChange(selectedFile);
-                      onChange(selectedFile); // Pass file to react-hook-form
+                      onChange(selectedFile);
                     }}
                     value={value}
                   />
-                  {errors.pdf && (
-                    <span style={{ color: "red" }}>{errors.pdf.message}</span>
-                  )}
                 </>
               )}
             />
@@ -386,12 +382,12 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
           {pdfPreview ? (
             <Box sx={{ mt: 1 }}>
               <embed
-              src={pdfPreview}
-              type="application/pdf"
-              width="100%"
-              height="500px"
-              style={{ borderRadius: "8px", border: "1px solid #ccc" }}
-            />
+                src={pdfPreview}
+                type="application/pdf"
+                width="100%"
+                height="500px"
+                style={{ borderRadius: "8px", border: "1px solid #ccc" }}
+              />
               ;
             </Box>
           ) : (

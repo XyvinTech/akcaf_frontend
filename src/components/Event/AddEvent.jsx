@@ -205,6 +205,8 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
   };
 
   const addSpeaker = () => {
+    console.log("here");
+
     setSpeakers([
       ...speakers,
       {
@@ -591,15 +593,24 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   >
                     Add Speakers
                   </Typography>
-                  <Typography
-                    sx={{ marginBottom: 1 }}
-                    variant="h6"
-                    fontWeight={500}
-                    color={"#004797"}
+                  <Box
+                    sx={{
+                      width: "100px",
+                      height: "40px",
+                      display: "inline-block", // Ensures the element has proper width
+                      marginBottom: 1,
+                      cursor: "pointer",
+                      fontWeight: 500,
+                      fontSize: "16px", 
+                      color: "#004797",
+                      "&:hover": {
+                        textDecoration: "underline", 
+                      },
+                    }}
                     onClick={addSpeaker}
                   >
                     + Add more
-                  </Typography>
+                  </Box>
                 </Stack>
                 {speakers.map((speaker, index) => (
                   <Grid container spacing={4} key={index}>
