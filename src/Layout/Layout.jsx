@@ -51,7 +51,7 @@ const subNavigation = [
   { name: "Dashboard", to: "/dashboard", icon: <GridViewOutlined /> },
   { name: "Members", to: "/members", icon: <PeopleAltOutlinedIcon /> },
   { name: "Colleges", to: "/colleges", icon: <SchoolOutlinedIcon /> },
-  // { name: "Groups", to: "/groups", icon: <GroupsOutlinedIcon /> },
+  { name: "Groups", to: "/groups", icon: <GroupsOutlinedIcon /> },
   {
     name: "Events",
     icon: <EventNoteOutlinedIcon />,
