@@ -148,7 +148,11 @@ const MemberProfile = ({ data, loading }) => {
                       ml={1}
                     >
                       <a
-                        href={website?.link}
+                        href={
+                          website?.link?.startsWith("http")
+                            ? website.link
+                            : `https://${website.link}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -168,7 +172,7 @@ const MemberProfile = ({ data, loading }) => {
             </Grid>
           )}
           {data?.videos?.map((videoItem, index) => (
-            <Grid item md={4} xs={12} key={index}>
+            <Grid item md={6} xs={12} key={index} spacing={2}>
               <VideoCard url={videoItem.link} />
             </Grid>
           ))}
@@ -180,7 +184,7 @@ const MemberProfile = ({ data, loading }) => {
                 </Typography>
               </Grid>
               {data?.certificates?.map((certificate, index) => (
-                <Grid item md={4} xs={12} key={index}>
+                <Grid item md={6} xs={12} key={index}>
                   <CertificateBox certificate={certificate} />
                 </Grid>
               ))}
