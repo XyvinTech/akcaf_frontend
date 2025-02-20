@@ -21,8 +21,8 @@ const MemberProfile = ({ data, loading }) => {
         return <TwitterIcon />;
       case "linkedin":
         return <LinkedInIcon />;
-        case "facebook":
-          return <FacebookIcon />;
+      case "facebook":
+        return <FacebookIcon />;
       default:
         return null;
     }
@@ -31,45 +31,45 @@ const MemberProfile = ({ data, loading }) => {
   return (
     <>
       {loading ? (
-       <>
-       <Grid container spacing={2}>
-         {/* Video Section */}
-         <Grid item md={12}>
-           <Typography variant="h5" color="textTertiary" mt={1}>
-             video
-           </Typography>
-         </Grid>
-         {[...Array(3)].map((_, index) => (
-           <Grid item md={4} xs={12} key={index}>
-             <Skeleton variant="rectangular" width="100%" height={200} />
-           </Grid>
-         ))}
- 
-         {/* Certificates Section */}
-         <Grid item md={12}>
-           <Typography variant="h5" color="textTertiary" mt={1}>
-             Certificates
-           </Typography>
-         </Grid>
-         {[...Array(2)].map((_, index) => (
-           <Grid item md={6} xs={12} key={index}>
-             <Skeleton variant="rectangular" width="100%" height={150} />
-           </Grid>
-         ))}
- 
-         {/* Awards Section */}
-         <Grid item md={12}>
-           <Typography variant="h5" color="textTertiary" mt={1}>
-             Awards
-           </Typography>
-         </Grid>
-         {[...Array(2)].map((_, index) => (
-           <Grid item md={6} xs={12} key={index}>
-             <Skeleton variant="rectangular" width="100%" height={150} />
-           </Grid>
-         ))}
-       </Grid>
-     </>
+        <>
+          <Grid container spacing={2}>
+            {/* Video Section */}
+            <Grid item md={12}>
+              <Typography variant="h5" color="textTertiary" mt={1}>
+                video
+              </Typography>
+            </Grid>
+            {[...Array(3)].map((_, index) => (
+              <Grid item md={4} xs={12} key={index}>
+                <Skeleton variant="rectangular" width="100%" height={200} />
+              </Grid>
+            ))}
+
+            {/* Certificates Section */}
+            <Grid item md={12}>
+              <Typography variant="h5" color="textTertiary" mt={1}>
+                Certificates
+              </Typography>
+            </Grid>
+            {[...Array(2)].map((_, index) => (
+              <Grid item md={6} xs={12} key={index}>
+                <Skeleton variant="rectangular" width="100%" height={150} />
+              </Grid>
+            ))}
+
+            {/* Awards Section */}
+            <Grid item md={12}>
+              <Typography variant="h5" color="textTertiary" mt={1}>
+                Awards
+              </Typography>
+            </Grid>
+            {[...Array(2)].map((_, index) => (
+              <Grid item md={6} xs={12} key={index}>
+                <Skeleton variant="rectangular" width="100%" height={150} />
+              </Grid>
+            ))}
+          </Grid>
+        </>
       ) : (
         <Grid container spacing={4} padding={2}>
           <Grid item md={7}>
@@ -106,7 +106,11 @@ const MemberProfile = ({ data, loading }) => {
                       ml={1}
                     >
                       <a
-                        href={media?.link}
+                        href={
+                          media?.link?.startsWith("http")
+                            ? media.link
+                            : `https://${media?.link}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                       >
