@@ -208,7 +208,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
         await addEvent(formData);
         // setSelectedTab(0);
       }
-
+      navigate("/events/list");
       reset();
     } catch (error) {
       toast.error(error.message);
