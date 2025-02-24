@@ -36,6 +36,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       ],
     },
   });
+  
   const { id } = useParams();
   const [loadings, setLoadings] = useState(false);
   const [type, setType] = useState();
