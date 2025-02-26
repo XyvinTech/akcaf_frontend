@@ -5,7 +5,7 @@ import { ArrowDownward, UploadFile } from '@mui/icons-material';
 
 
 
-const StyledDropzone = styled(Box)(({ theme, isDragActive }) => ({
+const StyledDrop = styled(Box)(({ theme, isDragActive }) => ({
   backgroundColor: '#E0E0E0',
   border: `2px dashed ${isDragActive ? theme.palette.primary.main : '#ccc'}`,
   borderRadius: '8px',
@@ -107,7 +107,7 @@ export default function StyledDropzone({files = [], onFileUpload }) {
   return (
     <>
       <Stack spacing={2}>
-        <StyledDropzone {...getRootProps()} isDragActive={isDragActive}>
+        <StyledDrop {...getRootProps()} isDragActive={isDragActive}>
           <input {...getInputProps()} />
           <IconBackground>
             <UploadIcon />
@@ -117,7 +117,7 @@ export default function StyledDropzone({files = [], onFileUpload }) {
               ? 'Drop the file here ...'
               : 'Drop your CSV/XLS file here to upload or select from storage'}
           </DropzoneText>
-        </StyledDropzone>
+        </StyledDrop>
 
         {files.length > 0 && (
           <Grid container spacing={2}>
