@@ -73,7 +73,7 @@ const Spacer = styled(Box)({
   height: '40px',
 });
 
-export default function DropZone({files = [], onFileUpload }) {
+export default function StyledDropzone({files = [], onFileUpload }) {
  
 
   const onDrop = useCallback((acceptedFiles) => {
