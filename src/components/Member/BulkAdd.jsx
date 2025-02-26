@@ -4,9 +4,9 @@ import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import Dropzone from "../../ui/Dropzone";
 import { StyledButton } from "../../ui/StyledButton";
 import { addMembersBulk } from "../../api/memberapi";
+import DropZone from "../../ui/Dropzone";
 const BulkAdd = () => {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -101,7 +101,7 @@ const BulkAdd = () => {
       border={"1px solid rgba(0, 0, 0, 0.12)"}
     >
       <Box padding={9}>
-        <Dropzone files={files} onFileUpload={handleFileUpload} />
+        <DropZone files={files} onFileUpload={handleFileUpload} />
         <Stack spacing={2} mt={4}>
           <Typography variant="h6">Instructions for bulk import:</Typography>
           <ul style={{ fontSize: "12px", lineHeight: "1.8" }}>
