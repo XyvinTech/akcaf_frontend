@@ -87,7 +87,6 @@ export const getMemberByBatch = async (
 };
 export const addCollegeBulk = async (data) => {
   try {
-    // console.log(data);
 
     const response = await axiosInstance.post("/college/bulk", data);
     toast.success(response.data.message);
