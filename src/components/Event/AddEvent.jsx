@@ -8,13 +8,13 @@ import { ReactComponent as Delete } from "../../assets/icons/DeleteIcon.svg";
 import { StyledEventUpload } from "../../ui/StyledEventUpload.jsx";
 import { StyledCalender } from "../../ui/StyledCalender.jsx";
 import { StyledTime } from "../../ui/StyledTime.jsx";
-import uploadFileToS3 from "../../utils/s3Upload.js";
 import { useEventStore } from "../../store/eventStore.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField.jsx";
 import StyledCropImage from "../../ui/StyledCropImage.jsx";
 import moment from "moment";
+import { upload } from "../../api/adminapi.js";
 
 export default function AddEvent({ setSelectedTab, isUpdate }) {
   const {
@@ -36,7 +36,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       ],
     },
   });
-  
+
   const { id } = useParams();
   const [loadings, setLoadings] = useState(false);
   const [type, setType] = useState();
@@ -124,12 +124,13 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
 
       if (imageFile) {
         try {
-          imageUrl = await new Promise((resolve, reject) => {
-            uploadFileToS3(
-              imageFile,
-              (location) => resolve(location),
-              (error) => reject(error)
-            );
+          imageUrl = await new Promise(async (resolve, reject) => {
+            try {
+              const response = await upload(imageFile);
+              resolve(response?.data || "");
+            } catch (error) {
+              reject(error);
+            }
           });
         } catch (error) {
           console.error("Failed to upload image:", error);
@@ -148,12 +149,13 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
 
           if (speaker?.image && typeof speaker.image === "object") {
             try {
-              speakerImageUrl = await new Promise((resolve, reject) => {
-                uploadFileToS3(
-                  speaker.image,
-                  (location) => resolve(location),
-                  (error) => reject(error)
-                );
+              speakerImageUrl = await new Promise(async (resolve, reject) => {
+                try {
+                  const response = await upload(speaker.image);
+                  resolve(response?.data || "");
+                } catch (error) {
+                  reject(error);
+                }
               });
             } catch (error) {
               console.error(`Failed to upload image for speaker:`, error);
