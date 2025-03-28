@@ -61,8 +61,9 @@ export const collegeColumns = [
   { title: "College name", field: "collegeName", padding: "none" },
   { title: "Country", field: "country" },
   { title: "State", field: "state" },
-  { title: "No of courses", field: "noOfCourses" },
-  { title: "No of batches", field: "noOfBatches" },
+  { title: "President", field: "president" },
+  { title: "Secretary", field: "secretary" },
+  { title: "Rep", field: "rep" },
   { title: "No of members", field: "noOfMembers" },
 ];
 export const feedColumns = [
