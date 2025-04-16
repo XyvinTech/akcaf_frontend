@@ -110,8 +110,8 @@ const BulkAdd = () => {
             <li>Don't change the headers.</li>
             <li>Add user data in the respective columns.</li>
             <li>
-              In the "Role" column, use one of the following roles exactly as
-              spelled:{" "}
+              In the "Role" column, use only one of the following roles, spelled
+              exactly as shown (all lowercase, first letter small):{" "}
               <strong>president, secretary, treasurer, rep, member</strong>.
             </li>
             <li>A maximum of 50 entries is allowed at a time.</li>
