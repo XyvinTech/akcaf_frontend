@@ -11,10 +11,14 @@ import { useListStore } from "../../store/listStore";
 import { getMember } from "../../api/memberapi";
 import { generateExcel } from "../../utils/generateExcel";
 import MemberFilter from "../../components/Member/MemeberFilter";
+import { useMemberStore } from "../../store/Memberstore";
+import { toast } from "react-toastify";
 
 const MemberPage = () => {
   const navigate = useNavigate();
   const { fetchMember } = useListStore();
+  const [selectedRows, setSelectedRows] = useState([]);
+  const { deleteMembers } = useMemberStore();
   const [search, setSearch] = useState("");
   const [isChange, setIschange] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -32,6 +36,9 @@ const MemberPage = () => {
   const handleApplyFilter = (newFilters) => {
     setFilters(newFilters);
   };
+  const handleSelectionChange = (newSelectedIds) => {
+    setSelectedRows(newSelectedIds);
+  };
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
@@ -47,8 +54,18 @@ const MemberPage = () => {
     filter.limit = row;
     fetchMember(filter);
   }, [isChange, pageNo, search, row, filters]);
-
-
+  const handleDelete = async () => {
+    if (selectedRows.length > 0) {
+      try {
+        await Promise.all(selectedRows?.map((id) => deleteMembers(id)));
+        toast.success("Deleted successfully");
+        setIschange(!isChange);
+        setSelectedRows([]);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    }
+  };
   const handleRowDelete = (id) => {
     setMemberId(id);
     setDeleteOpen(true);
@@ -174,6 +191,8 @@ const MemberPage = () => {
               navigate(`/members/${id}`);
             }}
             pageNo={pageNo}
+            onDelete={handleDelete}
+            onSelectionChange={handleSelectionChange}
             setPageNo={setPageNo}
             onModify={(id) => {
               navigate(`/members/member`, {
