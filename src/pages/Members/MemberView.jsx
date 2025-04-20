@@ -17,7 +17,11 @@ import { useFeedStore } from "../../store/feedStore";
 import AppSubscriptionCard from "../../ui/AppSubscriptionCard";
 
 const MemberView = () => {
-  const [selectedTab, setSelectedTab] = useState(0);
+  const storedTab = localStorage.getItem("akcafmemberTab");
+
+  const [selectedTab, setSelectedTab] = useState(
+    storedTab ? Number(storedTab) : 0
+  );
   const [isChange, setIsChange] = useState(false);
   const { id } = useParams();
   const { fetchMemberById, member, loading, refreshMember } = useMemberStore();
@@ -30,6 +34,7 @@ const MemberView = () => {
     fetchMemberById(id);
   }, [isChange, refreshMember]);
   const handleChange = (event, newValue) => {
+    localStorage.setItem("akcafmemberTab", newValue);
     setSelectedTab(newValue);
   };
 

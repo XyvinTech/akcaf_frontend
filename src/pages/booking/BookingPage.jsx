@@ -4,9 +4,11 @@ import SlotPage from "./SlotPage";
 import BookingList from "./BookingList";
 
 const BookingPage = () => {
-  const [selectedTab, setSelectedTab] = useState(0);
+  const storedTab = localStorage.getItem("akcafbookingTab");
+  const [selectedTab, setSelectedTab] = useState(storedTab ? Number(storedTab) : 0);
 
   const handleChange = (event, newValue) => {
+    localStorage.setItem("akcafbookingTab", newValue);
     setSelectedTab(newValue);
   };
   return (

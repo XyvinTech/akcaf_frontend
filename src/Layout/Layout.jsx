@@ -106,6 +106,11 @@ const SimpleDialog = ({ open, onClose }) => {
   const { singleAdmin, fetchAdminById } = useAdminStore();
   const handleLogout = () => {
     localStorage.removeItem("4ZbQwXtY8uVrN5mP7kL3JhF6");
+    localStorage.removeItem("akcafmemberTab");
+    localStorage.removeItem("akcafapprovalTab");
+    localStorage.removeItem("akcafpromotionTab");
+    localStorage.removeItem("akcafbookingTab");
+    localStorage.removeItem("memberTableRowSize");
     navigate("/");
   };
   useEffect(() => {

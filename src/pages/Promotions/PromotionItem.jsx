@@ -1,10 +1,4 @@
-import {
-  Box,
-  Divider,
-  Grid,
-  Tab,
-  Tabs,
-} from "@mui/material";
+import { Box, Divider, Grid, Tab, Tabs } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StyledPosterTable from "../../components/Promotion/StyledPosterTable";
 import StyledBannerTable from "../../components/Promotion/StyledBannerTable";
@@ -22,16 +16,20 @@ const tabMapping = {
 const PromotionItem = () => {
   const location = useLocation();
   const { type } = location?.state || {};
-  
-  const [selectedTab, setSelectedTab] = useState(tabMapping[type] ?? 0);
+  const storedTab = localStorage.getItem("akcafpromotionTab");
+  const [selectedTab, setSelectedTab] = useState(
+    storedTab !== null ? Number(storedTab) : tabMapping[type] ?? 0
+  );
 
   useEffect(() => {
     if (type && tabMapping.hasOwnProperty(type)) {
       setSelectedTab(tabMapping[type]);
+      localStorage.setItem("akcafpromotionTab", tabMapping[type]);
     }
   }, [type]);
 
   const handleChange = (event, newValue) => {
+    localStorage.setItem("akcafpromotionTab", newValue);
     setSelectedTab(newValue);
   };
 
@@ -71,10 +69,26 @@ const PromotionItem = () => {
       </Tabs>
       <Divider />
       <Box padding="15px" marginBottom={4}>
-        {selectedTab === 0 && <Grid><StyledBannerTable /></Grid>}
-        {selectedTab === 1 && <Grid><StyledVideoTable /></Grid>}
-        {selectedTab === 2 && <Grid><StyledPosterTable /></Grid>}
-        {selectedTab === 3 && <Grid><StyledNoticeTable /></Grid>}
+        {selectedTab === 0 && (
+          <Grid>
+            <StyledBannerTable />
+          </Grid>
+        )}
+        {selectedTab === 1 && (
+          <Grid>
+            <StyledVideoTable />
+          </Grid>
+        )}
+        {selectedTab === 2 && (
+          <Grid>
+            <StyledPosterTable />
+          </Grid>
+        )}
+        {selectedTab === 3 && (
+          <Grid>
+            <StyledNoticeTable />
+          </Grid>
+        )}
       </Box>
     </>
   );

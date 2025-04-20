@@ -5,9 +5,14 @@ import MembershipApproval from "./MembershipApproval";
 import FeedList from "./FeedList";
 
 const ApprovalPage = () => {
-  const [selectedTab, setSelectedTab] = useState(0);
+  const storedTab = localStorage.getItem("akcafapprovalTab");
+
+  const [selectedTab, setSelectedTab] = useState(
+    storedTab ? Number(storedTab) : 0
+  );
 
   const handleChange = (event, newValue) => {
+    localStorage.setItem("akcafapprovalTab", newValue);
     setSelectedTab(newValue);
   };
   return (
@@ -44,7 +49,7 @@ const ApprovalPage = () => {
       </Tabs>
       <Divider />
       <Box padding={"15px"}>
-      {selectedTab === 0 && (
+        {selectedTab === 0 && (
           <Grid>
             <FeedList />
           </Grid>

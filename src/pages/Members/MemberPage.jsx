@@ -33,6 +33,19 @@ const MemberPage = () => {
     companyName: "",
     status: "",
   });
+  useEffect(() => {
+    // Load the saved row value from localStorage when component mounts
+    const savedRow = localStorage.getItem('memberTableRowSize');
+    if (savedRow) {
+      setRow(parseInt(savedRow, 10));
+    }
+  }, []);
+  
+  // Then modify your row setter to save to localStorage
+  const handleRowChange = (newRowSize) => {
+    setRow(newRowSize);
+    localStorage.setItem('memberTableRowSize', newRowSize);
+  };
   const handleApplyFilter = (newFilters) => {
     setFilters(newFilters);
   };
@@ -200,7 +213,7 @@ const MemberPage = () => {
               });
             }}
             rowPerSize={row}
-            setRowPerSize={setRow}
+            setRowPerSize={handleRowChange}
           />
           <DeleteProfile
             open={deleteOpen}
