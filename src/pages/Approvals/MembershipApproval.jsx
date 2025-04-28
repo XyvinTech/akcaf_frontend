@@ -16,7 +16,7 @@ const MembershipApproval = () => {
   const [approvalId, setApprovalId] = useState(null);
   const [search, setSearch] = useState("");
   const [pageNo, setPageNo] = useState(1);
-  const[row, setRow] = useState(10)
+  const [row, setRow] = useState(10);
 
   const handleChange = () => {
     setIsChange((prev) => !prev);
@@ -24,13 +24,12 @@ const MembershipApproval = () => {
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
-    filter.limit = row
+    filter.limit = row;
     if (search) {
       filter.search = search;
-      setPageNo(1);
     }
     fetchApproval(filter);
-  }, [isChange, pageNo, search,row]);
+  }, [isChange, pageNo, search, row]);
   const handleReject = (id) => {
     setApprovalId(id);
     setRejectOpen(true);
@@ -58,7 +57,10 @@ const MembershipApproval = () => {
         <Stack direction={"row"} spacing={2}>
           <StyledSearchbar
             placeholder={"Search"}
-            onchange={(e) => setSearch(e.target.value)}
+            onchange={(e) => {
+              setSearch(e.target.value);
+              setPageNo(1);
+            }}
           />
         </Stack>
       </Stack>

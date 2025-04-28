@@ -64,7 +64,6 @@ export default function NewsDisplay() {
     filter.pageNo = pageNo;
     if (search) {
       filter.search = search;
-      setPageNo(1);
     }
     filter.limit = row;
     if (selectedTab) {
@@ -99,7 +98,10 @@ export default function NewsDisplay() {
         <Stack direction={"row"} spacing={2}>
           <StyledSearchbar
             placeholder={"Search"}
-            onchange={(e) => setSearch(e.target.value)}
+            onchange={(e) => {
+              setSearch(e.target.value);
+              setPageNo(1);
+            }}
           />
         </Stack>
       </Stack>

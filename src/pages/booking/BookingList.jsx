@@ -37,7 +37,6 @@ const BookingList = () => {
     filter.limit = row;
     if (search) {
       filter.search = search;
-      setPageNo(1);
     }
     if (filters.hall) {
       filter.hall = filters.hall;
@@ -73,7 +72,9 @@ const BookingList = () => {
         <Stack direction={"row"} spacing={2}>
           <StyledSearchbar
             placeholder={"Search"}
-            onchange={(e) => setSearch(e.target.value)}
+            onchange={(e) => {setSearch(e.target.value)
+              setPageNo(1)
+            }}
           />
                <Badge
               color="error"

@@ -38,7 +38,6 @@ const MemberPage = () => {
     filter.limit = row;
     if (search) {
       filter.search = search;
-      setPageNo(1);
     }
     fetchPayment(filter);
   }, [pageNo, search, row, isChange]);
@@ -80,6 +79,7 @@ const MemberPage = () => {
               placeholder={"Search"}
               onchange={(e) => {
                 setSearch(e.target.value);
+                setPageNo(1);
               }}
             />
           </Stack>

@@ -32,7 +32,6 @@ const CollegePage = () => {
     filter.pageNo = pageNo;
     if (search) {
       filter.search = search;
-      setPageNo(1);
     }
     filter.limit = row;
     fetchColleges(filter);
@@ -117,7 +116,10 @@ const CollegePage = () => {
           <Stack direction={"row"} spacing={2}>
             <StyledSearchbar
               placeholder={"Search"}
-              onchange={(e) => setSearch(e.target.value)}
+              onchange={(e) => {
+                setSearch(e.target.value);
+                setPageNo(1);
+              }}
             />
           </Stack>
         </Stack>

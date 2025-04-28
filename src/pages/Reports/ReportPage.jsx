@@ -24,7 +24,6 @@ const ReportPage = () => {
     filter.limit = row;
     if (search) {
       filter.search = search;
-      setPageNo(1);
     }
     fetchReport(filter);
   }, [pageNo, search, row, isChange]);
@@ -69,7 +68,9 @@ const ReportPage = () => {
           <Stack direction={"row"} spacing={2}>
             <StyledSearchbar
               placeholder={"Search"}
-              onchange={(e) => setSearch(e.target.value)}
+              onchange={(e) => {setSearch(e.target.value)
+                setPageNo(1)
+              }}
             />
           </Stack>
         </Stack>

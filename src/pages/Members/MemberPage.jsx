@@ -34,14 +34,12 @@ const MemberPage = () => {
     status: "",
   });
   useEffect(() => {
-    // Load the saved row value from localStorage when component mounts
     const savedRow = localStorage.getItem('memberTableRowSize');
     if (savedRow) {
       setRow(parseInt(savedRow, 10));
     }
   }, []);
   
-  // Then modify your row setter to save to localStorage
   const handleRowChange = (newRowSize) => {
     setRow(newRowSize);
     localStorage.setItem('memberTableRowSize', newRowSize);
@@ -57,7 +55,6 @@ const MemberPage = () => {
     filter.pageNo = pageNo;
     if (search) {
       filter.search = search;
-      setPageNo(1);
     }
     if (filters.status) filter.status = filters.status;
     if (filters.name) filter.fullName = filters.name;
@@ -144,7 +141,9 @@ const MemberPage = () => {
           <Stack direction={"row"} spacing={2}>
             <StyledSearchbar
               placeholder={"Search"}
-              onchange={(e) => setSearch(e.target.value)}
+              onchange={(e) => {setSearch(e.target.value)
+                setPageNo(1)
+              }}
             />
             <Badge
               color="error"
