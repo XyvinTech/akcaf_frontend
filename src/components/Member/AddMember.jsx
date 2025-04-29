@@ -195,13 +195,12 @@ const AddMember = () => {
         batch: data?.batch.value,
         role: data?.role.value,
         status: data?.status.value,
+        bio: data?.bio,
       };
       if (imageUrl) {
         formData.image = imageUrl;
       }
-      if (data?.bio) {
-        formData.bio = data?.bio;
-      }
+     
       if (isUpdate) {
         await updateMember(memberId, formData);
       } else {
