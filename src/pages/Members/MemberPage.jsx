@@ -4,7 +4,7 @@ import { Badge, Box, Stack, Typography } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import { memberColumns, userData } from "../../assets/json/TableData";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import DeleteProfile from "../../components/Member/DeleteProfile";
 import { ReactComponent as FilterIcon } from "../../assets/icons/FilterIcon.svg";
 import { useListStore } from "../../store/listStore";
@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 
 const MemberPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { fetchMember } = useListStore();
   const [selectedRows, setSelectedRows] = useState([]);
   const { deleteMembers } = useMemberStore();
@@ -33,23 +34,38 @@ const MemberPage = () => {
     companyName: "",
     status: "",
   });
+  
   useEffect(() => {
-    const savedRow = localStorage.getItem('memberTableRowSize');
+    const savedRow = localStorage.getItem("memberTableRowSize");
     if (savedRow) {
       setRow(parseInt(savedRow, 10));
     }
-  }, []);
-  
+    
+    // Check if we need to restore a specific page from navigation state
+    if (location.state && location.state.returnToPage) {
+      setPageNo(location.state.returnToPage);
+    } else {
+      // Otherwise load from localStorage
+      const savedPage = localStorage.getItem("currentMemberPage");
+      if (savedPage) {
+        setPageNo(parseInt(savedPage, 10));
+      }
+    }
+  }, [location]);
+
   const handleRowChange = (newRowSize) => {
     setRow(newRowSize);
-    localStorage.setItem('memberTableRowSize', newRowSize);
+    localStorage.setItem("memberTableRowSize", newRowSize);
   };
+  
   const handleApplyFilter = (newFilters) => {
     setFilters(newFilters);
   };
+  
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
   };
+  
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
@@ -64,6 +80,11 @@ const MemberPage = () => {
     filter.limit = row;
     fetchMember(filter);
   }, [isChange, pageNo, search, row, filters]);
+  
+  useEffect(() => {
+    localStorage.setItem("currentMemberPage", pageNo);
+  }, [pageNo]);
+  
   const handleDelete = async () => {
     if (selectedRows.length > 0) {
       try {
@@ -76,16 +97,20 @@ const MemberPage = () => {
       }
     }
   };
+  
   const handleRowDelete = (id) => {
     setMemberId(id);
     setDeleteOpen(true);
   };
+  
   const handleCloseDelete = () => {
     setDeleteOpen(false);
   };
+  
   const handleChange = () => {
     setIschange(!isChange);
   };
+  
   const handleDownload = async () => {
     try {
       const data = await getMember({ fullUser: true });
@@ -101,6 +126,7 @@ const MemberPage = () => {
       console.error("Error downloading users:", error);
     }
   };
+  
   return (
     <>
       <Stack
@@ -126,6 +152,8 @@ const MemberPage = () => {
             variant={"primary"}
             name={"Add new member"}
             onClick={() => {
+              // Save current page before navigating to add member form
+              localStorage.setItem("currentMemberPage", pageNo);
               navigate("/members/member");
             }}
           />
@@ -141,8 +169,9 @@ const MemberPage = () => {
           <Stack direction={"row"} spacing={2}>
             <StyledSearchbar
               placeholder={"Search"}
-              onchange={(e) => {setSearch(e.target.value)
-                setPageNo(1)
+              onchange={(e) => {
+                setSearch(e.target.value);
+                setPageNo(1);
               }}
             />
             <Badge
@@ -200,6 +229,8 @@ const MemberPage = () => {
             member
             onDeleteRow={handleRowDelete}
             onView={(id) => {
+              // Save current page before navigating to view member details
+              localStorage.setItem("currentMemberPage", pageNo);
               navigate(`/members/${id}`);
             }}
             pageNo={pageNo}
@@ -207,6 +238,8 @@ const MemberPage = () => {
             onSelectionChange={handleSelectionChange}
             setPageNo={setPageNo}
             onModify={(id) => {
+              // Save current page before navigating to edit member
+              localStorage.setItem("currentMemberPage", pageNo);
               navigate(`/members/member`, {
                 state: { memberId: id, isUpdate: true },
               });

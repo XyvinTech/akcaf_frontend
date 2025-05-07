@@ -162,7 +162,8 @@ const AddMember = () => {
     setSelectedCollege(null);
     setCourseOptions([]);
     setBatchOptions([]);
-    navigate(-1);
+    const savedPage = localStorage.getItem("currentMemberPage") || "1";
+    navigate("/members", { state: { returnToPage: parseInt(savedPage, 10) } });
   };
 
   const onSubmit = async (data) => {
@@ -170,21 +171,21 @@ const AddMember = () => {
       setLoadings(true);
       let imageUrl = data?.image || "";
 
-     if (imageFile) {
-          try {
-            imageUrl = await new Promise(async (resolve, reject) => {
-              try {
-                const response = await upload(imageFile);
-                resolve(response?.data || "");
-              } catch (error) {
-                reject(error);
-              }
-            });
-          } catch (error) {
-            console.error("Failed to upload image:", error);
-            return;
-          }
+      if (imageFile) {
+        try {
+          imageUrl = await new Promise(async (resolve, reject) => {
+            try {
+              const response = await upload(imageFile);
+              resolve(response?.data || "");
+            } catch (error) {
+              reject(error);
+            }
+          });
+        } catch (error) {
+          console.error("Failed to upload image:", error);
+          return;
         }
+      }
       const formData = {
         fullName: data?.fullName,
         emiratesID: data?.emiratesID,
@@ -200,14 +201,17 @@ const AddMember = () => {
       if (imageUrl) {
         formData.image = imageUrl;
       }
-     
+
       if (isUpdate) {
         await updateMember(memberId, formData);
       } else {
         await addMembers(formData);
       }
       reset();
-      navigate("/members");
+      const savedPage = localStorage.getItem("currentMemberPage") || "1";
+      navigate("/members", {
+        state: { returnToPage: parseInt(savedPage, 10) },
+      });
     } catch (error) {
       toast.error(error.message);
     } finally {
