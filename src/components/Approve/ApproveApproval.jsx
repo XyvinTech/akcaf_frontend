@@ -2,6 +2,7 @@ import { Typography, Dialog, DialogContent, Stack } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { StyledButton } from "../../ui/StyledButton";
 import { useApprovalStore } from "../../store/approvalstore";
+import { toast } from "react-toastify";
 
 const ApproveApproval = ({ open, onClose, setIsChange, id }) => {
   const { handleSubmit } = useForm();
@@ -14,7 +15,7 @@ const ApproveApproval = ({ open, onClose, setIsChange, id }) => {
       await updateApproval(id, formData);
       setIsChange((prev) => !prev);
     } catch (error) {
-      console.error("Error approving feed:", error);
+      toast.error(error.message);
     } finally {
       onClose();
     }

@@ -13,6 +13,7 @@ import { StyledButton } from "../../ui/StyledButton";
 import { StyledMultilineTextField } from "../../ui/StyledMultilineTextField";
 
 import { useApprovalStore } from "../../store/approvalstore";
+import { toast } from "react-toastify";
 
 const RejectEntry = ({ open, onClose, id, setIsChange }) => {
   const {
@@ -33,7 +34,7 @@ const RejectEntry = ({ open, onClose, id, setIsChange }) => {
 
       setIsChange((prev) => !prev);
     } catch (error) {
-      console.error("Error rejecting feed:", error);
+      toast.error(error.message);
     } finally {
       onClose();
     }
