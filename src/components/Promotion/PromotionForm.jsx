@@ -57,9 +57,9 @@ export default function Promotionform({ isUpdate }) {
   const getAspectRatio = () => {
     switch (type) {
       case "banner":
-        return 2 / 1;
+        return 16 / 9;
       case "poster":
-        return 19 / 20;
+        return 3 / 4;
       default:
         return 1;
     }
