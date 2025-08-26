@@ -69,9 +69,11 @@ const UserCard = ({ user }) => {
           <Typography variant="h5" color={"textPrimary"}>
             {user?.fullName}
           </Typography>
-          <Typography variant="h5" color={"textPrimary"}>
-            Emirates ID: {user?.emiratesID}
-          </Typography>
+          {user?.emiratesID && (
+            <Typography variant="h5" color={"textPrimary"}>
+              Emirates ID: {user?.emiratesID}
+            </Typography>
+          )}
           <Typography variant="h7" color={"textPrimary"}>
             {user?.college?.collegeName}
           </Typography>

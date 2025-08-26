@@ -210,14 +210,16 @@ const QRPage = () => {
                       >
                         {userData?.fullName}
                       </Typography>
-                      <Typography
-                        variant="h6"
-                        color="textTertiary"
-                        mt={1}
-                        mb={1}
-                      >
-                        Emirates ID: {userData?.emiratesID}
-                      </Typography>
+                      {userData?.emiratesID && (
+                        <Typography
+                          variant="h6"
+                          color="textTertiary"
+                          mt={1}
+                          mb={1}
+                        >
+                          Emirates ID: {userData?.emiratesID}
+                        </Typography>
+                      )}
                       {userData?.college?.collegeName && (
                         <>
                           {" "}

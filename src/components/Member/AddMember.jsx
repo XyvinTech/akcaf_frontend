@@ -188,7 +188,6 @@ const AddMember = () => {
       }
       const formData = {
         fullName: data?.fullName,
-        emiratesID: data?.emiratesID,
         email: data?.email,
         phone: data?.phone?.startsWith("+") ? data.phone : `+${data.phone}`,
         college: data?.college.value,
@@ -198,6 +197,9 @@ const AddMember = () => {
         status: data?.status.value,
         bio: data?.bio,
       };
+      if (data?.emiratesID) {
+        formData.emiratesID = data.emiratesID;
+      }
       if (imageUrl) {
         formData.image = imageUrl;
       }
@@ -263,24 +265,18 @@ const AddMember = () => {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Emirates ID
+                  Emirates ID (optional)
                 </Typography>
                 <Controller
                   name="emiratesID"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "emiratesID is required" }}
                   render={({ field }) => (
                     <>
                       <StyledInput
                         placeholder="Enter the emirates ID"
                         {...field}
                       />
-                      {errors.emiratesID && (
-                        <span style={{ color: "red" }}>
-                          {errors.emiratesID.message}
-                        </span>
-                      )}
                     </>
                   )}
                 />
