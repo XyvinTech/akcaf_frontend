@@ -63,7 +63,7 @@ export const collegeColumns = [
   { title: "State", field: "state" },
   { title: "President", field: "president" },
   { title: "Secretary", field: "secretary" },
-  { title: "treasurer", field: "treasurer" },
+  { title: "Treasurer", field: "treasurer" },
   { title: "Rep", field: "rep" },
   { title: "No of members", field: "noOfMembers" },
 ];
