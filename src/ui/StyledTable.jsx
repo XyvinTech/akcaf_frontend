@@ -344,6 +344,8 @@ const StyledTable = ({
                               : row[column.field]}
                           </span>
                         </Box>
+                      ) : column.field === "president" || column.field === "secretary" || column.field === "treasurer" || column.field === "rep" ? (
+                        row[column.field] || "Not Assigned"
                       ) : (
                         row[column.field]
                       )}
