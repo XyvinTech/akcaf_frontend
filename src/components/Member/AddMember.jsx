@@ -79,7 +79,7 @@ const AddMember = () => {
       setValue("phone", member?.phone || "");
       setValue("bio", member?.bio || "");
       setValue("image", member?.image || "");
-      setValue("emiratesID", member?.emiratesID || "");
+      // setValue("emiratesID", member?.emiratesID || "");
       if (selectedCollege) {
         handleCollegeChange(selectedCollege);
         // setValue(
@@ -197,9 +197,9 @@ const AddMember = () => {
         status: data?.status.value,
         bio: data?.bio,
       };
-      if (data?.emiratesID) {
-        formData.emiratesID = data.emiratesID;
-      }
+      // if (data?.emiratesID) {
+      //   formData.emiratesID = data.emiratesID;
+      // }
       if (imageUrl) {
         formData.image = imageUrl;
       }
@@ -259,7 +259,7 @@ const AddMember = () => {
                   )}
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Typography
                   sx={{ marginBottom: 1 }}
                   variant="h6"
@@ -280,7 +280,7 @@ const AddMember = () => {
                     </>
                   )}
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <Typography
                   sx={{ marginBottom: 1 }}
