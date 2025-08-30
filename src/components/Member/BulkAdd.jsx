@@ -33,6 +33,7 @@ const BulkAdd = () => {
             emiratesID: row.emiratesID || "",
             role: row.role || "",
             phone: row.phone || "",
+            college: row.college || null,
           };
           if (row.email && row.email.trim() !== "") {
             result.email = row.email.trim();
