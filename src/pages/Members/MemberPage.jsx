@@ -33,6 +33,7 @@ const MemberPage = () => {
     designation: "",
     companyName: "",
     status: "",
+    college: "",
   });
   
   useEffect(() => {
@@ -77,6 +78,7 @@ const MemberPage = () => {
     if (filters.membershipId) filter.memberId = filters.membershipId;
     if (filters.designation) filter.designation = filters.designation;
     if (filters.companyName) filter.companyName = filters.companyName;
+    if (filters.college) filter.college = filters.college;
     filter.limit = row;
     fetchMember(filter);
   }, [isChange, pageNo, search, row, filters]);

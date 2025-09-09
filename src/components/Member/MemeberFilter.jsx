@@ -11,13 +11,15 @@ import { ReactComponent as CloseIcon } from "../../assets/icons/CloseIcon.svg";
 import { StyledButton } from "../../ui/StyledButton";
 import StyledInput from "../../ui/StyledInput";
 import { useMemberStore } from "../../store/Memberstore";
+import { useDropDownStore } from "../../store/dropDownStore";
 import StyledSelectField from "../../ui/StyledSelectField";
 
 const MemberFilter = ({ open, onClose, onApply }) => {
   const { memberStatus, memberSub,setMemStatus} = useMemberStore();
+  const { college, fetchListofCollege } = useDropDownStore();
   const [membershipId, setMembershipId] = useState("");
   const [designation, setDesignation] = useState("");
-  const [companyName, setCompanyName] = useState("");
+  const [collegeOption, setCollegeOption] = useState(null);
   const [status, setStatus] = useState(null);
   const [subscription, setSubscription] = useState(null);
   const [name, setName] = useState("");
@@ -27,7 +29,7 @@ const MemberFilter = ({ open, onClose, onApply }) => {
     setName("");
     setMembershipId("");
     setDesignation("");
-    setCompanyName("");
+    setCollegeOption(null);
     setMemStatus("");
     setStatus(null);
     setSubscription(null);
@@ -37,7 +39,7 @@ const MemberFilter = ({ open, onClose, onApply }) => {
       designation: "",
       status: "",
       subscription: "",
-      companyName: "",
+      college: "",
 
     });
     onClose();
@@ -48,13 +50,16 @@ const MemberFilter = ({ open, onClose, onApply }) => {
       name,
       membershipId,
       designation,
-      companyName,
+      college: collegeOption?.value || "",
       status: appliedStatus?.value || status?.value || "",
       subscription: appliedSub?.value || subscription?.value || "",
      
     });
     onClose();
   };
+  useEffect(() => {
+    fetchListofCollege();
+  }, []);
   useEffect(() => {
     if (memberStatus) {
       const newStatus = { value: memberStatus, label: memberStatus };
@@ -121,11 +126,19 @@ const MemberFilter = ({ open, onClose, onApply }) => {
             value={designation}
             onChange={(e) => setDesignation(e.target.value)}
           /> */}
-          <Typography>Company Name</Typography>
-          <StyledInput
-            placeholder={"Enter Company Name"}
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
+          <Typography>College Name</Typography>
+          <StyledSelectField
+            placeholder="Choose the college"
+            options={
+              (college && Array.isArray(college)
+                ? college.map((item) => ({
+                    value: item.collegeName,
+                    label: item.collegeName,
+                  }))
+                : [])
+            }
+            value={collegeOption}
+            onChange={(opt) => setCollegeOption(opt)}
           />
           <Typography>Status</Typography>
           <StyledSelectField
