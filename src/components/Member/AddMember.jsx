@@ -10,7 +10,7 @@ import { useDropDownStore } from "../../store/dropDownStore";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMemberStore } from "../../store/Memberstore";
-import { getRole } from "../../api/collegeapi";
+import { getRole, getCollegesWithRole } from "../../api/collegeapi";
 import { upload } from "../../api/adminapi";
 
 const AddMember = () => {
@@ -19,6 +19,7 @@ const AddMember = () => {
     handleSubmit,
     reset,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const AddMember = () => {
   const [batchOptions, setBatchOptions] = useState([]);
   const [loadings, setLoadings] = useState(false);
   const [imageFile, setImageFile] = useState(null);
+  const [filteredColleges, setFilteredColleges] = useState([]);
   const defaultRoleOptions = [
     { value: "president", label: "President" },
     { value: "secretary", label: "Secretary" },
@@ -58,7 +60,9 @@ const AddMember = () => {
           value: item._id,
           label: item.collegeName,
         }))
-      : [id];
+      : [];
+
+  const availableColleges = filteredColleges.length > 0 ? filteredColleges : collegeList;
 
   useEffect(() => {
     if (isUpdate && member) {
@@ -123,6 +127,13 @@ const AddMember = () => {
         );
 
         setRoleOptions(filteredRoles);
+        
+        const currentRole = getValues("role");
+        if (currentRole && !filteredRoles.find(role => role.value === currentRole.value)) {
+          setValue("role", "");
+        }
+      } else {
+        setRoleOptions(defaultRoleOptions);
       }
     } catch (error) {
       console.error("Error fetching role data:", error);
@@ -150,6 +161,32 @@ const AddMember = () => {
       // setValue("batch", "");
     }
   };
+
+  const handleRoleChange = async (selectedRole) => {
+    try {
+      if (selectedRole && selectedRole.value) {
+        const res = await getCollegesWithRole(selectedRole.value);
+        const collegesWithRole = res?.data || [];
+        
+        const availableColleges = collegeList.filter(
+          (college) => !collegesWithRole.includes(college.value)
+        );
+        
+        setFilteredColleges(availableColleges);
+        
+        if (selectedCollege && !availableColleges.find(col => col.value === selectedCollege.value)) {
+          setValue("college", "");
+          setSelectedCollege(null);
+          setBatchOptions([]);
+        }
+      } else {
+        setFilteredColleges([]);
+      }
+    } catch (error) {
+      console.error("Error fetching colleges with role:", error);
+      setFilteredColleges([]);
+    }
+  };
   const statusOptions = [
     { value: "active", label: "Active" },
     { value: "inactive", label: "Inactive" },
@@ -162,6 +199,8 @@ const AddMember = () => {
     setSelectedCollege(null);
     setCourseOptions([]);
     setBatchOptions([]);
+    setFilteredColleges([]);
+    setRoleOptions(defaultRoleOptions);
     const savedPage = localStorage.getItem("currentMemberPage") || "1";
     navigate("/members", { state: { returnToPage: parseInt(savedPage, 10) } });
   };
@@ -210,6 +249,8 @@ const AddMember = () => {
         await addMembers(formData);
       }
       reset();
+      setFilteredColleges([]);
+      setRoleOptions(defaultRoleOptions);
       const savedPage = localStorage.getItem("currentMemberPage") || "1";
       navigate("/members", {
         state: { returnToPage: parseInt(savedPage, 10) },
@@ -298,7 +339,7 @@ const AddMember = () => {
                     <>
                       <StyledSelectField
                         placeholder="Choose the college"
-                        options={collegeList}
+                        options={availableColleges}
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);
@@ -380,6 +421,10 @@ const AddMember = () => {
                         placeholder="Choose the Role"
                         options={roleOptions}
                         {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleRoleChange(e);
+                        }}
                       />
                     </>
                   )}
