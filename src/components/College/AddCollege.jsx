@@ -38,6 +38,7 @@ const AddCollege = () => {
   }, [collegeId, isUpdate]);
   useEffect(() => {
     if (college && isUpdate) {
+      setValue("collegeId", college?.collegeId || "");
       setValue("collegeName", college?.collegeName);
       const selectedCountry = country.find(
         (item) => item?.value === college?.country
@@ -71,6 +72,7 @@ const AddCollege = () => {
     try {
       setSubmitting(true);
       const formData = {
+        collegeId: data?.collegeId || '',
         course: data?.course.map((i) => i.value),
         startYear: data?.startYear,
         collegeName: data?.collegeName,
@@ -133,6 +135,28 @@ const AddCollege = () => {
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <Typography
+              sx={{ marginBottom: 1 }}
+              variant="h6"
+              color="textSecondary"
+            >
+              College ID (optional)
+            </Typography>
+            <Controller
+              name="collegeId"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <>
+                  <StyledInput
+                    placeholder="Enter the College ID"
+                    {...field}
+                  />
+                </>
+              )}
+            />
+          </Grid>
           <Grid item xs={12}>
             <Typography
               sx={{ marginBottom: 1 }}

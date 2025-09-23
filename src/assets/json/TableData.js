@@ -58,6 +58,7 @@ export const batchColumns = [
   { title: "No of members", field: "noOfMembers" },
 ];
 export const collegeColumns = [
+  { title: "College ID", field: "collegeId", padding: "none" },
   { title: "College name", field: "collegeName", padding: "none" },
   { title: "Country", field: "country" },
   { title: "State", field: "state" },

@@ -31,8 +31,9 @@ const MemberPage = () => {
     name: "",
     membershipId: "",
     designation: "",
-    companyName: "",
+    // companyName: "",
     status: "",
+    college: "",
   });
   
   useEffect(() => {
@@ -76,7 +77,8 @@ const MemberPage = () => {
     if (filters.name) filter.fullName = filters.name;
     if (filters.membershipId) filter.memberId = filters.membershipId;
     if (filters.designation) filter.designation = filters.designation;
-    if (filters.companyName) filter.companyName = filters.companyName;
+    // if (filters.companyName) filter.companyName = filters.companyName;
+    if (filters.college) filter.college = filters.college;
     filter.limit = row;
     fetchMember(filter);
   }, [isChange, pageNo, search, row, filters]);
@@ -182,7 +184,7 @@ const MemberPage = () => {
                   filters.name ||
                   filters.membershipId ||
                   filters.designation ||
-                  filters.companyName ||
+                  // filters.companyName ||
                   filters.status ||
                   filters.subscription
                 )

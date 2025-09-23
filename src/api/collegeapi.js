@@ -103,3 +103,12 @@ export const getRole = async (collegeId) => {
     throw error;
   }
 };
+
+export const getCollegesWithRole = async (role) => {
+  try {
+    const response = await axiosInstance.get(`/college/role-check/${role}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
