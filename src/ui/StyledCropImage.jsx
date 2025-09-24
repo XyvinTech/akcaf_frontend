@@ -46,6 +46,12 @@ const SaveButton = styled(Button)(({ theme }) => ({
   borderRadius: "4px",
 }));
 
+const HelperText = styled("div")(({ theme }) => ({
+  marginTop: "6px",
+  fontSize: "12px",
+  color: "rgba(0, 0, 0, 0.6)",
+}));
+
 const PreviewContainer = styled("div")({
   position: "relative",
   display: "inline-block",
@@ -224,6 +230,9 @@ export const StyledCropImage = ({ label, value, onChange, ratio }) => {
         style={{ display: "none" }}
         accept="image/*,application/pdf"
       />
+      <HelperText>
+        File size limit: 1 MB | Recommended aspect ratio: 16:9
+      </HelperText>
       {selectedImage && (
         <PreviewContainer>
           {isPdf ? (
