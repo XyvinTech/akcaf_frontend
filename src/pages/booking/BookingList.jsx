@@ -8,6 +8,8 @@ import RejectBooking from "../../components/Hall/RejectBooking";
 import ApproveBooking from "../../components/Hall/ApproveBooking";
 import { ReactComponent as FilterIcon } from "../../assets/icons/FilterIcon.svg";
 import BookingFilter from "../../components/Hall/BookingFilter";
+import { useApprovalStore } from "../../store/approvalstore";
+import { toast } from "react-toastify";
 
 const BookingList = () => {
   const [search, setSearch] = useState("");
@@ -28,6 +30,7 @@ const BookingList = () => {
     const handleApplyFilter = (newFilters) => {
       setFilters(newFilters);
     };
+  const [selectedRows, setSelectedRows] = useState([]);
   const handleChange = () => {
     setIsChange((prev) => !prev);
   };
@@ -59,6 +62,22 @@ const BookingList = () => {
   const handleReject = (id) => {
     setApprovalId(id);
     setRejectOpen(true);
+  };
+  const { updateHall } = useApprovalStore();
+  const handleSelectionChange = (newSelectedIds) => {
+    setSelectedRows(newSelectedIds);
+  };
+  const handleDelete = async () => {
+    if (selectedRows.length === 0) return;
+    try {
+      await Promise.all(
+        selectedRows.map((id) => updateHall(id, { status: "deleted" }))
+      );
+      setSelectedRows([]);
+      handleChange();
+    } catch (err) {
+      toast.error(err?.message || "Failed to delete bookings");
+    }
   };
   return (
     <>
@@ -129,6 +148,8 @@ const BookingList = () => {
           pageNo={pageNo}
           setPageNo={setPageNo}
           payment
+          onSelectionChange={handleSelectionChange}
+          onDelete={handleDelete}
           onModify={handleApprove}
           onAction={handleReject}
           rowPerSize={row}

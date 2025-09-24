@@ -6,6 +6,8 @@ import { feedColumns } from "../../assets/json/TableData";
 import FeedApproval from "../../components/Approve/FeedApproval";
 import FeedReject from "../../components/Approve/FeedReject";
 import { useListStore } from "../../store/listStore";
+import { useFeedStore } from "../../store/feedStore";
+import { toast } from "react-toastify";
 
 const FeedList = () => {
   const [rejectOpen, setRejectOpen] = useState(false);
@@ -16,6 +18,8 @@ const FeedList = () => {
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const [approvalId, setApprovalId] = useState(null);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const { deleteFeed } = useFeedStore();
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
@@ -39,6 +43,20 @@ const FeedList = () => {
   };
   const handleCloseApprove = () => {
     setApproveOpen(false);
+  };
+  const handleSelectionChange = (newSelectedIds) => {
+    setSelectedRows(newSelectedIds);
+  };
+
+  const handleDelete = async () => {
+    if (selectedRows.length === 0) return;
+    try {
+      await Promise.all(selectedRows.map((id) => deleteFeed(id)));
+      setSelectedRows([]);
+      setIsChange((prev) => !prev);
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
   return (
     <>
@@ -69,6 +87,8 @@ const FeedList = () => {
           pageNo={pageNo}
           setPageNo={setPageNo}
           payment
+          onSelectionChange={handleSelectionChange}
+          onDelete={handleDelete}
           onModify={handleApprove}
           onAction={handleReject}
           rowPerSize={row}

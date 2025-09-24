@@ -7,6 +7,7 @@ import ApproveApproval from "../../components/Approve/ApproveApproval";
 import { useApprovalStore } from "../../store/approvalstore";
 import { approvalColumns } from "../../assets/json/TableData";
 import { useListStore } from "../../store/listStore";
+import { toast } from "react-toastify";
 
 const MembershipApproval = () => {
   const [rejectOpen, setRejectOpen] = useState(false);
@@ -17,6 +18,7 @@ const MembershipApproval = () => {
   const [search, setSearch] = useState("");
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const handleChange = () => {
     setIsChange((prev) => !prev);
@@ -43,6 +45,22 @@ const MembershipApproval = () => {
   };
   const handleCloseApprove = () => {
     setApproveOpen(false);
+  };
+  const { updateApproval } = useApprovalStore();
+  const handleSelectionChange = (newSelectedIds) => {
+    setSelectedRows(newSelectedIds);
+  };
+  const handleDelete = async () => {
+    if (selectedRows.length === 0) return;
+    try {
+      await Promise.all(
+        selectedRows.map((id) => updateApproval(id, { status: "deleted" }))
+      );
+      setSelectedRows([]);
+      handleChange();
+    } catch (err) {
+      toast.error(err?.message || "Failed to delete approvals");
+    }
   };
 
   return (
@@ -73,6 +91,8 @@ const MembershipApproval = () => {
         <StyledTable
           columns={approvalColumns}
           payment
+          onSelectionChange={handleSelectionChange}
+          onDelete={handleDelete}
           onModify={handleApprove}
           onAction={handleReject}
           pageNo={pageNo}
