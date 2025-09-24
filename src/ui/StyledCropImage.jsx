@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import InputAdornment from "@mui/material/InputAdornment";
 import BackupOutlinedIcon from "@mui/icons-material/BackupOutlined";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import IconButton from "@mui/material/IconButton";
 import Cropper from "react-easy-crop";
 import Modal from "@mui/material/Modal";
@@ -45,6 +46,22 @@ const SaveButton = styled(Button)(({ theme }) => ({
   borderRadius: "4px",
 }));
 
+const PreviewContainer = styled("div")({
+  position: "relative",
+  display: "inline-block",
+});
+
+const DeleteButton = styled(IconButton)({
+  position: "absolute",
+  top: "5px",
+  right: "5px",
+  backgroundColor: "rgba(255, 255, 255, 0.8)",
+  padding: "4px",
+  "&:hover": {
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+  },
+});
+
 const ImagePreview = styled("img")({
   width: "100px",
   height: "100px",
@@ -82,6 +99,18 @@ export const StyledCropImage = ({ label, value, onChange, ratio }) => {
 
   const handleIconClick = () => {
     fileInputRef.current.click();
+  };
+
+  const handleDelete = () => {
+    setSelectedImage(null);
+    setSelectedFile(null);
+    setIsPdf(false);
+    if (onChange) {
+      onChange("");
+    }
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const checkIfPdf = (file) => {
@@ -180,7 +209,7 @@ export const StyledCropImage = ({ label, value, onChange, ratio }) => {
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton onClick={handleIconClick}>
+              <IconButton onClick={handleIconClick} >
                 <BackupOutlinedIcon />
               </IconButton>
             </InputAdornment>
@@ -195,27 +224,38 @@ export const StyledCropImage = ({ label, value, onChange, ratio }) => {
         style={{ display: "none" }}
         accept="image/*,application/pdf"
       />
-      {selectedImage &&
-        (isPdf ? (
-          <PdfPreview>
-            <IconButton
-              onClick={handlePdfClick}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                color: "#e30613",
-              }}
-            >
-              <PictureAsPdfOutlined style={{ fontSize: "40px" }} />
-              <span style={{ fontSize: "12px", marginTop: "4px" }}>
-                View PDF
-              </span>
-            </IconButton>
-          </PdfPreview>
-        ) : (
-          <ImagePreview src={selectedImage} alt="Preview" />
-        ))}
+      {selectedImage && (
+        <PreviewContainer>
+          {isPdf ? (
+            <PdfPreview>
+              <IconButton
+                onClick={handlePdfClick}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  color: "#e30613",
+                }}
+              >
+                <PictureAsPdfOutlined style={{ fontSize: "40px" }} />
+                <span style={{ fontSize: "12px", marginTop: "4px" }}>
+                  View PDF
+                </span>
+              </IconButton>
+              <DeleteButton onClick={handleDelete}>
+                <DeleteOutlineIcon style={{ fontSize: "20px", color: "#f44336" }} />
+              </DeleteButton>
+            </PdfPreview>
+          ) : (
+            <>
+              <ImagePreview src={selectedImage} alt="Preview" />
+              <DeleteButton onClick={handleDelete}>
+                <DeleteOutlineIcon style={{ fontSize: "20px", color: "#f44336" }} />
+              </DeleteButton>
+            </>
+          )}
+        </PreviewContainer>
+      )}
 
       <Modal open={cropModalOpen} onClose={() => setCropModalOpen(false)}>
         <div
