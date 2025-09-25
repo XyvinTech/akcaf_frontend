@@ -281,7 +281,7 @@ const AddMember = () => {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Name
+                  Name <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="fullName"
@@ -328,7 +328,7 @@ const AddMember = () => {
                   variant="h6"
                   color="textSecondary"
                 >
-                  College Name
+                  College Name <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="college"
@@ -409,7 +409,7 @@ const AddMember = () => {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Role
+                  Role <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="role"
@@ -463,7 +463,7 @@ const AddMember = () => {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Email Id
+                  Email Id <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="email"
@@ -492,7 +492,7 @@ const AddMember = () => {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Phone number
+                  Phone number <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="phone"

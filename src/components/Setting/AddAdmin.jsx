@@ -114,7 +114,7 @@ const AddAdmin = () => {
               variant="h6"
               color="textSecondary"
             >
-              Name of the Person
+              Name of the Person <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="name"
@@ -137,7 +137,7 @@ const AddAdmin = () => {
               variant="h6"
               color="textSecondary"
             >
-              College
+              College <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="college"
@@ -166,7 +166,7 @@ const AddAdmin = () => {
               variant="h6"
               color="textSecondary"
             >
-              Role
+              Role <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="role"
@@ -193,7 +193,7 @@ const AddAdmin = () => {
               variant="h6"
               color="textSecondary"
             >
-              Email Id
+              Email Id <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="email"
@@ -216,7 +216,7 @@ const AddAdmin = () => {
               variant="h6"
               color="textSecondary"
             >
-              Phone Number
+              Phone Number <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="phone"

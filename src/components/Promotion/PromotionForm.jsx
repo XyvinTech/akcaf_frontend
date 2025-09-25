@@ -202,7 +202,7 @@ export default function Promotionform({ isUpdate }) {
               variant="h6"
               color="textSecondary"
             >
-              Choose type
+              Choose type <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="type"
@@ -234,7 +234,7 @@ export default function Promotionform({ isUpdate }) {
                 variant="h6"
                 color="textSecondary"
               >
-                Upload image
+                Upload image <span style={{ color: "#E30613" }}>*</span>
               </Typography>
               <Controller
                 name="media"
@@ -264,7 +264,7 @@ export default function Promotionform({ isUpdate }) {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Add Youtube link
+                  Add Youtube link <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="link"
@@ -286,7 +286,7 @@ export default function Promotionform({ isUpdate }) {
                 variant="h6"
                 color="textSecondary"
               >
-                Title
+                Title <span style={{ color: "#E30613" }}>*</span>
               </Typography>
               <Controller
                 name="title"
@@ -307,7 +307,7 @@ export default function Promotionform({ isUpdate }) {
                 variant="h6"
                 color="textSecondary"
               >
-                Description
+                Description <span style={{ color: "#E30613" }}>*</span>
               </Typography>
               <Controller
                 name="description"
@@ -358,7 +358,7 @@ export default function Promotionform({ isUpdate }) {
               variant="h6"
               color="textSecondary"
             >
-              Start Date
+              Start Date <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="startDate"
@@ -386,7 +386,7 @@ export default function Promotionform({ isUpdate }) {
               variant="h6"
               color="textSecondary"
             >
-              End Date
+             End Date <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="endDate"

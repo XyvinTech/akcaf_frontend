@@ -94,7 +94,7 @@ const handleClear = (event) => {
               variant="h6"
               color="textSecondary"
             >
-              Group Name
+              Group Name <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="groupName"
@@ -120,7 +120,7 @@ const handleClear = (event) => {
               variant="h6"
               color="textSecondary"
             >
-              Group Information
+              Group Information <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="groupInfo"
@@ -145,7 +145,7 @@ const handleClear = (event) => {
               variant="h6"
               color="textSecondary"
             >
-              Participants
+              Participants <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="participants"
