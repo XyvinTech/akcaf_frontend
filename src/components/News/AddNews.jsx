@@ -178,7 +178,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               variant="h6"
               color="textSecondary"
             >
-              Choose category
+              Choose category <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="category"
@@ -206,7 +206,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               variant="h6"
               color="textSecondary"
             >
-              Title
+              Title <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="title"
@@ -228,7 +228,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               variant="h6"
               color="textSecondary"
             >
-              Upload Photo or video
+              Upload Photo or video <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="image"
@@ -286,7 +286,7 @@ export default function AddNews({ isUpdate, setSelectedTab }) {
               variant="h6"
               color="textSecondary"
             >
-              Add content
+              Add content <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="content"

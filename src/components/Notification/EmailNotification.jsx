@@ -138,7 +138,7 @@ export default function EmailNotification({}) {
               variant="h6"
               color="textSecondary"
             >
-              Send to
+              Send to <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="type"
@@ -215,7 +215,7 @@ export default function EmailNotification({}) {
               variant="h6"
               color="textSecondary"
             >
-              Subject
+              Subject <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="subject"
@@ -240,7 +240,7 @@ export default function EmailNotification({}) {
               variant="h6"
               color="textSecondary"
             >
-              Content
+              Content <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="content"
@@ -268,7 +268,7 @@ export default function EmailNotification({}) {
               variant="h6"
               color="textSecondary"
             >
-              Upload File
+              Upload File <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="media"

@@ -59,6 +59,12 @@ const EventView = () => {
     .month(currentMonth)
     .daysInMonth();
 
+  const firstDayIndex = moment()
+    .year(currentYear)
+    .month(currentMonth)
+    .startOf("month")
+    .day();
+
   const handleEventClick = (event) => {
     setSelectedEvent(event);
     setOpenDialog(true);
@@ -131,6 +137,16 @@ const EventView = () => {
           ))}
         </Box>
         <Box display="grid" gridTemplateColumns="repeat(7, 1fr)" gap={2}>
+          {Array.from({ length: firstDayIndex }).map((_, idx) => (
+            <Stack
+              key={`empty-${idx}`}
+              border="1px solid transparent"
+              padding={"10px"}
+              width={"130px"}
+              minHeight={"108px"}
+              borderRadius="10px"
+            />
+          ))}
           {Array.from({ length: daysInMonth })?.map((_, day) => {
             const date = day + 1;
             const dayEvents = events?.filter(
@@ -188,7 +204,15 @@ const EventView = () => {
                     >
                       Add Event
                     </Typography>
-                    <AddCircleOutlineIcon sx={{ marginLeft: "2px" }} />
+                    <AddCircleOutlineIcon 
+                      sx={{ 
+                       marginLeft: "2px" ,
+                       cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        navigate(`/events/add`);
+                      }}
+                       />
                   </Box>
                 )}
               </Stack>

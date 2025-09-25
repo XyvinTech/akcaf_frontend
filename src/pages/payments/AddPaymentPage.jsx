@@ -85,7 +85,7 @@ const AddPaymentPage = () => {
                     variant="h6"
                     color="textSecondary"
                   >
-                    User
+                    User <span style={{ color: "#E30613" }}>*</span>
                   </Typography>
                   <Controller
                     name="user"
@@ -114,7 +114,7 @@ const AddPaymentPage = () => {
                     variant="h6"
                     color="textSecondary"
                   >
-                    Expiry Date
+                    Expiry Date <span style={{ color: "#E30613" }}>*</span>
                   </Typography>
                   <Controller
                     name="expiryDate"

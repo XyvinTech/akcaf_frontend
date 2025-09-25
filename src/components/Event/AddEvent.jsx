@@ -354,7 +354,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Type of event
+                  Type of event <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="type"
@@ -387,7 +387,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Name of event
+                  Name of event <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="eventName"
@@ -415,7 +415,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Event Image
+                  Event Image <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="image"
@@ -448,7 +448,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Description
+                  Description <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="description"
@@ -478,7 +478,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                       variant="h6"
                       color="textSecondary"
                     >
-                      Virtual platform
+                      Virtual platform 
                     </Typography>
                     <Controller
                       name="platform"
@@ -501,7 +501,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                       variant="h6"
                       color="textSecondary"
                     >
-                      Link to the event
+                      Link to the event <span style={{ color: "#E30613" }}>*</span>
                     </Typography>
                     <Controller
                       name="link"
@@ -532,7 +532,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                     variant="h6"
                     color="textSecondary"
                   >
-                    Venue
+                    Venue <span style={{ color: "#E30613" }}>*</span>
                   </Typography>
                   <Controller
                     name="venue"
@@ -559,7 +559,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Start Date
+                  Start Date <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="startDate"
@@ -584,7 +584,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   variant="h6"
                   color="textSecondary"
                 >
-                  End Date
+                  End Date <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="endDate"
@@ -622,7 +622,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Start Time
+                  Start Time <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="startTime"
@@ -647,7 +647,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   variant="h6"
                   color="textSecondary"
                 >
-                  End Time
+                  End Time <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="endTime"
@@ -672,7 +672,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Organiser Name
+                  Organiser Name <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="organiserName"

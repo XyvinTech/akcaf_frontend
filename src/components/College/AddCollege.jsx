@@ -163,7 +163,7 @@ const AddCollege = () => {
               variant="h6"
               color="textSecondary"
             >
-              College Name
+              College Name <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="collegeName"
@@ -232,7 +232,7 @@ const AddCollege = () => {
               variant="h6"
               color="textSecondary"
             >
-              Start year
+              Start year <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="startYear"
@@ -257,7 +257,7 @@ const AddCollege = () => {
               variant="h6"
               color="textSecondary"
             >
-              Country
+              Country <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="country"
@@ -286,7 +286,7 @@ const AddCollege = () => {
               variant="h6"
               color="textSecondary"
             >
-              State
+              State <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="state"
@@ -313,7 +313,7 @@ const AddCollege = () => {
               variant="h6"
               color="textSecondary"
             >
-              Status
+              Status <span style={{ color: "#E30613" }}>*</span>
             </Typography>
             <Controller
               name="status"
