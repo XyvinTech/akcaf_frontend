@@ -30,3 +30,12 @@ export const editFeed = async (action, id,data) => {
     throw error.response.data;
   }
 };
+export const deleteFeed = async (id) => {
+  try {
+    const response = await axiosInstance.delete(`/feeds/single/${id}`);
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
