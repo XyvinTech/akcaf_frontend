@@ -70,10 +70,10 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       setValue("startTime", event.startTime);
       setValue("endTime", event.endTime);
       setValue(
-        "poster_visibility_start_date",
-        event.poster_visibility_start_date
+        "posterVisibilityStartDate",
+        event.posterVisibilityStartDate
       );
-      setValue("poster_visibility_end_date", event.poster_visibility_end_date);
+      setValue("posterVisibilityEndDate", event.posterVisibilityEndDate);
       setValue("description", event.description);
       setValue("organiserName", event.organiserName);
       const selectedplatform = option.find(
@@ -196,11 +196,11 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
         startTime: data?.startTime,
         endDate: data?.endDate,
         endTime: data?.endTime,
-        ...(data?.poster_visibility_start_date && {
-          poster_visibility_start_date: data?.poster_visibility_start_date,
+        ...(data?.posterVisibilityStartDate && {
+          posterVisibilityStartDate: data?.posterVisibilityStartDate,
         }),
-        ...(data?.poster_visibility_end_date && {
-          poster_visibility_end_date: data?.poster_visibility_end_date,
+        ...(data?.posterVisibilityEndDate && {
+          posterVisibilityEndDate: data?.posterVisibilityEndDate,
         }),
         speakers: speakersData,
         description: data?.description,
@@ -636,7 +636,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   Event Visibility Start Date
                 </Typography>
                 <Controller
-                  name="poster_visibility_start_date"
+                  name="posterVisibilityStartDate"
                   control={control}
                   defaultValue={null}
                   render={({ field }) => (
@@ -655,7 +655,7 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   Event Visibility End Date
                 </Typography>
                 <Controller
-                  name="poster_visibility_end_date"
+                  name="posterVisibilityEndDate"
                   control={control}
                   defaultValue={null}
                   render={({ field }) => (
