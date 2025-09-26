@@ -69,6 +69,11 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
       setValue("endDate", event.endDate);
       setValue("startTime", event.startTime);
       setValue("endTime", event.endTime);
+      setValue(
+        "poster_visibility_start_date",
+        event.poster_visibility_start_date
+      );
+      setValue("poster_visibility_end_date", event.poster_visibility_end_date);
       setValue("description", event.description);
       setValue("organiserName", event.organiserName);
       const selectedplatform = option.find(
@@ -191,6 +196,12 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
         startTime: data?.startTime,
         endDate: data?.endDate,
         endTime: data?.endTime,
+        ...(data?.poster_visibility_start_date && {
+          poster_visibility_start_date: data?.poster_visibility_start_date,
+        }),
+        ...(data?.poster_visibility_end_date && {
+          poster_visibility_end_date: data?.poster_visibility_end_date,
+        }),
         speakers: speakersData,
         description: data?.description,
         organiserName: data?.organiserName,
@@ -612,6 +623,44 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                           {errors.endDate.message}
                         </span>
                       )}
+                    </>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Typography
+                  sx={{ marginBottom: 1 }}
+                  variant="h6"
+                  color="textSecondary"
+                >
+                  Event Visibility Start Date
+                </Typography>
+                <Controller
+                  name="poster_visibility_start_date"
+                  control={control}
+                  defaultValue={null}
+                  render={({ field }) => (
+                    <>
+                      <StyledCalender {...field} />
+                    </>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Typography
+                  sx={{ marginBottom: 1 }}
+                  variant="h6"
+                  color="textSecondary"
+                >
+                  Event Visibility End Date
+                </Typography>
+                <Controller
+                  name="poster_visibility_end_date"
+                  control={control}
+                  defaultValue={null}
+                  render={({ field }) => (
+                    <>
+                      <StyledCalender {...field} />
                     </>
                   )}
                 />
