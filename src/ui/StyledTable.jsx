@@ -170,6 +170,21 @@ const StyledTable = ({
         return "#607D8B";
     }
   };
+  
+   const priority= (status) =>{
+      if(status === "active") return 0
+      if(status === "awaiting_payment") return 1
+      if(status === "deleted") return 2
+      return 3;
+    }
+    const sortName = (n) =>(n.fullName).toString().toLowerCase();
+    const sortedlist= lists ? [...lists].sort((a, b) => {
+          const sp = priority(a.status) - priority(b.status);
+          if (sp !== 0) return sp;
+          return sortName(a).localeCompare(sortName(b));
+        })
+      : [];
+
   const formatIndianDate = (date) => {
     return moment.utc(date).format("DD-MM-YYYY");
   };
@@ -268,7 +283,7 @@ const StyledTable = ({
                 </StyledTableCell>
               </StyledTableRow>
             ) : (
-              lists.map((row) => (
+              sortedlist.map((row) => (
                 <StyledTableRow
                   role="checkbox"
                   key={row._id}
