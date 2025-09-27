@@ -633,15 +633,21 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Event Visibility Start Date
+                  Event Visibility Start Date <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="posterVisibilityStartDate"
                   control={control}
                   defaultValue={null}
+                  rules={{ required: "Event Visibility Start Date is required" }}
                   render={({ field }) => (
                     <>
                       <StyledCalender {...field} />
+                      {errors.posterVisibilityStartDate && (
+                        <span style={{ color: "red" }}>
+                          {errors.posterVisibilityStartDate.message}
+                        </span>
+                      )}
                     </>
                   )}
                 />
@@ -652,15 +658,21 @@ export default function AddEvent({ setSelectedTab, isUpdate }) {
                   variant="h6"
                   color="textSecondary"
                 >
-                  Event Visibility End Date
+                  Event Visibility End Date <span style={{ color: "#E30613" }}>*</span>
                 </Typography>
                 <Controller
                   name="posterVisibilityEndDate"
                   control={control}
                   defaultValue={null}
+                  rules={{ required: "Event Visibility End Date is required" }}
                   render={({ field }) => (
                     <>
                       <StyledCalender {...field} />
+                      {errors.posterVisibilityEndDate && (
+                        <span style={{ color: "red" }}>
+                          {errors.posterVisibilityEndDate.message}
+                        </span>
+                      )}
                     </>
                   )}
                 />

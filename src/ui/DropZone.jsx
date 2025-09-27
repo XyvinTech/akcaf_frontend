@@ -94,11 +94,11 @@ export default function DropZone({files = [], onFileUpload }) {
     multiple: false
   });
   const handleDownload = () => {
-    const sampleFileUrl = "/Member.csv"
+    const sampleFileUrl = "/College.csv"
 
     const link = document.createElement('a');
     link.href = sampleFileUrl;
-    link.download = 'Member.csv';
+    link.download = 'College.csv';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
