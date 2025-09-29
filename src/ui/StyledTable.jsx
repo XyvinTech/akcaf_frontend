@@ -383,7 +383,7 @@ const StyledTable = ({
                               <>
                                 <MenuItem onClick={handleModify}>Edit</MenuItem>
                                 <MenuItem onClick={handleAction}>
-                                  Publish/Unpublish
+                                  {row.status === "published" ? "Unpublish" : "Publish"}
                                 </MenuItem>
                                 <MenuItem
                                   onClick={() => handleRowDelete(row._id)}
